@@ -1,0 +1,19 @@
+# This is a sample build configuration for PHP.
+# Check our guides at https://confluence.atlassian.com/x/e8YWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - composer
+        script:
+          - echo "Something New?"
+  branches:
+      master:
+        - step:
+            script:
+             - echo "Run deploy staging"
+             - ssh alex_gringo@staging.belvg.net "sh /home/alex_gringo/public_html/touchizem2/deploy.sh"
