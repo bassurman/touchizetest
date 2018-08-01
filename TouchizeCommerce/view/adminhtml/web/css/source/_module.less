@@ -1,0 +1,13 @@
+@touchizetouchizecommerce-icons-admin__font-name-path: '@{baseDir}Touchize_TouchizeCommerce/fonts/touchize';
+@touchizetouchizecommerce-icons-admin__font-name : 'TouchizeCommerce';
+.lib-font-face(
+  @family-name:@touchizetouchizecommerce-icons-admin__font-name,
+  @font-path: @touchizetouchizecommerce-icons-admin__font-name-path,
+  @font-weight: normal,
+  @font-style: normal
+);
+
+.admin__menu .item-touchize.level-0 > a:before {
+  font-family: @touchizetouchizecommerce-icons-admin__font-name;
+  content: "\e959" !important;
+}
