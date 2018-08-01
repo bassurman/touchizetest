@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2017 Ihor Vansach (ihor@magefan.com). All rights reserved.
+ * See LICENSE.txt for license details (http://opensource.org/licenses/osl-3.0.php).
+ *
+ * Glory to Ukraine! Glory to the heroes!
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <touchize_commmerce_config>
+            <touchize_commmerce_cdn>
+                <use_cdn_for_client>1</use_cdn_for_client>
+                <client_cdn_path>https://d2kt9xhiosnf0k.cloudfront.net</client_cdn_path>
+                <client_cdn_code>touchize/latest</client_cdn_code>
+            </touchize_commmerce_cdn>
+        </touchize_commmerce_config>
+    </default>
+</config>
