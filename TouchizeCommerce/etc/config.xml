@@ -15,6 +15,9 @@
                 <client_cdn_path>https://d2kt9xhiosnf0k.cloudfront.net</client_cdn_path>
                 <client_cdn_code>touchize/latest</client_cdn_code>
             </touchize_commmerce_cdn>
+            <touchize_commmerce_setup>
+                <display_devices>1</display_devices>
+            </touchize_commmerce_setup>
         </touchize_commmerce_config>
     </default>
 </config>
