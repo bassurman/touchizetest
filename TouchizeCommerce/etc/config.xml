@@ -16,7 +16,7 @@
                 <client_cdn_code>touchize/latest</client_cdn_code>
             </touchize_commmerce_cdn>
             <touchize_commmerce_setup>
-                <display_devices>1</display_devices>
+                <display_devices>3</display_devices>
             </touchize_commmerce_setup>
         </touchize_commmerce_config>
     </default>

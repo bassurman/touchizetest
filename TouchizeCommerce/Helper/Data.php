@@ -20,8 +20,10 @@
 
 namespace Touchize\TouchizeCommerce\Helper;
 
+use function GuzzleHttp\default_ca_bundle;
 use Magento\Framework\App\Helper\Context;
 use Touchize\TouchizeCommerce\Model\Mobile\Detect;
+use Touchize\TouchizeCommerce\Model\Config\Source\Devices;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -30,6 +32,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $deviceDetector;
 
+    /**
+     * Data constructor.
+     *
+     * @param Context $context
+     * @param Detect  $deviceDetector
+     */
     public function __construct(
         Context $context,
         Detect $deviceDetector
@@ -38,10 +46,44 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->deviceDetector = $deviceDetector;
     }
 
+    /**
+     * @return bool
+     */
     public function isAllowedToView()
     {
-        return ($this->deviceDetector->isTablet() || $this->deviceDetector->isMobile());
+        $displayType = $this->getTypeDisplayDevices();
+        switch ($displayType) {
+            case Devices::MOBILE_ONLY :
+                return $this->deviceDetector->isMobile();
+                break;
+            case Devices::TABLET_ONLY :
+                return $this->deviceDetector->isTablet();
+                break;
+            case Devices::BOTH_DEVICES :
+                return ($this->deviceDetector->isTablet() || $this->deviceDetector->isMobile());
+                break;
+            default:
+                return false;
+        }
+        return false;
     }
 
+    /**
+     * @param $config_path
+     *
+     * @return mixed
+     */
+    public function getConfig($config_path)
+    {
+        return $this->scopeConfig->getValue(
+            $config_path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    public function getTypeDisplayDevices()
+    {
+        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/display_devices');
+    }
 
 }
