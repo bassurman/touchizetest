@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
+    <menu>
+        <add id="Touchize_Commerce::touchize" title="Touchize" module="Touchize_Commerce" sortOrder="100" resource="Touchize_Commerce::touchize" />
+        <add id="Touchize_Commerce::settings" title="Settings" module="Touchize_Commerce" sortOrder="900" resource="Touchize_Commerce::settings" parent="Touchize_Commerce::touchize"  action="adminhtml/system_config/edit/section/touchize_commmerce_config" />
+    </menu>
+</config>

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="touchize_commmerce_tab" translate="label" sortOrder="200">
+            <label>Touchize Commerce</label>
+        </tab>
+        <section id="touchize_commmerce_config" translate="label" type="text" sortOrder="15000" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Touchize Commerce Configuration</label>
+            <tab>touchize_commmerce_tab</tab>
+            <resource>Touchize_Commerce::config</resource>
+            <group id="touchize_commmerce_setup" translate="label" type="text" sortOrder="9100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Setup</label>
+                <field id="display_devices" translate="label" type="radios" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Choose devices to display</label>
+                    <comment><![CDATA[Choose devices to display.]]></comment>
+                    <source_model>Touchize\Commerce\Model\Config\Source\Devices</source_model>
+                </field>
+            </group>
+            <group id="touchize_commmerce_cdn" translate="label" type="text" sortOrder="10100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>CDN configuration</label>
+                <field id="use_cdn_for_client" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Use CDN for client</label>
+                    <comment><![CDATA[If client js and css should be fetched from a CDN. Default No, will then be fetched locally.]]></comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="client_cdn_path" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Client CDN path</label>
+                    <comment><![CDATA[Url or path for client CDN.]]></comment>
+                </field>
+                <field id="client_cdn_code" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Client CDN code</label>
+                    <comment><![CDATA[The code for the client, often the storecode. Default (empty string) is generic.]]></comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
