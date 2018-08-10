@@ -50,24 +50,24 @@ class UpdateLayoutObserver  implements ObserverInterface
         $this->helper = $helper;
     }
 
+    /**
+     * @param EventObserver $observer
+     */
     public function execute(EventObserver $observer)
     {
         if ($this->helper->isAllowedToView()) {
-            $this->getLayout()->removeOutputElement('root');
-
+            $this->getLayout()->getUpdate()->removeHandle($this->page->getDefaultLayoutHandle());
             $pageConfig = $this->page->getConfig();
             $pageConfig->setPageLayout('touchize');
+            $this->getLayout()->removeOutputElement('root');
 
-            $assetsCollection = $this->pageAssets->getAll();
-            foreach ($assetsCollection as $item) {
-                $this->pageAssets->remove($item->getUrl());
-            }
-
-            $this->getLayout()->getUpdate()->removeHandle($this->page->getDefaultLayoutHandle());
             $this->page->addHandle('touchizecommerce_index_index');
         }
     }
 
+    /**
+     * @return \Magento\Framework\View\LayoutInterface
+     */
     protected function getLayout()
     {
         return $this->layout;

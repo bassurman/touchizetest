@@ -27,6 +27,10 @@ use Touchize\Commerce\Model\Config\Source\Devices;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    const SCRIPT_NAME = '/slq.js';
+
+    const REQUEST_TEST_PARAM = 'touchize';
+
     /**
      * @var Detect
      */
@@ -41,7 +45,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         Context $context,
         Detect $deviceDetector
-    ) {
+    )
+    {
         parent::__construct($context);
         $this->deviceDetector = $deviceDetector;
     }
@@ -51,8 +56,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isAllowedToView()
     {
+        if ($this->_getRequest()->getParam(self::REQUEST_TEST_PARAM, false))
+        {
+            return true;
+        }
+
         $displayType = $this->getTypeDisplayDevices();
-        switch ($displayType) {
+        switch ($displayType)
+        {
             case Devices::MOBILE_ONLY :
                 return $this->deviceDetector->isMobile();
                 break;
@@ -65,6 +76,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             default:
                 return false;
         }
+
         return false;
     }
 
@@ -81,9 +93,63 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         );
     }
 
+    /**
+     * @return mixed
+     */
     public function getTypeDisplayDevices()
     {
         return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/display_devices');
     }
 
+    public function getPluginUrl()
+    {
+        $url = $this->generatePluginUrl();
+
+        return $url;
+    }
+
+    public function generatePluginUrl()
+    {
+        $isCdnUsed = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/use_cdn_for_client');
+        if ($isCdnUsed)
+        {
+            $cdnPath   = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/client_cdn_path');
+            $cdnCode   = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/client_cdn_code');
+            $pluginUrl = $cdnPath . '/' . $cdnCode . '/js' . self::SCRIPT_NAME;
+
+            return $pluginUrl;
+        }
+
+        return 'https://d2kt9xhiosnf0k.cloudfront.net/touchize/latest/js/slq.js';
+    }
+
+    /**
+     * @param $actionName
+     *
+     * @return bool
+     */
+    public function isAllowedToGenerateConfig($actionName)
+    {
+        $allowedActions = $this->getAllowedActions();
+        if (in_array($actionName, $allowedActions))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAllowedActions()
+    {
+        return [
+            'cms_page_view',
+            'cms_index_index',
+            'catalog_product_view',
+            'catalog_category_view',
+            'catalogsearch_result_index',
+        ];
+    }
 }

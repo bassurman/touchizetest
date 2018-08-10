@@ -18,11 +18,11 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Plugin\Mobile;
+namespace Touchize\Commerce\Plugin\Product;
 
-use \Magento\Framework\Stdlib\CookieManagerInterface;
+use Magento\Catalog\Model\Product;
 
-class Detector
+class ListProduct
 {
     /**
      * @var \Magento\Framework\App\Http\Context
@@ -35,38 +35,35 @@ class Detector
     protected $helper;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManagerInterface
-     */
-    protected $cookieManager;
-
-    /**
      * Detector constructor.
      *
      * @param \Magento\Framework\App\Http\Context $context
      * @param \Touchize\Commerce\Helper\Data      $helper
-     * @param CookieManagerInterface              $cookieManager
      */
     public function __construct(
         \Magento\Framework\App\Http\Context $context,
-        \Touchize\Commerce\Helper\Data $helper,
-        CookieManagerInterface $cookieManager
+        \Touchize\Commerce\Helper\Data $helper
     ) {
 
         $this->context = $context;
         $this->helper = $helper;
-        $this->cookieManager = $cookieManager;
     }
 
     /**
      * @param \Magento\Framework\App\Http $subject
      */
-    public function beforeLaunch(\Magento\Framework\App\Http $subject)
+    public function aroundGetIdentities(\Magento\Catalog\Block\Product\ListProduct $subject, $proceed)
     {
-        $this->cookieManager->deleteCookie(\Magento\Framework\App\Response\Http::COOKIE_VARY_STRING);
         if ($this->helper->isAllowedToView()) {
-            $this->context->setValue('touchize-mobile', '1', false);
-        } else {
-            $this->context->setValue('touchize-desktop', '1', false);
+            $identities = [];
+            $category = $subject->getLayer()->getCurrentCategory();
+            if ($category) {
+                $identities[] = Product::CACHE_PRODUCT_CATEGORY_TAG . '_' . $category->getId();
+            }
+            $identities[] = 'touchize_mobile';
+            return $identities;
         }
+
+        return $proceed();
     }
 }

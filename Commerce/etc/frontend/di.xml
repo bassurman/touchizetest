@@ -9,4 +9,7 @@
     <type name="Magento\Framework\App\Http">
         <plugin name="touchize.modile.detection" type="Touchize\Commerce\Plugin\Mobile\Detector"/>
     </type>
+    <type name="Magento\Catalog\Block\Product\ListProduct">
+        <plugin name="touchize.product.list.layer" type="Touchize\Commerce\Plugin\Product\ListProduct"/>
+    </type>
 </config>

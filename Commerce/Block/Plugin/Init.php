@@ -21,7 +21,47 @@
 namespace Touchize\Commerce\Block\Plugin;
 
 
-class Init extends \Magento\Framework\View\Element\Template
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context;
+
+class Init extends Template
 {
+    /**
+     * @var \Touchize\Commerce\Helper\Data
+     */
+    protected $_helper;
+
+    /**
+     * @var \Touchize\Commerce\Helper\Config
+     */
+    protected $_configHelper;
+
+    public function __construct(
+        Context $context,
+        \Touchize\Commerce\Helper\Data $helper,
+        \Touchize\Commerce\Helper\Config $configHelper,
+        array $data = []
+    ) {
+        parent::__construct($context, $data);
+        $this->_helper = $helper;
+        $this->_configHelper = $configHelper;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPluginUrl()
+    {
+        return $this->_helper->getPluginUrl();
+    }
+
+    /**
+     * @return string
+     */
+    public function getPageConfig()
+    {
+        $pageConfig = $this->_configHelper->getActiveConfig();
+        return \GuzzleHttp\json_encode($pageConfig);
+    }
 
 }
