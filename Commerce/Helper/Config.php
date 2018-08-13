@@ -36,10 +36,12 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function __construct(
         Context $context,
-        \Touchize\Commerce\Model\PageConfigFactory $pageConfigFactory
+        \Touchize\Commerce\Model\PageConfigFactory $pageConfigFactory,
+        \Touchize\Commerce\Model\Configurator\TopMenu $configuratorMenu
     ) {
         parent::__construct($context);
         $this->pageConfigFactory = $pageConfigFactory;
+        $this->configuratorMenu = $configuratorMenu;
     }
 
 
@@ -55,6 +57,9 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         return $this->_config;
     }
 
+    /**
+     * @return $this
+     */
     public function generate()
     {
         $this->generateBases()->fillRouter()->fillEndpoints();
@@ -87,7 +92,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
                 ),
             'ProductDetails' =>
                 array (
-                    'Endpoint' => 'touchizecommerce/product',
+                    'Endpoint' => 'touchizecommerce/api/product',
                 ),
             'Campaigns' =>
                 array (
@@ -99,15 +104,15 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
                 ),
             'Cart' =>
                 array (
-                    'Endpoint' => 'touchizecommerce/cart',
+                    'Endpoint' => 'touchizecommerce/api/cart',
                 ),
             'Selectors' =>
                 array (
-                    'Endpoint' => 'touchizecommerce/selectors',
+                    'Endpoint' => 'touchizecommerce/api/selectors',
                 ),
             'Taxonomies' =>
                 array (
-                    'Endpoint' => 'touchizecommerce/taxonomy',
+                    'Endpoint' => 'touchizecommerce/api/taxonomy',
                 ),
         ];
 
@@ -136,372 +141,18 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function fillTopMenu()
     {
-        $this->_config['StartupModules']['TaxonomyMenu'] = [
-            'Params' =>
-                array (
-                    'Model' =>
-                        array (
-                            'Id' => '2',
-                            'Tree' =>
-                                array (
-                                    0 =>
-                                        array (
-                                            'Id' => '4',
-                                            'ParentId' => '2',
-                                            'Name' => 'Women',
-                                            'IsActive' => '1',
-                                            'Position' => '2',
-                                            'Level' => '2',
-                                            'Url' => 'women.html',
-                                            'SubTaxa' =>
-                                                array (
-                                                    0 =>
-                                                        array (
-                                                            'Id' => '10',
-                                                            'ParentId' => '4',
-                                                            'Name' => 'New Arrivals',
-                                                            'IsActive' => '1',
-                                                            'Position' => '1',
-                                                            'Level' => '3',
-                                                            'Url' => 'women/tops-women/hoodies-and-sweatshirts-women.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    1 =>
-                                                        array (
-                                                            'Id' => '11',
-                                                            'ParentId' => '4',
-                                                            'Name' => 'Tops & Blouses',
-                                                            'IsActive' => '1',
-                                                            'Position' => '2',
-                                                            'Level' => '3',
-                                                            'Url' => 'women/tops-blouses.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    2 =>
-                                                        array (
-                                                            'Id' => '12',
-                                                            'ParentId' => '4',
-                                                            'Name' => 'Pants & Denim',
-                                                            'IsActive' => '1',
-                                                            'Position' => '3',
-                                                            'Level' => '3',
-                                                            'Url' => 'women/pants-denim.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    3 =>
-                                                        array (
-                                                            'Id' => '13',
-                                                            'ParentId' => '4',
-                                                            'Name' => 'Dresses & Skirts',
-                                                            'IsActive' => '1',
-                                                            'Position' => '4',
-                                                            'Level' => '3',
-                                                            'Url' => 'women/dresses-skirts.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                ),
-                                        ),
-                                    1 =>
-                                        array (
-                                            'Id' => '5',
-                                            'ParentId' => '2',
-                                            'Name' => 'Men',
-                                            'IsActive' => '1',
-                                            'Position' => '3',
-                                            'Level' => '2',
-                                            'Url' => 'men.html',
-                                            'SubTaxa' =>
-                                                array (
-                                                    0 =>
-                                                        array (
-                                                            'Id' => '14',
-                                                            'ParentId' => '5',
-                                                            'Name' => 'New Arrivals',
-                                                            'IsActive' => '1',
-                                                            'Position' => '1',
-                                                            'Level' => '3',
-                                                            'Url' => 'men/new-arrivals.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    1 =>
-                                                        array (
-                                                            'Id' => '15',
-                                                            'ParentId' => '5',
-                                                            'Name' => 'Shirts',
-                                                            'IsActive' => '1',
-                                                            'Position' => '2',
-                                                            'Level' => '3',
-                                                            'Url' => 'men/shirts.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    2 =>
-                                                        array (
-                                                            'Id' => '16',
-                                                            'ParentId' => '5',
-                                                            'Name' => 'Tees, Knits and Polos',
-                                                            'IsActive' => '1',
-                                                            'Position' => '3',
-                                                            'Level' => '3',
-                                                            'Url' => 'men/tees-knits-and-polos.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    3 =>
-                                                        array (
-                                                            'Id' => '17',
-                                                            'ParentId' => '5',
-                                                            'Name' => 'Pants & Denim',
-                                                            'IsActive' => '1',
-                                                            'Position' => '4',
-                                                            'Level' => '3',
-                                                            'Url' => 'men/pants-denim.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    4 =>
-                                                        array (
-                                                            'Id' => '40',
-                                                            'ParentId' => '5',
-                                                            'Name' => 'Blazers',
-                                                            'IsActive' => '1',
-                                                            'Position' => '5',
-                                                            'Level' => '3',
-                                                            'Url' => 'men/blazers.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                ),
-                                        ),
-                                    2 =>
-                                        array (
-                                            'Id' => '6',
-                                            'ParentId' => '2',
-                                            'Name' => 'Accessories',
-                                            'IsActive' => '1',
-                                            'Position' => '4',
-                                            'Level' => '2',
-                                            'Url' => 'accessories.html',
-                                            'SubTaxa' =>
-                                                array (
-                                                    0 =>
-                                                        array (
-                                                            'Id' => '18',
-                                                            'ParentId' => '6',
-                                                            'Name' => 'Eyewear',
-                                                            'IsActive' => '1',
-                                                            'Position' => '1',
-                                                            'Level' => '3',
-                                                            'Url' => 'accessories/eyewear.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    1 =>
-                                                        array (
-                                                            'Id' => '19',
-                                                            'ParentId' => '6',
-                                                            'Name' => 'Jewelry',
-                                                            'IsActive' => '1',
-                                                            'Position' => '2',
-                                                            'Level' => '3',
-                                                            'Url' => 'accessories/jewelry.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    2 =>
-                                                        array (
-                                                            'Id' => '20',
-                                                            'ParentId' => '6',
-                                                            'Name' => 'Shoes',
-                                                            'IsActive' => '1',
-                                                            'Position' => '3',
-                                                            'Level' => '3',
-                                                            'Url' => 'accessories/shoes.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    3 =>
-                                                        array (
-                                                            'Id' => '21',
-                                                            'ParentId' => '6',
-                                                            'Name' => 'Bags & Luggage',
-                                                            'IsActive' => '1',
-                                                            'Position' => '4',
-                                                            'Level' => '3',
-                                                            'Url' => 'accessories/bags-luggage.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                ),
-                                        ),
-                                    3 =>
-                                        array (
-                                            'Id' => '7',
-                                            'ParentId' => '2',
-                                            'Name' => 'Home & Decor',
-                                            'IsActive' => '1',
-                                            'Position' => '5',
-                                            'Level' => '2',
-                                            'Url' => 'home-decor.html',
-                                            'SubTaxa' =>
-                                                array (
-                                                    0 =>
-                                                        array (
-                                                            'Id' => '22',
-                                                            'ParentId' => '7',
-                                                            'Name' => 'Books & Music',
-                                                            'IsActive' => '1',
-                                                            'Position' => '1',
-                                                            'Level' => '3',
-                                                            'Url' => 'home-decor/books-music.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    1 =>
-                                                        array (
-                                                            'Id' => '23',
-                                                            'ParentId' => '7',
-                                                            'Name' => 'Bed & Bath',
-                                                            'IsActive' => '1',
-                                                            'Position' => '2',
-                                                            'Level' => '3',
-                                                            'Url' => 'home-decor/bed-bath.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    2 =>
-                                                        array (
-                                                            'Id' => '24',
-                                                            'ParentId' => '7',
-                                                            'Name' => 'Electronics',
-                                                            'IsActive' => '1',
-                                                            'Position' => '3',
-                                                            'Level' => '3',
-                                                            'Url' => 'home-decor/electronics.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    3 =>
-                                                        array (
-                                                            'Id' => '25',
-                                                            'ParentId' => '7',
-                                                            'Name' => 'Decorative Accents',
-                                                            'IsActive' => '1',
-                                                            'Position' => '4',
-                                                            'Level' => '3',
-                                                            'Url' => 'home-decor/decorative-accents.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                ),
-                                        ),
-                                    4 =>
-                                        array (
-                                            'Id' => '8',
-                                            'ParentId' => '2',
-                                            'Name' => 'Sale',
-                                            'IsActive' => '1',
-                                            'Position' => '6',
-                                            'Level' => '2',
-                                            'Url' => 'sale.html',
-                                            'SubTaxa' =>
-                                                array (
-                                                    0 =>
-                                                        array (
-                                                            'Id' => '26',
-                                                            'ParentId' => '8',
-                                                            'Name' => 'Women',
-                                                            'IsActive' => '1',
-                                                            'Position' => '1',
-                                                            'Level' => '3',
-                                                            'Url' => 'sale/women.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    1 =>
-                                                        array (
-                                                            'Id' => '27',
-                                                            'ParentId' => '8',
-                                                            'Name' => 'Men',
-                                                            'IsActive' => '1',
-                                                            'Position' => '2',
-                                                            'Level' => '3',
-                                                            'Url' => 'sale/men.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    2 =>
-                                                        array (
-                                                            'Id' => '28',
-                                                            'ParentId' => '8',
-                                                            'Name' => 'Accessories',
-                                                            'IsActive' => '1',
-                                                            'Position' => '3',
-                                                            'Level' => '3',
-                                                            'Url' => 'sale/accessories.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                    3 =>
-                                                        array (
-                                                            'Id' => '29',
-                                                            'ParentId' => '8',
-                                                            'Name' => 'Home & Decor',
-                                                            'IsActive' => '1',
-                                                            'Position' => '4',
-                                                            'Level' => '3',
-                                                            'Url' => 'sale/home-decor.html',
-                                                            'SubTaxa' =>
-                                                                array (
-                                                                ),
-                                                        ),
-                                                ),
-                                        ),
-                                    5 =>
-                                        array (
-                                            'Id' => '9',
-                                            'ParentId' => '2',
-                                            'Name' => 'VIP',
-                                            'IsActive' => '1',
-                                            'Position' => '7',
-                                            'Level' => '2',
-                                            'Url' => 'vip.html',
-                                            'SubTaxa' =>
-                                                array (
-                                                ),
-                                        ),
-                                ),
-                        ),
-                ),
-        ];
+        $this->_config['StartupModules']['TaxonomyMenu']['Params']['Model'] = $this->getTopMenuTree();
         return $this;
+    }
+
+    public function getTopMenuTree()
+    {
+        return $this->configuratorMenu->getTopMenuTree();
     }
 
     /**

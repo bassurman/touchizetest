@@ -21,7 +21,8 @@ class TouchizeRouter implements \Magento\Framework\App\RouterInterface
     {
         $identifier = trim($request->getPathInfo(), '/');
         if(strpos($identifier, 'touchizecommerce/api') !== false) {
-            $actionName = $this->getActionName($request);
+
+            $actionName = $this->getActionName($identifier);
             if (!$actionName) {
                 return false;
             }
@@ -32,16 +33,12 @@ class TouchizeRouter implements \Magento\Framework\App\RouterInterface
             return false;
         }
 
-        return $this->actionFactory->create(
-            'Magento\Framework\App\Action\Forward',
-            ['request' => $request]
-        );
+        return $this->actionFactory->create(\Magento\Framework\App\Action\Redirect::class);
     }
 
-    protected function getActionName($request)
+    protected function getActionName($identifier)
     {
-        $pathInfo = $request->getPathInfo();
-        $path = explode('/',$pathInfo);
+        $path = explode('/',$identifier);
         return end($path);
     }
 }

@@ -23,6 +23,7 @@ namespace Touchize\Commerce\Controller\Api;
 
 class ApiCore extends \Magento\Framework\App\Action\Action
 {
+    protected $configModel;
 
     public function execute()
     {
@@ -31,7 +32,11 @@ class ApiCore extends \Magento\Framework\App\Action\Action
 
     public function getConfigModel()
     {
-        $actionName = $this->getRequest()->getFullActionName();
-        return $this->pageConfigFactory->getConfigModel($actionName);
+        if (is_null($this->configModel)) {
+            $actionName = $this->getRequest()->getFullActionName();
+            $this->configModel = $this->pageConfigFactory->getConfigModel($actionName);
+        }
+
+        return $this->configModel;
     }
 }
