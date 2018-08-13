@@ -22,54 +22,12 @@
 namespace Touchize\Commerce\Controller\Api;
 
 
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Touchize\Commerce\Model\PageConfigFactory;
-use \Magento\Catalog\Model\CategoryFactory;
 
 class Cart extends \Touchize\Commerce\Controller\Api\ApiCore
 {
     const CATEGORY_ID_PARAM = 'taxonId';
-    /**
-     * @var JsonFactory
-     */
-    protected $resultJsonFactory;
 
     /**
-     * @var \Touchize\Commerce\Model\PageConfigFactory
-     */
-    protected $pageConfigFactory;
-
-    /**
-     * @var \Magento\Catalog\Model\CategoryRepository
-     */
-    protected $categoryRepository;
-
-    /**
-     * @var \Magento\Framework\Registry
-     */
-    protected $_coreRegistry;
-
-
-    public function __construct(
-        Context $context,
-        JsonFactory $resultJsonFactory,
-        PageConfigFactory $pageConfigFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Catalog\Model\CategoryRepository $categoryRepository,
-        \Magento\Framework\Registry $coreRegistry
-    ) {
-        parent::__construct($context);
-        $this->resultJsonFactory = $resultJsonFactory;
-        $this->pageConfigFactory = $pageConfigFactory;
-        $this->_storeManager = $storeManager;
-        $this->categoryRepository = $categoryRepository;
-        $this->_coreRegistry = $coreRegistry;
-    }
-
-    /**
-     * Index action
-     *
      * @return $this
      */
     public function execute()

@@ -27,9 +27,9 @@ use Magento\Framework\Controller\Result\JsonFactory;
 use Touchize\Commerce\Model\PageConfigFactory;
 use \Magento\Catalog\Model\CategoryFactory;
 
-class Touchmap extends \Touchize\Commerce\Controller\Api\ApiCore
+class CmsPage extends \Touchize\Commerce\Controller\Api\ApiCore
 {
-
+    const PAGE_PARAM = 'Page';
     /**
      * Index action
      *
@@ -37,6 +37,13 @@ class Touchmap extends \Touchize\Commerce\Controller\Api\ApiCore
      */
     public function execute()
     {
-      return parent::execute();
+        $pageId = $this->getRequest()->getParam(self::PAGE_PARAM);
+
+        $configModel = $this->getConfigModel();
+        $configModel->setPageId($pageId);
+        $configData = $configModel->getConfig();
+
+        $result = $this->resultJsonFactory->create();
+        return $result->setData($configData);
     }
 }

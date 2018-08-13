@@ -21,15 +21,8 @@
 
 namespace Touchize\Commerce\Controller\Api;
 
-
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Touchize\Commerce\Model\PageConfigFactory;
-use \Magento\Catalog\Model\CategoryFactory;
-
-class Touchmap extends \Touchize\Commerce\Controller\Api\ApiCore
+class Selectors extends \Touchize\Commerce\Controller\Api\ApiCore
 {
-
     /**
      * Index action
      *
@@ -37,6 +30,10 @@ class Touchmap extends \Touchize\Commerce\Controller\Api\ApiCore
      */
     public function execute()
     {
-      return parent::execute();
+        $configModel = $this->getConfigModel();
+        $configData = $configModel->getConfig();
+
+        $result = $this->resultJsonFactory->create();
+        return $result->setData($configData);
     }
 }

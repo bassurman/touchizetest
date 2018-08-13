@@ -21,8 +21,6 @@
 namespace Touchize\Commerce\Model\PageConfig;
 
 use \Magento\Framework\View\Element\Template\Context;
-use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 class NoConfig extends \Magento\Framework\Model\AbstractModel implements PageConfigInterface
 {
@@ -43,23 +41,13 @@ class NoConfig extends \Magento\Framework\Model\AbstractModel implements PageCon
 
 
     public function __construct(
-        ProductUrlPathGenerator $productUrlPathGenerator,
-        PriceCurrencyInterface $priceCurrency,
-        \Touchize\Commerce\Helper\Config $configHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
+        Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\Pricing\Helper\Data $priceHelper,
-        \Magento\Catalog\Model\Product\Gallery\ReadHandler $_helperGallery,
-        Context $context
+        \Touchize\Commerce\Helper\Config $configHelper
     ) {
-        $this->productUrlPathGenerator = $productUrlPathGenerator;
-        $this->_helperGallery = $_helperGallery;
-        $this->priceCurrency = $priceCurrency;
-        $this->imageHelper = $imageHelper;
-        $this->_configHelper = $configHelper;
-        $this->_priceHelper = $priceHelper;
         $this->_layout = $context->getLayout();
         $this->_registry = $registry;
+        $this->_configHelper = $configHelper;
     }
 
     /**

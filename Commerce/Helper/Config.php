@@ -37,11 +37,13 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         Context $context,
         \Touchize\Commerce\Model\PageConfigFactory $pageConfigFactory,
-        \Touchize\Commerce\Model\Configurator\TopMenu $configuratorMenu
+        \Touchize\Commerce\Model\Configurator\TopMenu $configuratorMenu,
+        \Magento\Framework\View\LayoutInterface $layout
     ) {
         parent::__construct($context);
         $this->pageConfigFactory = $pageConfigFactory;
         $this->configuratorMenu = $configuratorMenu;
+        $this->layout = $layout;
     }
 
 
@@ -114,6 +116,10 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
                 array (
                     'Endpoint' => 'touchizecommerce/api/taxonomy',
                 ),
+            'Content' =>
+                array (
+                    'Endpoint' => 'touchizecommerce/api/cmsPage',
+                ),
         ];
 
         return $this;
@@ -129,10 +135,23 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
             'qs' => '',
             'tid' => '8',
             'pid' => NULL,
-            'page' => NULL,
+            'page' => $this->getIdentifierCmsPage(),
             'search' => NULL,
         ];
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIdentifierCmsPage()
+    {
+        $cmsBlock = $this->layout->getBlock('cms_page');
+        if ($cmsBlock) {
+            return $cmsBlock->getPage()->getId();
+        }
+
+        return false;
     }
 
     protected function fillMainMenu()

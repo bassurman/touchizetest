@@ -97,6 +97,11 @@ class TopMenu extends \Magento\Framework\Model\AbstractModel
         return $this->_menu;
     }
 
+    /**
+     * @param $categoryNode
+     *
+     * @return array
+     */
     protected function _remapTopMenu($categoryNode)
     {
         $children = [];

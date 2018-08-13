@@ -50,7 +50,16 @@ class Productlist extends \Touchize\Commerce\Controller\Api\ApiCore
      */
     protected $_coreRegistry;
 
-
+    /**
+     * Productlist constructor.
+     *
+     * @param Context                                    $context
+     * @param JsonFactory                                $resultJsonFactory
+     * @param PageConfigFactory                          $pageConfigFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\CategoryRepository  $categoryRepository
+     * @param \Magento\Framework\Registry                $coreRegistry
+     */
     public function __construct(
         Context $context,
         JsonFactory $resultJsonFactory,
@@ -59,12 +68,9 @@ class Productlist extends \Touchize\Commerce\Controller\Api\ApiCore
         \Magento\Catalog\Model\CategoryRepository $categoryRepository,
         \Magento\Framework\Registry $coreRegistry
     ) {
-        parent::__construct($context);
-        $this->resultJsonFactory = $resultJsonFactory;
-        $this->pageConfigFactory = $pageConfigFactory;
-        $this->_storeManager = $storeManager;
+        parent::__construct($context, $resultJsonFactory,$pageConfigFactory, $storeManager,$coreRegistry);
+
         $this->categoryRepository = $categoryRepository;
-        $this->_coreRegistry = $coreRegistry;
     }
 
     /**
@@ -75,7 +81,7 @@ class Productlist extends \Touchize\Commerce\Controller\Api\ApiCore
     public function execute()
     {
         $categoryId = $this->getRequest()->getParam(self::CATEGORY_ID_PARAM);
-        $category = $this->categoryRepository->get($categoryId, $this->_storeManager->getStore()->getId());;
+        $category = $this->categoryRepository->get($categoryId, $this->_storeManager->getStore()->getId());
 
         $this->_coreRegistry->register('current_category', $category);
 

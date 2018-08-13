@@ -20,9 +20,41 @@
 
 namespace Touchize\Commerce\Model\PageConfig;
 
+use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use \Magento\Framework\View\Element\Template\Context;
 
 class CatalogCategoryView extends NoConfig implements PageConfigInterface
 {
+    /**
+     * @var \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator
+     */
+    protected $productUrlPathGenerator;
+
+    /**
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
+     */
+    protected $priceCurrency;
+
+    public function __construct(
+        ProductUrlPathGenerator $productUrlPathGenerator,
+        PriceCurrencyInterface $priceCurrency,
+        \Touchize\Commerce\Helper\Config $configHelper,
+        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\Pricing\Helper\Data $priceHelper,
+        \Magento\Catalog\Model\Product\Gallery\ReadHandler $_helperGallery,
+        Context $context
+    ) {
+
+        parent::__construct($context, $registry, $configHelper);
+        $this->productUrlPathGenerator = $productUrlPathGenerator;
+        $this->_helperGallery = $_helperGallery;
+        $this->priceCurrency = $priceCurrency;
+        $this->imageHelper = $imageHelper;
+        $this->_priceHelper = $priceHelper;
+    }
+
     public function getConfig()
     {
         $config = [];
