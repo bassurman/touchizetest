@@ -35,7 +35,7 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
                 'Id' => $_product->getId(),
                     'SKU' => $_product->getSku(),
                     'Title' => $_product->getName(),
-                    'SingleVariantId' => NULL,
+                    'SingleVariantId' => $this->getSimpleProductId($_product),
                     'Url' => $this->productUrlPathGenerator->getUrlKey($_product) . $urlSuffix,
                     'Price' => $price,
                     'DiscountedPrice' => $specialPrice,
@@ -86,6 +86,14 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
             ];
         }
         return $images;
+    }
+
+    protected function getSimpleProductId($product)
+    {
+        if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE) {
+           return $product->getId();
+        }
+        return null;
     }
 }
 

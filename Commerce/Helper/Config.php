@@ -83,31 +83,31 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_config['Endpoints'] = [
             'Products' =>
                 array (
-                    'Endpoint' => $this->_urlBuilder->getUrl('touchizecommerce/productlist'),
+                    'Endpoint' => 'touchizecommerce/api/productlist',
                 ),
             'ProductDetails' =>
                 array (
-                    'Endpoint' => $this->_urlBuilder->getUrl('touchizecommerce/product'),
+                    'Endpoint' => 'touchizecommerce/product',
                 ),
             'Campaigns' =>
                 array (
-                    'Endpoint' => $this->_urlBuilder->getUrl('touchizecommerce/touchmap'),
+                    'Endpoint' => 'touchizecommerce/api/touchmap',
                 ),
             'AutoSearch' =>
                 array (
-                    'Endpoint' => $this->_urlBuilder->getUrl('touchizecommerce/search/autocomplete'),
+                    'Endpoint' => 'touchizecommerce/search/autocomplete',
                 ),
             'Cart' =>
                 array (
-                    'Endpoint' => $this->_urlBuilder->getUrl('touchizecommerce/cart'),
+                    'Endpoint' => 'touchizecommerce/cart',
                 ),
             'Selectors' =>
                 array (
-                    'Endpoint' => $this->_urlBuilder->getUrl('touchizecommerce/selectors'),
+                    'Endpoint' => 'touchizecommerce/selectors',
                 ),
             'Taxonomies' =>
                 array (
-                    'Endpoint' => $this->_urlBuilder->getUrl('touchizecommerce/taxonomy'),
+                    'Endpoint' => 'touchizecommerce/taxonomy',
                 ),
         ];
 

@@ -12,4 +12,15 @@
     <type name="Magento\Catalog\Block\Product\ListProduct">
         <plugin name="touchize.product.list.layer" type="Touchize\Commerce\Plugin\Product\ListProduct"/>
     </type>
+    <!--<type name="Magento\Framework\App\RouterList">
+        <arguments>
+            <argument name="routerList" xsi:type="array">
+                <item name="touchizerouter" xsi:type="array">
+                    <item name="class" xsi:type="string">Touchize\Commerce\Controller\TouchizeRouter</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">0</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>-->
 </config>

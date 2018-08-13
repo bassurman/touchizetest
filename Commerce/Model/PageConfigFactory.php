@@ -66,9 +66,11 @@ class PageConfigFactory
      */
     protected function getClassName($actionName)
     {
-        if ($this->helper->isAllowedToGenerateConfig($actionName)) {
-           return self::BASE_CONFIG_PATH . '\\' .
-               str_replace(self::ACTION_DELIMITER,'', ucwords($actionName,self::ACTION_DELIMITER));
+        $className = self::BASE_CONFIG_PATH . '\\' .
+        str_replace(self::ACTION_DELIMITER,'', ucwords($actionName,self::ACTION_DELIMITER));
+
+        if (class_exists($className)) {
+           return $className;
         }
         return self::BASE_CONFIG_PATH . '\\' . self::NO_CONFIG_CLASS;
     }
