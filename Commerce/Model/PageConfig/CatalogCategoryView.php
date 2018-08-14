@@ -59,7 +59,6 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
     {
         $config = [];
         $productCollection = $this->getProductCollection();
-        $urlSuffix = $this->getUrlSuffix();
         foreach ($productCollection as $_product) {
             $specialPrice = $_product->getSpecialPrice();
             $price = $_product->getFinalPrice();
@@ -68,7 +67,7 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
                     'SKU' => $_product->getSku(),
                     'Title' => $_product->getName(),
                     'SingleVariantId' => $this->getSimpleProductId($_product),
-                    'Url' => $this->productUrlPathGenerator->getUrlKey($_product) . $urlSuffix,
+                    'Url' => $_product->getProductUrl(),
                     'Price' => $price,
                     'DiscountedPrice' => $specialPrice,
                     'FPrice' => $this->_priceHelper->currency($price,true,false),
@@ -81,7 +80,7 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
     }
 
     /**
-     * @return mixed
+     * @return
      */
     public function getProductCollection()
     {
@@ -95,11 +94,6 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
     public function getCurrentCategory()
     {
         return $this->_registry->registry('current_category');
-    }
-
-    public function getUrlSuffix()
-    {
-        return $this->_configHelper->getUrlSuffix();
     }
 
     public function getImageUrl($product, $image ,$imageId)

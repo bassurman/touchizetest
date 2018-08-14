@@ -151,7 +151,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     protected function fillRouter()
     {
         $this->_config['Router'] = [
-            'SiteUrl' => $this->_urlBuilder->getBaseUrl(),
+            'SiteUrl' => $this->_urlBuilder->getBaseUrl() .'/asdfasdf/',
             'qs' => '',
             'tid' => 8,
             'pid' => $this->getCurrentProductId(),

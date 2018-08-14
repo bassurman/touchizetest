@@ -37,7 +37,7 @@ class TouchizecommerceApiProduct extends CatalogProductView
             'SKU' => $_product->getSku(),
             'Title' => $_product->getName(),
             'SingleVariantId' => $this->getSimpleProductId($_product),
-            'Url' => $this->productUrlPathGenerator->getUrlKey($_product) . $this->getUrlSuffix(),
+            'Url' => $_product->getProductUrl(),
             'Price' => $price,
             'DiscountedPrice' => $specialPrice,
             'FPrice' => $this->_priceHelper->currency($price,true,false),
