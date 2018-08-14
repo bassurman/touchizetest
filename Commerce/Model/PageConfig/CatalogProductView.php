@@ -18,27 +18,31 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Controller\Api;
+namespace Touchize\Commerce\Model\PageConfig;
 
-use \Magento\Catalog\Model\CategoryFactory;
+use Touchize\Commerce\Model\PageConfig\CatalogCategoryView;
 
-class CmsPage extends \Touchize\Commerce\Controller\Api\ApiCore
+class CatalogProductView extends CatalogCategoryView
 {
-    const PAGE_PARAM = 'Page';
     /**
-     * Index action
-     *
-     * @return $this
+     * @return \Magento\Catalog\Model\Product
      */
-    public function execute()
+    public function getCurrentProduct()
     {
-        $pageId = $this->getRequest()->getParam(self::PAGE_PARAM);
+        return $this->_registry->registry('current_product');
+    }
 
-        $configModel = $this->getConfigModel();
-        $configModel->setPageId($pageId);
-        $configData = $configModel->getConfig();
-
-        $result = $this->resultJsonFactory->create();
-        return $result->setData($configData);
+    /**
+     * @return \Magento\Catalog\Model\Category|\Magento\Framework\DataObject
+     */
+    public function getCurrentCategory()
+    {
+        $product = $this->getCurrentProduct();
+        $category = $product->getCategory();
+        if (!$category) {
+            $category = $product->getCategoryCollection()->getFirstItem();
+        }
+        return $category;
     }
 }
+

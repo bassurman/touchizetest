@@ -153,8 +153,8 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_config['Router'] = [
             'SiteUrl' => $this->_urlBuilder->getUrl(),
             'qs' => '',
-            'tid' => '8',
-            'pid' => NULL,
+            'tid' => 8,
+            'pid' => $this->getCurrentProductId(),
             'page' => $this->getIdentifierCmsPage(),
             'search' => NULL,
         ];
@@ -174,6 +174,21 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         return false;
     }
 
+    /**
+     * @return bool
+     */
+    protected function getCurrentProductId()
+    {
+        $product = $this->_coreRegistry->registry('current_product');
+        if($product && $product->getId()) {
+            return $product->getId();
+        }
+        return false;
+    }
+
+    /**
+     * @return $this
+     */
     protected function fillMainMenu()
     {
         $this->_config['MainMenu'] = [];
