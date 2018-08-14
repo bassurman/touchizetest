@@ -16,6 +16,11 @@
                     <comment><![CDATA[Choose devices to display.]]></comment>
                     <source_model>Touchize\Commerce\Model\Config\Source\Devices</source_model>
                 </field>
+                <field id="default_category" translate="label" type="select" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Choose Default Category</label>
+                    <comment><![CDATA[Choose category to display on homepage]]></comment>
+                    <source_model>Touchize\Commerce\Model\Config\Source\Category</source_model>
+                </field>
             </group>
             <group id="touchize_commmerce_cdn" translate="label" type="text" sortOrder="10100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>CDN configuration</label>

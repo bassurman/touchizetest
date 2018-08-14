@@ -80,9 +80,15 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         return $config;
     }
 
+    /**
+     * @return mixed
+     */
     public function getProductCollection()
     {
         $currentCategory = $this->getCurrentCategory();
+        if(!$currentCategory) {
+            return [];
+        }
         return $currentCategory->getProductCollection()->addAttributeToSelect('*');
     }
 
@@ -93,7 +99,7 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
 
     public function getUrlSuffix()
     {
-        return '.html';
+        return $this->_configHelper->getUrlSuffix();
     }
 
     public function getImageUrl($product, $image ,$imageId)

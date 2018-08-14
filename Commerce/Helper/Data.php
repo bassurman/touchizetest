@@ -101,6 +101,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/display_devices');
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDefaultCategory()
+    {
+        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/default_category');
+    }
+
+    /**
+     * @return string
+     */
     public function getPluginUrl()
     {
         $url = $this->generatePluginUrl();
@@ -137,6 +148,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         return false;
+    }
+
+    public function getUrlSuffix()
+    {
+        return $this->getConfig('catalog/seo/product_url_suffix');
     }
 
     /**

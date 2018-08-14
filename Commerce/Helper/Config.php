@@ -34,16 +34,36 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $pageConfigFactory;
 
+    /**
+     * Config constructor.
+     *
+     * @param Context                                       $context
+     * @param \Touchize\Commerce\Model\PageConfigFactory    $pageConfigFactory
+     * @param \Touchize\Commerce\Model\Configurator\TopMenu $configuratorMenu
+     * @param \Magento\Framework\View\LayoutInterface       $layout
+     * @param Data                                          $dataHelper
+     * @param \Magento\Store\Model\StoreManagerInterface    $storeManager
+     * @param \Magento\Catalog\Model\CategoryRepository     $categoryRepository
+     * @param \Magento\Framework\Registry                   $coreRegistry
+     */
     public function __construct(
         Context $context,
         \Touchize\Commerce\Model\PageConfigFactory $pageConfigFactory,
         \Touchize\Commerce\Model\Configurator\TopMenu $configuratorMenu,
-        \Magento\Framework\View\LayoutInterface $layout
+        \Magento\Framework\View\LayoutInterface $layout,
+        \Touchize\Commerce\Helper\Data $dataHelper,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\CategoryRepository $categoryRepository,
+        \Magento\Framework\Registry $coreRegistry
     ) {
         parent::__construct($context);
         $this->pageConfigFactory = $pageConfigFactory;
         $this->configuratorMenu = $configuratorMenu;
         $this->layout = $layout;
+        $this->dataHelper = $dataHelper;
+        $this->categoryRepository = $categoryRepository;
+        $this->_storeManager = $storeManager;
+        $this->_coreRegistry = $coreRegistry;
     }
 
 
@@ -147,7 +167,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     public function getIdentifierCmsPage()
     {
         $cmsBlock = $this->layout->getBlock('cms_page');
-        if ($cmsBlock) {
+        if ($cmsBlock && $this->_request->getParam('page_id')) {
             return $cmsBlock->getPage()->getId();
         }
 
@@ -197,5 +217,25 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     public function getActionName()
     {
         return $this->_getRequest()->getFullActionName();
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrlSuffix()
+    {
+        return $this->dataHelper->getUrlSuffix();
+    }
+
+    /**
+     *
+     */
+    public function registerCurrentCategory()
+    {
+        $categoryId = $this->dataHelper->getDefaultCategory();
+        if ($categoryId) {
+            $category = $this->categoryRepository->get($categoryId, $this->_storeManager->getStore()->getId());
+            $this->_coreRegistry->register('current_category', $category);
+        }
     }
 }

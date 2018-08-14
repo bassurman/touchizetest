@@ -24,6 +24,15 @@ use Magento\Framework\View\Element\Template\Context;
 
 class TouchizecommerceApiCmsPage extends NoConfig
 {
+    /**
+     * TouchizecommerceApiCmsPage constructor.
+     *
+     * @param Context                                    $context
+     * @param \Magento\Framework\Registry                $registry
+     * @param \Touchize\Commerce\Helper\Config           $configHelper
+     * @param \Magento\Cms\Model\PageFactory             $pageFactory
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     */
     public function __construct(
         Context $context,
         \Magento\Framework\Registry $registry,
@@ -36,6 +45,9 @@ class TouchizecommerceApiCmsPage extends NoConfig
         $this->_storeManager = $storeManager;
     }
 
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         $pageId = $this->getPageId();
