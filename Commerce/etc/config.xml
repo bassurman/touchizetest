@@ -10,14 +10,17 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <touchize_commmerce_config>
+            <touchize_commmerce_setup>
+                <display_devices>3</display_devices>
+                <options_title>Select option</options_title>
+                <selection_title>Option selections</selection_title>
+                <features_label>Features</features_label>
+            </touchize_commmerce_setup>
             <touchize_commmerce_cdn>
                 <use_cdn_for_client>1</use_cdn_for_client>
                 <client_cdn_path>https://d2kt9xhiosnf0k.cloudfront.net</client_cdn_path>
                 <client_cdn_code>touchize/latest</client_cdn_code>
             </touchize_commmerce_cdn>
-            <touchize_commmerce_setup>
-                <display_devices>3</display_devices>
-            </touchize_commmerce_setup>
         </touchize_commmerce_config>
     </default>
 </config>

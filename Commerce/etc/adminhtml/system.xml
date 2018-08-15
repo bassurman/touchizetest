@@ -21,6 +21,18 @@
                     <comment><![CDATA[Choose category to display on homepage]]></comment>
                     <source_model>Touchize\Commerce\Model\Config\Source\Category</source_model>
                 </field>
+                <field id="selection_title" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Selection Option Title</label>
+                    <comment><![CDATA[Selection Option Title.]]></comment>
+                </field>
+                <field id="options_title" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Options Title</label>
+                    <comment><![CDATA[Options Title]]></comment>
+                </field>
+                <field id="features_label" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Features Label</label>
+                    <comment><![CDATA[Features Label]]></comment>
+                </field>
             </group>
             <group id="touchize_commmerce_cdn" translate="label" type="text" sortOrder="10100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>CDN configuration</label>

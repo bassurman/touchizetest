@@ -32,6 +32,22 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
     protected $productUrlPathGenerator;
 
     /**
+     * @var \Touchize\Commerce\Helper\Data
+     */
+    protected $dataHelper;
+
+    /**
+     * @var \Magento\Catalog\Helper\Output
+     */
+    protected $outputHelper;
+
+    /**
+     * @var \Magento\Catalog\Model\Product\Gallery\ReadHandler
+     */
+    protected $_helperGallery;
+
+
+    /**
      * @var \Magento\Framework\Pricing\PriceCurrencyInterface
      */
     protected $priceCurrency;
@@ -40,6 +56,8 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         ProductUrlPathGenerator $productUrlPathGenerator,
         PriceCurrencyInterface $priceCurrency,
         \Touchize\Commerce\Helper\Config $configHelper,
+        \Touchize\Commerce\Helper\Data $dataHelper,
+        \Magento\Catalog\Helper\Output $outputHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Pricing\Helper\Data $priceHelper,
@@ -51,7 +69,9 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         $this->productUrlPathGenerator = $productUrlPathGenerator;
         $this->_helperGallery = $_helperGallery;
         $this->priceCurrency = $priceCurrency;
-        $this->imageHelper = $imageHelper;
+        $this->imageHelper = $imageHelper;;
+        $this->dataHelper = $dataHelper;
+        $this->outputHelper = $outputHelper;
         $this->_priceHelper = $priceHelper;
     }
 
@@ -64,15 +84,15 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
             $price = $_product->getFinalPrice();
             $config[] = [
                 'Id' => $_product->getId(),
-                    'SKU' => $_product->getSku(),
-                    'Title' => $_product->getName(),
-                    'SingleVariantId' => $this->getSimpleProductId($_product),
-                    'Url' => $_product->getProductUrl(),
-                    'Price' => $price,
-                    'DiscountedPrice' => $specialPrice,
-                    'FPrice' => $this->_priceHelper->currency($price,true,false),
-                    'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
-                    'Images' => $this->getProductImages($_product)
+                'SKU' => $_product->getSku(),
+                'Title' => $_product->getName(),
+                'SingleVariantId' => $this->getSimpleProductId($_product),
+                'Url' => $_product->getProductUrl(),
+                'Price' => $price,
+                'DiscountedPrice' => $specialPrice,
+                'FPrice' => $this->_priceHelper->currency($price,true,false),
+                'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
+                'Images' => $this->getProductImages($_product)
             ];
         }
 

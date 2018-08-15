@@ -35,6 +35,11 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     protected $pageConfigFactory;
 
     /**
+     * @var \Touchize\Commerce\Model\PageConfigInterface
+     */
+    protected $_configModel;
+
+    /**
      * Config constructor.
      *
      * @param Context                                       $context
@@ -84,8 +89,13 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function generate()
     {
-        $this->generateBases()->fillRouter()->fillEndpoints();
-        $this->fillMainMenu()->fillTopMenu()->fillActiveProducts();
+        $this->generateBases()
+            ->fillRouter()
+            ->fillEndpoints();
+        $this->fillMainMenu()
+            ->fillTopMenu()
+            ->fillActiveProducts()
+            ->fillCurrentProduct();
         return $this;
     }
 
@@ -151,7 +161,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     protected function fillRouter()
     {
         $this->_config['Router'] = [
-            'SiteUrl' => $this->_urlBuilder->getBaseUrl() .'/asdfasdf/',
+            'SiteUrl' => $this->_urlBuilder->getBaseUrl(),
             'qs' => '',
             'tid' => 8,
             'pid' => $this->getCurrentProductId(),
@@ -214,14 +224,23 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function fillActiveProducts()
     {
-        $actionName = $this->getActionName();
-        $configModel = $this->pageConfigFactory->getConfigModel($actionName);
+        $configModel = $this->getConfigModel();
         $params = $configModel->getConfig();
         $this->_config['StartupModules']['Content']['Params']['Template']['Blocks'][] = [
             'Module' => 'ProductList',
             'Params' => ['Model' => $params]
         ] ;
 
+        return $this;
+    }
+
+    protected function fillCurrentProduct()
+    {
+        if ($this->getCurrentProductId()) {
+            $configModel = $this->getConfigModel();
+            $productDetails = $configModel->getProductDetails();
+            $this->_config['StartupModules']['ProductDetailsPopup']['Params']['Model'] = $productDetails;
+        }
         return $this;
     }
 
@@ -252,5 +271,17 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
             $category = $this->categoryRepository->get($categoryId, $this->_storeManager->getStore()->getId());
             $this->_coreRegistry->register('current_category', $category);
         }
+    }
+
+    /**
+     * @return \Touchize\Commerce\Model\PageConfigInterface
+     */
+    public function getConfigModel()
+    {
+        if (is_null($this->_configModel)) {
+            $actionName = $this->getActionName();
+            $this->_configModel = $this->pageConfigFactory->getConfigModel($actionName);
+        }
+        return $this->_configModel;
     }
 }

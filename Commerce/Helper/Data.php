@@ -94,7 +94,31 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @return mixed
+     * @return string
+     */
+    public function getSelectionTitle()
+    {
+        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/selection_title');
+    }
+
+    /**
+     * @return string
+     */
+    public function getOptionsTitle()
+    {
+        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/options_title');
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeaturesLabel()
+    {
+        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/features_label');
+    }
+
+    /**
+     * @return int
      */
     public function getTypeDisplayDevices()
     {

@@ -87,6 +87,9 @@ class TopMenu extends \Magento\Framework\Model\AbstractModel
             $collection = $this->categoryHelper->getStoreCategories();
 
             $topMenuTree = $this->_remapTopMenu($collection);
+            foreach ($topMenuTree as $s) {
+                $s = $s ;
+            }
 
             $this->_menu = [
                 'Id' => $rootId,
