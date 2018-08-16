@@ -25,6 +25,7 @@ use \Magento\Framework\DataObject\Mapper;
 
 class TopMenu extends \Magento\Framework\Model\AbstractModel
 {
+    const MODIFIED_PARAM = 'category_url';
 
     /**
      * @var array
@@ -36,7 +37,7 @@ class TopMenu extends \Magento\Framework\Model\AbstractModel
         'is_active'    => 'IsActive',
         'position'     => 'Position',
         'level'        => 'Level',
-        'request_path' => 'Url',
+        self::MODIFIED_PARAM => 'Url',
     );
 
     /**
@@ -80,16 +81,13 @@ class TopMenu extends \Magento\Framework\Model\AbstractModel
      * @return array
      */
     public function getTopMenuTree() {
+
         if (is_null($this->_menu)) {
             $rootId = $this->storeManager->getStore()->getRootCategoryId();
-            $storeId = $this->storeManager->getStore()->getId();
             /** @var \Magento\Catalog\Model\ResourceModel\Category\Collection $collection */
             $collection = $this->categoryHelper->getStoreCategories();
 
             $topMenuTree = $this->_remapTopMenu($collection);
-            foreach ($topMenuTree as $s) {
-                $s = $s ;
-            }
 
             $this->_menu = [
                 'Id' => $rootId,
@@ -105,19 +103,21 @@ class TopMenu extends \Magento\Framework\Model\AbstractModel
      *
      * @return array
      */
-    protected function _remapTopMenu($categoryNode)
+    protected function _remapTopMenu($menuCollection)
     {
         $children = [];
-        if ($categoryNode) {
-            foreach ($categoryNode as $child) {
-                $newNode = [];
-                $newNode = Mapper::accumulateByMap($child->getData(), $newNode, $this->_topMenuMap);
+        if ($menuCollection) {
+            foreach ($menuCollection as $child) {
+                $node = [];
+                $child->setData(self::MODIFIED_PARAM, $this->categoryHelper->getCategoryUrl($child));
 
-                if($child->hasChildren()) {
+                $node = Mapper::accumulateByMap($child->getData(), $node, $this->_topMenuMap);
+
+                if ($child->hasChildren()) {
                     $childNodes = $child->getChildren();
-                    $newNode['SubTaxa'] = $this->_remapTopMenu($childNodes);
+                    $node['SubTaxa'] = $this->_remapTopMenu($childNodes);
                 }
-            $children[] = $newNode;
+            $children[] = $node;
             }
             return $children;
         }
