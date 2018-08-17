@@ -29,6 +29,10 @@
                     <label>Options Title</label>
                     <comment><![CDATA[Options Title]]></comment>
                 </field>
+                <field id="back_button_title" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Back Button Title</label>
+                    <comment><![CDATA[Back Button Title]]></comment>
+                </field>
                 <field id="features_label" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Features Label</label>
                     <comment><![CDATA[Features Label]]></comment>

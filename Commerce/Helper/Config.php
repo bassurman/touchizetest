@@ -104,10 +104,10 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function generateBases()
     {
-        $this->_config['Debug' ] = false;
-        $this->_config['ApiServer' ] = $this->_urlBuilder->getUrl();
-        $this->_config['MediaServer' ] = $this->_urlBuilder->getUrl('media/touchizecommerce');
-        $this->_config['MediaPath' ] = '/';
+        $this->_config['Debug'] = false;
+        $this->_config['ApiServer'] = $this->_urlBuilder->getUrl();
+        $this->_config['MediaServer'] = $this->_urlBuilder->getUrl('media/touchizecommerce');
+        $this->_config['MediaPath'] = '/';
 
         return $this;
     }
@@ -230,10 +230,12 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
             'Module' => 'ProductList',
             'Params' => ['Model' => $params]
         ] ;
-
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     protected function fillCurrentProduct()
     {
         if ($this->getCurrentProductId()) {

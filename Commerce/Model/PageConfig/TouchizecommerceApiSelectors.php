@@ -20,13 +20,220 @@
 
 namespace Touchize\Commerce\Model\PageConfig;
 
+use Magento\Framework\Locale\Bundle\CurrencyBundle as CurrencyBundle;
+use Magento\Framework\View\Element\Template\Context;
+use Magento\Directory\Helper\Data;
 
 class TouchizecommerceApiSelectors extends NoConfig
 {
+    const ROUTE_PATH = 'directory/currency/switch';
+
+    /**
+     * @var \Magento\Directory\Model\CurrencyFactory
+     */
+    protected $_currencyFactory;
+
+    /**
+     * @var bool
+     */
+    protected $_storeInUrl;
+
+    /**
+     * @var \Touchize\Commerce\Helper\Data
+     */
+    protected $dataHelper;
+
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * TouchizecommerceApiSelectors constructor.
+     *
+     * @param Context                                     $context
+     * @param \Magento\Framework\Registry                 $registry
+     * @param \Touchize\Commerce\Helper\Config            $configHelper
+     * @param \Touchize\Commerce\Helper\Data              $dataHelper
+     * @param \Magento\Directory\Model\CurrencyFactory    $currencyFactory
+     * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     */
+    public function __construct(
+        Context $context,
+        \Magento\Framework\Registry $registry,
+        \Touchize\Commerce\Helper\Config $configHelper,
+        \Touchize\Commerce\Helper\Data $dataHelper,
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\Framework\Locale\ResolverInterface $localeResolver
+    ) {
+        parent::__construct($context, $registry, $configHelper);
+        $this->dataHelper = $dataHelper;
+        $this->_storeManager = $context->getStoreManager();
+        $this->_scopeConfig = $context->getScopeConfig();
+        $this->_currencyFactory = $currencyFactory;
+        $this->localeResolver = $localeResolver;
+        $this->_urlBuilder = $context->getUrlBuilder();
+    }
+
+    /**
+     * @return array
+     */
     public function getConfig()
     {
-        $selectorsData ='{"Stores":[{"Url":"http:\/\/touchize2.loc\/16\/","Name":"Test shop","Selected":false},{"Url":"http:\/\/touchize.loc\/16\/","Name":"Touchsize","Selected":true}],"Currencies":[{"Url":"http:\/\/touchize.loc\/16\/en\/module\/touchize\/selector?id_currency=1","Name":"Belarusian ruble","Selected":false,"ISOCode":"BYR"},{"Url":"http:\/\/touchize.loc\/16\/en\/module\/touchize\/selector?id_currency=2","Name":"Euro","Selected":true,"ISOCode":"EUR"},{"Url":"http:\/\/touchize.loc\/16\/en\/module\/touchize\/selector?id_currency=3","Name":"Indian Rupee","Selected":false,"ISOCode":"INR"},{"Url":"http:\/\/touchize.loc\/16\/en\/module\/touchize\/selector?id_currency=4","Name":"Krona","Selected":false,"ISOCode":"SEK"}],"Languages":[{"Url":"http:\/\/touchize.loc\/16\/en\/","Name":"English (English)","Selected":true,"ISOCode":"en"},{"Url":"http:\/\/touchize.loc\/16\/ru\/","Name":"\u0420\u0443\u0441\u0441\u043a\u0438\u0439 (Russian)","Selected":false,"ISOCode":"ru"},{"Url":"http:\/\/touchize.loc\/16\/de\/","Name":"Deutsch (German)","Selected":false,"ISOCode":"de"},{"Url":"http:\/\/touchize.loc\/16\/ca\/","Name":"Catal\u00e0 (Catalan)","Selected":false,"ISOCode":"ca"},{"Url":"http:\/\/touchize.loc\/16\/es\/","Name":"Espa\u00f1ol (Spanish)","Selected":false,"ISOCode":"es"},{"Url":"http:\/\/touchize.loc\/16\/gl\/","Name":"Galego (Galician)","Selected":false,"ISOCode":"gl"},{"Url":"http:\/\/touchize.loc\/16\/eu\/","Name":"Euskera (Basque)","Selected":false,"ISOCode":"eu"},{"Url":"http:\/\/touchize.loc\/16\/sv\/","Name":"Svenska (Swedish)","Selected":false,"ISOCode":"sv"}],"BackButtonTitle":"Back"}';
-        return json_decode($selectorsData,true);
+        $selectorsData = [];
+        $selectorsData['Stores'] = $this->getStoresData();
+        $selectorsData['Currencies'] = $this->getCurrenciesData();
+        $selectorsData['BackButtonTitle'] = __($this->dataHelper->getBackButtonTitle());
+
+        return $selectorsData;
+    }
+
+    public function getStoresData()
+    {
+        $storeData = [];
+        $stores = $this->getRawStores();
+        $currentGroupId = $this->getCurrentGroupId();
+        $storeId = $this->getCurrentStoreId();
+        if (count($stores[$currentGroupId]) == 1) {
+            return [];
+        }
+        foreach ($stores[$currentGroupId] as $_store) {
+            $storeData [] = [
+                'Url' => $_store->getHomeUrl(),
+                'Name' => $_store->getName(),
+                'Selected' => $storeId == $_store->getId(),
+            ];
+        }
+        return $storeData;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCurrenciesData()
+    {
+        $currenciesData = [];
+        $currencies = $this->getCurrencies();
+        if (count($currencies) == 1) {
+            return [];
+        }
+        $currentCode = $this->getCurrentCurrencyCode();
+        foreach ($currencies as $code => $name) {
+            $currenciesData [] = [
+                'Url' => $this->getSwitchUrl($code),
+                'Name' => $name,
+                'Selected' => $currentCode == $code,
+                'ISOCode' => $code,
+            ];
+        }
+        return $currenciesData;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRawStores()
+    {
+        if (!$this->hasData('raw_stores')) {
+            $websiteStores = $this->_storeManager->getWebsite()->getStores();
+            $stores = [];
+            foreach ($websiteStores as $store) {
+                /* @var $store \Magento\Store\Model\Store */
+                if (!$store->isActive()) {
+                    continue;
+                }
+                $localeCode = $this->_scopeConfig->getValue(
+                    Data::XML_PATH_DEFAULT_LOCALE,
+                    \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                    $store
+                );
+                $store->setLocaleCode($localeCode);
+                $params = ['_query' => []];
+                if (!$this->isStoreInUrl()) {
+                    $params['_query']['___store'] = $store->getCode();
+                }
+                $baseUrl = $store->getUrl('', $params);
+
+                $store->setHomeUrl($baseUrl);
+                $stores[$store->getGroupId()][$store->getId()] = $store;
+            }
+            $this->setData('raw_stores', $stores);
+        }
+        return $this->getData('raw_stores');
+    }
+
+    /**
+     * @return array|mixed|null
+     */
+    public function getCurrencies()
+    {
+        $currencies = $this->getData('currencies');
+        if ($currencies === null) {
+            $currencies = [];
+            $codes = $this->_storeManager->getStore()->getAvailableCurrencyCodes(true);
+            if (is_array($codes) && count($codes) > 1) {
+                $rates = $this->_currencyFactory->create()->getCurrencyRates(
+                    $this->_storeManager->getStore()->getBaseCurrency(),
+                    $codes
+                );
+
+                foreach ($codes as $code) {
+                    if (isset($rates[$code])) {
+                        $allCurrencies = (new CurrencyBundle())->get(
+                            $this->localeResolver->getLocale()
+                        )['Currencies'];
+                        $currencies[$code] = $allCurrencies[$code][1] ?: $code;
+                    }
+                }
+            }
+
+            $this->setData('currencies', $currencies);
+        }
+        return $currencies;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStoreInUrl()
+    {
+        if ($this->_storeInUrl === null) {
+            $this->_storeInUrl = $this->_storeManager->getStore()->isUseStoreInUrl();
+        }
+        return $this->_storeInUrl;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentGroupId()
+    {
+        return $this->_storeManager->getStore()->getGroupId();
+    }
+
+    /**
+     * @return int
+     */
+    public function getCurrentStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCurrentCurrencyCode()
+    {
+        return $this->_storeManager->getStore()->getCurrentCurrencyCode();
+    }
+
+    /**
+     * @param $code
+     * @return string
+     */
+    public function getSwitchUrl($code)
+    {
+        return $this->_urlBuilder->getUrl(self::ROUTE_PATH, ['currency' => $code]);
     }
 }
 

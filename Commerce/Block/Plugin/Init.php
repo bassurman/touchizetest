@@ -36,6 +36,14 @@ class Init extends Template
      */
     protected $_configHelper;
 
+    /**
+     * Init constructor.
+     *
+     * @param Context                          $context
+     * @param \Touchize\Commerce\Helper\Data   $helper
+     * @param \Touchize\Commerce\Helper\Config $configHelper
+     * @param array                            $data
+     */
     public function __construct(
         Context $context,
         \Touchize\Commerce\Helper\Data $helper,

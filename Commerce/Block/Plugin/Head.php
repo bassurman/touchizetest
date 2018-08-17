@@ -31,6 +31,13 @@ class Head extends Template
      */
     protected $_dataHelper;
 
+    /**
+     * Head constructor.
+     *
+     * @param Context                        $context
+     * @param \Touchize\Commerce\Helper\Data $helper
+     * @param array                          $data
+     */
     public function __construct(
         Context $context,
         \Touchize\Commerce\Helper\Data $helper,

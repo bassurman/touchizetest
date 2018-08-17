@@ -114,6 +114,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @return string
      */
+    public function getBackButtonTitle()
+    {
+        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/back_button_title');
+    }
+
+    /**
+     * @return string
+     */
     public function getFeaturesLabel()
     {
         return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/features_label');
