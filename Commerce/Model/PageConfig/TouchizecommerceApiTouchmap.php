@@ -21,7 +21,7 @@
 namespace Touchize\Commerce\Model\PageConfig;
 
 
-class TouchizecommerceApiTouchmap extends CatalogCategoryView
+class TouchizecommerceApiTouchmap extends NoConfig
 {
     public function getConfig()
     {

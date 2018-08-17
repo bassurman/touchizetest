@@ -9,4 +9,11 @@
     <type name="Magento\Framework\App\Http">
         <plugin name="touchize.modile.detection" type="Touchize\Commerce\Plugin\Mobile\Detector"/>
     </type>
+    <preference for="Magento\Framework\View\Result\Page" type="Touchize\Commerce\Plugin\Result\Page" />
+    <type name="Touchize\Commerce\Plugin\Result\Page" >
+        <arguments>
+            <argument name="touchizeHelper" xsi:type="object">\Touchize\Commerce\Helper\Data</argument>
+            <argument name="isIsolated" xsi:type="boolean">false</argument>
+        </arguments>
+    </type>
 </config>

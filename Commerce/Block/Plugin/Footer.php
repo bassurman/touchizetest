@@ -24,12 +24,12 @@ namespace Touchize\Commerce\Block\Plugin;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 
-class Init extends Template
+class Footer extends Template
 {
     /**
      * @var \Touchize\Commerce\Helper\Data
      */
-    protected $_helper;
+    protected $_dataHelper;
 
     /**
      * @var \Touchize\Commerce\Helper\Config
@@ -39,21 +39,17 @@ class Init extends Template
     public function __construct(
         Context $context,
         \Touchize\Commerce\Helper\Data $helper,
-        \Touchize\Commerce\Helper\Config $configHelper,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->_helper = $helper;
-        $this->_configHelper = $configHelper;
+        $this->_dataHelper = $helper;
     }
 
     /**
      * @return string
      */
-    public function getPageConfig()
+    public function getCustomFooterHtml()
     {
-        $pageConfig = $this->_configHelper->getActiveConfig();
-        return \GuzzleHttp\json_encode($pageConfig);
+        return $this->_dataHelper->getCustomFooterHtml();
     }
-
 }

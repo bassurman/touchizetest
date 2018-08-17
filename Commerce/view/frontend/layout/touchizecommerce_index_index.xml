@@ -7,11 +7,19 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="touchize" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="mage/gallery/gallery.css"/>
+        <remove src="css/styles-s.css"/>
+        <remove src="requirejs/require.js"/>
+        <remove src="mage/requirejs/mixins.js"/>
+        <remove src="requirejs-config.js"/>
+        <remove src="mage/calendar.css"/>
     </head>
     <body>
+        <referenceBlock name="head.additional">
+            <block class="Touchize\Commerce\Block\Plugin\Head" name="touchize.plugin.head" as="touchize_plugin_head" template="Touchize_Commerce::plugin/head.phtml"/>
+        </referenceBlock>
         <referenceContainer name="root">
-            <block class="Touchize\Commerce\Block\Plugin\Init" name="touchize.plugin.init.controller" template="Touchize_Commerce::plugin/init.phtml"/>
+            <block class="Touchize\Commerce\Block\Plugin\Init" name="touchize.plugin.init" template="Touchize_Commerce::plugin/init.phtml"/>
+            <block class="Touchize\Commerce\Block\Plugin\Footer" name="touchize.plugin.footer" as="touchize_plugin_footer" template="Touchize_Commerce::plugin/footer.phtml"/>
         </referenceContainer>
     </body>
 </page>

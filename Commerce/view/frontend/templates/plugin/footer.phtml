@@ -1,10 +1,1 @@
-<link rel="stylesheet" type="text/css" href="<?php echo $block->getStylesUrl() ?>https://d2kt9xhiosnf0k.cloudfront.net/touchize/latest/css/slq.css">
-<div id="sq-base" class=""></div>
-
-<script type="text/javascript" src="https://d2kt9xhiosnf0k.cloudfront.net/touchize/latest/js/slq.js"></script>
-<script type="text/javascript">
-    window.onload = function() {
-        window.slqcore = new Slq.StoreFront(<?php echo $block->getPageConfig() ?>);
-        window.slqcore.start("#sq-base");
-    };
-</script>
+<?php echo $block->getCustomFooterHtml() ?>

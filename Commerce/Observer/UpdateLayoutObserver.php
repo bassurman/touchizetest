@@ -42,9 +42,11 @@ class UpdateLayoutObserver  implements ObserverInterface
         Context $context,
         Page $page,
         \Magento\Framework\View\Asset\GroupedCollection $assets,
-        \Touchize\Commerce\Helper\Data $helper
+        \Touchize\Commerce\Helper\Data $helper,
+        \Magento\Framework\App\ViewInterface $vies
     ) {
         $this->layout = $context->getLayout();
+        $this->_view = $vies;
         $this->page = $page;
         $this->pageAssets = $assets;
         $this->helper = $helper;
@@ -61,7 +63,10 @@ class UpdateLayoutObserver  implements ObserverInterface
             $pageConfig->setPageLayout('touchize');
             $this->getLayout()->removeOutputElement('root');
 
-            $this->page->addHandle('touchizecommerce_index_index');
+
+            $this->_view->getPage()->addHandle('touchizecommerce_index_index');
+            $this->_view->getPage()->getConfig()->addPageAsset('asdfasdf');
+
         }
     }
 

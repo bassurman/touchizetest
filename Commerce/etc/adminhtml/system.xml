@@ -33,6 +33,14 @@
                     <label>Features Label</label>
                     <comment><![CDATA[Features Label]]></comment>
                 </field>
+                <field id="html_in_header" translate="label" type="textarea" sortOrder="700" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom HTML in Header</label>
+                    <comment><![CDATA[Put here your HTML code to display it in the header]]></comment>
+                </field>
+                <field id="html_in_footer" translate="label" type="textarea" sortOrder="800" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Custom HTML in Header</label>
+                    <comment><![CDATA[Put here your HTML code to display it in the footer]]></comment>
+                </field>
             </group>
             <group id="touchize_commmerce_cdn" translate="label" type="text" sortOrder="10100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>CDN configuration</label>

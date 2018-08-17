@@ -24,36 +24,43 @@ namespace Touchize\Commerce\Block\Plugin;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 
-class Init extends Template
+class Head extends Template
 {
     /**
      * @var \Touchize\Commerce\Helper\Data
      */
-    protected $_helper;
-
-    /**
-     * @var \Touchize\Commerce\Helper\Config
-     */
-    protected $_configHelper;
+    protected $_dataHelper;
 
     public function __construct(
         Context $context,
         \Touchize\Commerce\Helper\Data $helper,
-        \Touchize\Commerce\Helper\Config $configHelper,
         array $data = []
     ) {
         parent::__construct($context, $data);
-        $this->_helper = $helper;
-        $this->_configHelper = $configHelper;
+        $this->_dataHelper = $helper;
     }
 
     /**
      * @return string
      */
-    public function getPageConfig()
+    public function getPluginUrl()
     {
-        $pageConfig = $this->_configHelper->getActiveConfig();
-        return \GuzzleHttp\json_encode($pageConfig);
+        return $this->_dataHelper->getPluginUrl();
     }
 
+    /**
+     * @return string
+     */
+    public function getStylesUrl()
+    {
+        return $this->_dataHelper->getStylesUrl();
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomHeadHtml()
+    {
+        return $this->_dataHelper->getCustomHeadHtml();
+    }
 }

@@ -27,7 +27,9 @@ use Touchize\Commerce\Model\Config\Source\Devices;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const SCRIPT_NAME = '/slq.js';
+    const SCRIPT_FILE_NAME = 'slq.js';
+
+    const STYLES_FILE_NAME = 'slq.css';
 
     const REQUEST_TEST_PARAM = 'touchize';
 
@@ -126,11 +128,35 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getDefaultCategory()
     {
         return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/default_category');
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomHeadHtml()
+    {
+        $headHtml = $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/html_in_header');
+        if ($headHtml) {
+            return $headHtml;
+        }
+        return '';
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomFooterHtml()
+    {
+        $footerHtml = $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/html_in_footer');
+        if ($footerHtml) {
+            return $footerHtml;
+        }
+        return '';
     }
 
     /**
@@ -143,19 +169,36 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return $url;
     }
 
+    /**
+     * @return string
+     */
+    public function getStylesUrl()
+    {
+        $cdnPath = $this->getCDNpath();
+        return $cdnPath . 'css/' . self::STYLES_FILE_NAME;
+    }
+
+    /**
+     * @return string
+     */
     public function generatePluginUrl()
     {
         $isCdnUsed = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/use_cdn_for_client');
-        if ($isCdnUsed)
-        {
-            $cdnPath   = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/client_cdn_path');
-            $cdnCode   = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/client_cdn_code');
-            $pluginUrl = $cdnPath . '/' . $cdnCode . '/js' . self::SCRIPT_NAME;
+        if ($isCdnUsed) {
+            $cdnPath = $this->getCDNpath();
+            $pluginUrl = $cdnPath . 'js/' . self::SCRIPT_FILE_NAME;
 
             return $pluginUrl;
         }
 
         return 'https://d2kt9xhiosnf0k.cloudfront.net/touchize/latest/js/slq.js';
+    }
+
+    public function getCDNpath()
+    {
+        $cdnPath   = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/client_cdn_path');
+        $cdnCode   = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/client_cdn_code');
+        return $cdnPath . '/' . $cdnCode . '/' ;
     }
 
     /**
@@ -174,6 +217,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         return false;
     }
 
+    /**
+     * @return mixed
+     */
     public function getUrlSuffix()
     {
         return $this->getConfig('catalog/seo/product_url_suffix');
