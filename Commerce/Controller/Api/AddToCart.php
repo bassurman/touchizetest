@@ -23,17 +23,31 @@ namespace Touchize\Commerce\Controller\Api;
 
 
 
-class Cart extends \Touchize\Commerce\Controller\Api\ApiCore
+class AddToCart extends \Touchize\Commerce\Controller\Api\ApiCore
 {
     /**
      * @return $this
      */
     public function execute()
     {
+        $data = $this->getRequestedData();
+
         $configModel = $this->getConfigModel();
-        $configData = $configModel->getConfig();
+        $configModel->setData($data);
+        $configData = $configModel->execute()->getConfig();
 
         $result = $this->resultJsonFactory->create();
         return $result->setData($configData);
+    }
+
+    protected function getRequestedData()
+    {
+        return [
+          'sku' => $this->getRequest()->getParam('sku'),
+          'pid' => $this->getRequest()->getParam('pid'),
+          'vid' => $this->getRequest()->getParam('vid'),
+          'qty' => $this->getRequest()->getParam('qty'),
+          'ciid' => $this->getRequest()->getParam('ciid'),
+        ];
     }
 }

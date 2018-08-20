@@ -42,9 +42,14 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
     protected $outputHelper;
 
     /**
-     * @var \Magento\Catalog\Model\Product\Gallery\ReadHandler
+     * @var \Touchize\Commerce\Helper\Product
      */
-    protected $_helperGallery;
+    protected $productHelper;
+
+    /**
+     * @var \Magento\Framework\Pricing\Helper\Data
+     */
+    protected $_priceHelper;
 
 
     /**
@@ -58,18 +63,16 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         \Touchize\Commerce\Helper\Config $configHelper,
         \Touchize\Commerce\Helper\Data $dataHelper,
         \Magento\Catalog\Helper\Output $outputHelper,
-        \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Pricing\Helper\Data $priceHelper,
-        \Magento\Catalog\Model\Product\Gallery\ReadHandler $_helperGallery,
+        \Touchize\Commerce\Helper\Product $productHelper,
         Context $context
     ) {
 
         parent::__construct($context, $registry, $configHelper);
         $this->productUrlPathGenerator = $productUrlPathGenerator;
-        $this->_helperGallery = $_helperGallery;
+        $this->productHelper = $productHelper;
         $this->priceCurrency = $priceCurrency;
-        $this->imageHelper = $imageHelper;;
         $this->dataHelper = $dataHelper;
         $this->outputHelper = $outputHelper;
         $this->_priceHelper = $priceHelper;
@@ -116,28 +119,10 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         return $this->_registry->registry('current_category');
     }
 
-    public function getImageUrl($product, $image ,$imageId)
-    {
-        return  $this->imageHelper->init($product, $imageId)
-            ->setImageFile($image->getFile())
-            ->getUrl();
-    }
-
     public function getProductImages($product)
     {
-        $images = [];
-        $this->_helperGallery->execute($product);
-        $productName = $product->getName();
-        $productImages = $product->getMediaGalleryImages();
-
-        foreach ($productImages as $image) {
-            $images[] =[
-                'Name' => $this->getImageUrl($product, $image, 'category_page_list'),
-                'UseCDN' => true,
-                'Alt' => $image->getLabel()?$image->getLabel():$productName,
-            ];
-        }
-        return $images;
+        $productImages = $this->productHelper->getProductImages($product);
+        return $productImages;
     }
 
     protected function getSimpleProductId($product)

@@ -30,23 +30,6 @@ class TouchizecommerceApiProduct extends CatalogProductView
     public function getConfig()
     {
         return $this->getProductDetails();
-        $_product = $this->getCurrentProduct();
-        $specialPrice = $_product->getSpecialPrice();
-        $price = $_product->getFinalPrice();
-        $configData = [
-            'Id' => $_product->getId(),
-            'SKU' => $_product->getSku(),
-            'Title' => $_product->getName(),
-            'SingleVariantId' => $this->getSimpleProductId($_product),
-            'Url' => $_product->getProductUrl(),
-            'Price' => $price,
-            'DiscountedPrice' => $specialPrice,
-            'FPrice' => $this->_priceHelper->currency($price,true,false),
-            'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
-            'Images' => $this->getProductImages($_product)
-        ];
-
-        return $configData;
     }
 }
 

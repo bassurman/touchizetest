@@ -25,6 +25,16 @@ use Magento\Framework\View\Element\Template\Context;
 class TouchizecommerceApiCmsPage extends NoConfig
 {
     /**
+     * @var \Magento\Cms\Model\PageFactory
+     */
+    protected $_pageFactory;
+
+    /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * TouchizecommerceApiCmsPage constructor.
      *
      * @param Context                                    $context

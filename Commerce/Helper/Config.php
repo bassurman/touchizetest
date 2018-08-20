@@ -138,6 +138,10 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
                 array (
                     'Endpoint' => 'touchizecommerce/api/cart',
                 ),
+            'AddToCart' =>
+                array (
+                    'Endpoint' => 'touchizecommerce/api/addToCart',
+                ),
             'Selectors' =>
                 array (
                     'Endpoint' => 'touchizecommerce/api/selectors',
