@@ -56,33 +56,19 @@ class CatalogProductView extends CatalogCategoryView
     public function getProductDetails()
     {
         $_product = $this->getCurrentProduct();
-        $specialPrice = $_product->getSpecialPrice();
-        $price = $_product->getFinalPrice();
-
-        $productDetails = [
-            'Id' => $_product->getId(),
-            'SKU' => $_product->getSku(),
-            'Title' => $_product->getName(),
-            'SingleVariantId' => $this->getSimpleProductId($_product),
-            'InStock' => $_product->isInStock(),
-            'Brands' => $this->outputHelper->productAttribute($_product,$_product->getManufacturer(),'manufacturer'),
-            'Url' => $_product->getProductUrl(),
-            'Price' => $price,
-            'DiscountedPrice' => $specialPrice,
-            'FPrice' => $this->_priceHelper->currency($price,true,false),
-            'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
-            'Images' => $this->getProductImages($_product),
+        $productDetails = $this->getListProductData($_product);
+        $productDetailsAdditional = [
             'Description' => $this->outputHelper->productAttribute($_product,$_product->getDescription(),'description'),
             'ShortDescription' => $this->outputHelper->productAttribute($_product,$_product->getShortDescription(),'short_description'),
             'Variants' => $this->getVariantsData(),
             'VariantsSelectionText' => $this->dataHelper->getSelectionTitle(),
             'VariantsText' => $this->dataHelper->getOptionsTitle(),
-            'CTA' => __('Drag to Cart')
+            'InStock' => $_product->isInStock(),
+            'Brands' => $this->outputHelper->productAttribute($_product,$_product->getManufacturer(),'manufacturer')
         ];
-
         $featuresInfo = $this->getFeaturesInfo();
 
-        return $productDetails + $featuresInfo;
+        return $productDetails + $productDetailsAdditional + $featuresInfo;
     }
 
     /**
@@ -94,7 +80,7 @@ class CatalogProductView extends CatalogCategoryView
         $product = $this->getCurrentProduct();
 
         $type = $product->getTypeId();
-        if($type != 'configurable') {
+        if($type != \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE) {
             return $variantsData;
         }
         $confProductId = $product->getId();

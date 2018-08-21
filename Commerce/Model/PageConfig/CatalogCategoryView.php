@@ -78,29 +78,43 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         $this->_priceHelper = $priceHelper;
     }
 
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         $config = [];
         $productCollection = $this->getProductCollection();
         foreach ($productCollection as $_product) {
-            $specialPrice = $_product->getSpecialPrice();
-            $price = $_product->getFinalPrice();
-            $config[] = [
-                'Id' => $_product->getId(),
-                'SKU' => $_product->getSku(),
-                'Title' => $_product->getName(),
-                'SingleVariantId' => $this->getSimpleProductId($_product),
-                'Url' => $_product->getProductUrl(),
-                'Price' => $price,
-                'DiscountedPrice' => $specialPrice,
-                'FPrice' => $this->_priceHelper->currency($price,true,false),
-                'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
-                'Images' => $this->getProductImages($_product),
-                'CTA' => __('Drag to Cart')
-            ];
+            $config[] = $this->getListProductData($_product);
         }
 
         return $config;
+    }
+
+    /**
+     * @param $product
+     *
+     * @return array
+     */
+    protected function getListProductData($product)
+    {
+        $specialPrice = $product->getSpecialPrice();
+        $price = $product->getFinalPrice();
+        $listConfig = [
+            'Id' => $product->getId(),
+            'SKU' => $product->getSku(),
+            'Title' => $product->getName(),
+            'SingleVariantId' => $this->getSimpleProductId($product),
+            'Url' => $product->getProductUrl(),
+            'Price' => $price,
+            'DiscountedPrice' => $specialPrice,
+            'FPrice' => $this->_priceHelper->currency($price,true,false),
+            'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
+            'Images' => $this->getProductImages($product),
+            'CTA' => __('Drag to Cart')
+        ];
+        return $listConfig;
     }
 
     /**
@@ -128,7 +142,8 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
 
     protected function getSimpleProductId($product)
     {
-        if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE) {
+        $singleTypes = $this->dataHelper->getSingeTypes();
+        if (in_array($product->getTypeId(),$singleTypes)) {
            return $product->getId();
         }
         return null;

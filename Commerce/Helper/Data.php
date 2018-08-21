@@ -248,4 +248,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             'catalogsearch_result_index',
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function getSingeTypes()
+    {
+        return [
+            \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
+            \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
+            \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
+        ];
+    }
 }
