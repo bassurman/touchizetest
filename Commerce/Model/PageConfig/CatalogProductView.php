@@ -64,6 +64,8 @@ class CatalogProductView extends CatalogCategoryView
             'SKU' => $_product->getSku(),
             'Title' => $_product->getName(),
             'SingleVariantId' => $this->getSimpleProductId($_product),
+            'InStock' => $_product->isInStock(),
+            'Brands' => $this->outputHelper->productAttribute($_product,$_product->getManufacturer(),'manufacturer'),
             'Url' => $_product->getProductUrl(),
             'Price' => $price,
             'DiscountedPrice' => $specialPrice,
@@ -75,6 +77,7 @@ class CatalogProductView extends CatalogCategoryView
             'Variants' => $this->getVariantsData(),
             'VariantsSelectionText' => $this->dataHelper->getSelectionTitle(),
             'VariantsText' => $this->dataHelper->getOptionsTitle(),
+            'CTA' => __('Drag to Cart')
         ];
 
         $featuresInfo = $this->getFeaturesInfo();

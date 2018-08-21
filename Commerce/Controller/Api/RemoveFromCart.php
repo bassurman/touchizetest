@@ -21,9 +21,7 @@
 
 namespace Touchize\Commerce\Controller\Api;
 
-
-
-class AddToCart extends \Touchize\Commerce\Controller\Api\ApiCore
+class RemoveFromCart extends \Touchize\Commerce\Controller\Api\ApiCore
 {
     /**
      * @return $this
@@ -40,14 +38,17 @@ class AddToCart extends \Touchize\Commerce\Controller\Api\ApiCore
         return $result->setData($configData);
     }
 
+    /**
+     * @return array
+     */
     protected function getRequestedData()
     {
         return [
-          'sku' => $this->getRequest()->getParam('sku'),
-          'pid' => $this->getRequest()->getParam('pid'),
+          'item_id' => $this->getRequest()->getParam('cid'),
           'vid' => $this->getRequest()->getParam('vid'),
+          'qtyInCart' => $this->getRequest()->getParam('qtyInCart'),
           'qty' => $this->getRequest()->getParam('qty'),
-          'cid' => $this->getRequest()->getParam('cid'),
+          'ciid' => $this->getRequest()->getParam('ciid'),
         ];
     }
 }

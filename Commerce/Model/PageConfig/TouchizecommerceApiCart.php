@@ -99,18 +99,18 @@ class TouchizecommerceApiCart extends NoConfig
     protected function getCurrentQuoteData()
     {
         $quote = $this->cart->getQuote();
-        $totals = $quote->getTotals();
+        $totals = $quote->collectTotals()->getTotals();
 
         $quoteData = [
             'Type' => 'Cart',
             'SubTotal' =>
                 array (
-                    'Value' => $quote->getSubtotal(),
-                    'FValue' => $this->formatPrice($quote->getSubtotal()),
+                    'Value' => $quote->getSubtotalWithDiscount(),
+                    'FValue' => $this->formatPrice($quote->getSubtotalWithDiscount()),
                     'Title' => __('Subtotal'),
                 ),
-            'SubTotalWithoutTax' => $quote->getSubtotal() - $totals['tax']->getValue(),
-            'Discount' => NULL,
+            'SubTotalWithoutTax' => $quote->getSubtotalWithDiscount() - $totals['tax']->getValue(),
+            'Discount' => $quote->getSubtotal()-$quote->getSubtotalWithDiscount(),
             'Shipping' =>
                 array (
                     'Value' => $totals['shipping']->getValue(),
@@ -128,8 +128,8 @@ class TouchizecommerceApiCart extends NoConfig
             'GrandTotalWithoutTax' => $quote->getGrandTotal() - $totals['tax']->getValue(),
             'FSubTotal' => $this->formatPrice($quote->getSubtotal()),
             'FGrandTotal' => $this->formatPrice($quote->getGrandTotal()),
-            'FShipping' => NULL,
-            'FDiscount' => NULL,
+            'FShipping' => $this->formatPrice($totals['shipping']->getValue()),
+            'FDiscount' => $this->formatPrice($quote->getSubtotal()-$quote->getSubtotalWithDiscount()),
             'FTax' => $this->formatPrice($totals['tax']->getValue()),
             'ItemsCount' => $quote->getItemsCount(),
             'ItemsQty' => $quote->getItemsQty(),
@@ -137,46 +137,78 @@ class TouchizecommerceApiCart extends NoConfig
         return $quoteData;
     }
 
+    /**
+     * @return array
+     */
     protected function getItemsQuoteData()
     {
-        $quoteItems = $this->cart->getQuote()->getAllItems();
+        $quoteItems = $this->cart->getQuote()->getItemsCollection();
         $itemsData = [];
-        foreach ($quoteItems as $_item) {
-            $itemProduct = $_item->getProduct();
-            $itemsData['Items'][] = [
-                'Id' => $_item->getId(),
-                'Title' => $_item->getName(),
-                'Qty' => $_item->getQty(),
-                'SubTotal' => $_item->getRowTotal(),
-                'ItemPrice' => $_item->getPrice(),
-                'Discount' => $_item->getDiscountAmount(),
-                'FSubTotal' => $this->formatPrice($_item->getRowTotal()),
-                'FItemPrice' => $this->formatPrice($_item->getPrice()),
-                'FDiscount' => $this->formatPrice($_item->getDiscountAmount()),
-                'ProductVariant' =>
-                    array (
-                        'Id' => $itemProduct->getId(),
-                        'ArticleNbr' => $itemProduct->getSku(),
-                        'Price' => $itemProduct->getPrice(),
-                        'PriceWithoutTax' => 225,
-                        'DiscountedPrice' => 0,
-                        'ProductId' => $itemProduct->getId(),
-                        'FPrice' => $this->formatPrice($itemProduct->getPrice()),
-                        'FDiscountedPrice' => '$0.00',
-                        'Product' =>
+        if ($quoteItems) {
+            foreach ($quoteItems as $_item) {
+                $itemProduct = $_item->getProduct();
+                if (!$_item->isDeleted()) {
+                    $itemsData['Items'][] = [
+                        'Id' => $_item->getId(),
+                        'Title' => $_item->getName(),
+                        'Qty' => $_item->getQty(),
+                        'SubTotal' => $_item->getRowTotal(),
+                        'ItemPrice' => $_item->getPriceInclTax(),
+                        'Discount' => $_item->getDiscountAmount(),
+                        'FSubTotal' => $this->formatPrice($_item->getRowTotal()),
+                        'FItemPrice' => $this->formatPrice($_item->getPriceInclTax()),
+                        'FDiscount' => $this->formatPrice($_item->getDiscountAmount()),
+                        'ProductVariant' =>
                             array (
                                 'Id' => $itemProduct->getId(),
-                                'Title' => $itemProduct->getName(),
+                                'ArticleNbr' => $itemProduct->getSku(),
+                                'Price' => $itemProduct->getPrice(),
+                                'PriceWithoutTax' => $itemProduct->getPrice(),
+                                'DiscountedPrice' => $_item->getDiscountAmount(),
+                                'ProductId' => $itemProduct->getId(),
+                                'FPrice' => $this->formatPrice($itemProduct->getPrice()),
+                                'FDiscountedPrice' => $this->formatPrice($_item->getDiscountAmount()),
+                                'Product' =>
+                                    array (
+                                        'Id' => $itemProduct->getId(),
+                                        'Title' => $itemProduct->getName(),
+                                    ),
+                                'Attributes' => $this->getItemSelectedOptions($_item),
+                                'Images' => $this->productHelper->getProductImages($itemProduct)
                             ),
-                        'Attributes' =>
-                            array (
-                            ),
-                        'Images' => $this->productHelper->getProductImages($itemProduct)
-                    ),
-            ];
+                    ];
+                }
+            }
+            if (isset($itemsData['Items'])) {
+                rsort($itemsData['Items']);
+            }
+        }
+        return $itemsData;
+    }
+
+    /**
+     * @param $_item
+     *
+     * @return array
+     */
+    protected function getItemSelectedOptions($_item)
+    {
+
+        return []; /** TO DO **/
+        $attributes = [];
+        $product = $_item->getProduct();
+        $parent = $product->getTypeInstance()->getParentIdsByChild($product->getId());
+
+        if($parent->getType() != 'configurable') {
+            return $attributes;
+        }
+        $confAttributes = $parent->getTypeInstance()->getConfigurableAttributes($parent);
+        foreach ($confAttributes as $attribute) {
+            $attributeCode = $attribute->getProductAttribute()->getData('attribute_code');
+            $attributes[] = $product->getAttributeText($attributeCode);
         }
 
-        return $itemsData;
+        return $attributes;
     }
 
     /**

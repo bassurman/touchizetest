@@ -63,9 +63,7 @@ class UpdateLayoutObserver  implements ObserverInterface
             $pageConfig->setPageLayout('touchize');
             $this->getLayout()->removeOutputElement('root');
 
-
             $this->_view->getPage()->addHandle('touchizecommerce_index_index');
-            $this->_view->getPage()->getConfig()->addPageAsset('asdfasdf');
 
         }
     }

@@ -108,6 +108,28 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_config['ApiServer'] = $this->_urlBuilder->getUrl();
         $this->_config['MediaServer'] = $this->_urlBuilder->getUrl('media/touchizecommerce');
         $this->_config['MediaPath'] = '/';
+        $this->_config['Checkout'] = [
+            'Title' => __('Checkout'),
+            'Url'   => $this->_urlBuilder->getUrl('checkout'),
+        ];
+        $this->_config['Search'] = [
+            'Placeholder' => __('Search ...'),
+        ];
+        $this->_config['ProductRelations'] = [
+            'Title' => __('Related products'),
+        ];
+        $this->_config['ProductTechSpec'] = [
+            'Title' => __('Features'),
+        ];
+        $this->_config['OptionSelect'] = [
+            'Title' => __('Select variation'),
+        ];
+        $this->_config['ProductVariants'] = [
+            'Title' => __('Drag variation'),
+        ];
+        $this->_config['ProductDescription'] = [
+            'Title' => __('Description'),
+        ];
 
         return $this;
     }
@@ -141,6 +163,10 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
             'AddToCart' =>
                 array (
                     'Endpoint' => 'touchizecommerce/api/addToCart',
+                ),
+            'RemoveFromCart' =>
+                array (
+                    'Endpoint' => 'touchizecommerce/api/removeFromCart',
                 ),
             'Selectors' =>
                 array (

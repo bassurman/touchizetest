@@ -18,36 +18,42 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
+namespace Touchize\Commerce\Model\PageConfig;
 
-namespace Touchize\Commerce\Controller\Api;
+use Touchize\Commerce\Model\PageConfig\TouchizecommerceApiCart;
 
-
-
-class AddToCart extends \Touchize\Commerce\Controller\Api\ApiCore
+class TouchizecommerceApiRemoveFromCart extends TouchizecommerceApiCart
 {
     /**
      * @return $this
      */
     public function execute()
     {
-        $data = $this->getRequestedData();
-
-        $configModel = $this->getConfigModel();
-        $configModel->setData($data);
-        $configData = $configModel->execute()->getConfig();
-
-        $result = $this->resultJsonFactory->create();
-        return $result->setData($configData);
+        $this->removeCartProcess();
+        return $this;
     }
 
-    protected function getRequestedData()
+    /**
+     * $this
+     */
+    protected function removeCartProcess()
     {
-        return [
-          'sku' => $this->getRequest()->getParam('sku'),
-          'pid' => $this->getRequest()->getParam('pid'),
-          'vid' => $this->getRequest()->getParam('vid'),
-          'qty' => $this->getRequest()->getParam('qty'),
-          'cid' => $this->getRequest()->getParam('cid'),
-        ];
+        $itemId = $this->getItemId();
+        if ($itemId) {
+            $response = $this->cart->getQuote()->removeItem($itemId);
+            if ($response) {
+                $this->cart->save();
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    protected function getItemId()
+    {
+        return $this->getData('item_id');
     }
 }
+

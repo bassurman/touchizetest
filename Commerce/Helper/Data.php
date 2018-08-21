@@ -58,14 +58,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isAllowedToView()
     {
-        if ($this->_getRequest()->getParam(self::REQUEST_TEST_PARAM, false))
-        {
+
+        if ($this->_getRequest()->getParam(self::REQUEST_TEST_PARAM, false)) {
             return true;
+        }
+        $actionName = $this->_getRequest()->getFullActionName();
+        if (!$this->isAllowedToGenerateConfig($actionName)) {
+            return false;
         }
 
         $displayType = $this->getTypeDisplayDevices();
-        switch ($displayType)
-        {
+        switch ($displayType) {
             case Devices::MOBILE_ONLY :
                 return $this->deviceDetector->isMobile();
                 break;
@@ -217,8 +220,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function isAllowedToGenerateConfig($actionName)
     {
         $allowedActions = $this->getAllowedActions();
-        if (in_array($actionName, $allowedActions))
-        {
+        if (in_array($actionName, $allowedActions)) {
             return true;
         }
 

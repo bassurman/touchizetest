@@ -25,6 +25,11 @@ use Touchize\Commerce\Model\PageConfig\TouchizecommerceApiCart;
 class TouchizecommerceApiAddToCart extends TouchizecommerceApiCart
 {
     /**
+     * @var
+     */
+    protected $cart_product;
+
+    /**
      * @return $this
      */
     public function execute()
@@ -38,7 +43,7 @@ class TouchizecommerceApiAddToCart extends TouchizecommerceApiCart
      */
     protected function addToCartProcess()
     {
-        $product = $this->_initProduct();
+        $product = $this->getProduct();
         if ($product) {
             $params = $this->getParams();
             $response = $this->cart->addProduct($product, $params);
@@ -58,7 +63,8 @@ class TouchizecommerceApiAddToCart extends TouchizecommerceApiCart
      */
     protected function _initProduct()
     {
-        $productId = (int)$this->getData('pid');
+
+        $productId = $this->getData('vid')?(int)$this->getData('vid'):(int)$this->getData('pid');
         if ($productId) {
             $storeId = $this->_storeManager->getStore()->getId();
             try {
@@ -75,11 +81,23 @@ class TouchizecommerceApiAddToCart extends TouchizecommerceApiCart
      */
     protected function getParams()
     {
+        $product = $this->getProduct();
+
         $requestData = [
             'qty' => $this->getData('qty')
         ];
+
+
         return $this->objectFactory->create($requestData);
 
+    }
+
+    protected function getProduct()
+    {
+        if (is_null($this->cart_product)) {
+            $this->cart_product = $this->_initProduct();
+        }
+        return $this->cart_product;
     }
 }
 

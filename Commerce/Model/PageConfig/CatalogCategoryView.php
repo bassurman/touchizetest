@@ -95,7 +95,8 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
                 'DiscountedPrice' => $specialPrice,
                 'FPrice' => $this->_priceHelper->currency($price,true,false),
                 'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
-                'Images' => $this->getProductImages($_product)
+                'Images' => $this->getProductImages($_product),
+                'CTA' => __('Drag to Cart')
             ];
         }
 
