@@ -70,4 +70,10 @@ class Head extends Template
     {
         return $this->_dataHelper->getCustomHeadHtml();
     }
+
+
+    public function getCDNUrl()
+    {
+        return $this->_dataHelper->getCDNpath();
+    }
 }

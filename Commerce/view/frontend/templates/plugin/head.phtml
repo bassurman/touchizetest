@@ -1,3 +1,8 @@
+<?php $cdnUrl = $block->getCDNUrl(); ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $this->getStylesUrl() ?>">
+<link rel="preload" href="<?php echo $cdnUrl ?>css/images/shopping_cart.svg" as="image">
+<link rel="preload" href="<?php echo $cdnUrl ?>css/images/shopping_cart_populated.svg" as="image">
+<link rel="preload" href="<?php echo $cdnUrl ?>css/images/touchize-commerce.svg" as="image">
+<link rel="preload" href="<?php echo $cdnUrl ?>font/fontello.woff2?60410574" type="font/woff2" as="font" crossorigin="anonymous">
 <script type="text/javascript" src="<?php echo $block->getPluginUrl() ?>"></script>
 <?php echo $block->getCustomHeadHtml() ?>

@@ -20,7 +20,7 @@
             <touchize_commmerce_cdn>
                 <use_cdn_for_client>1</use_cdn_for_client>
                 <client_cdn_path>https://d2kt9xhiosnf0k.cloudfront.net</client_cdn_path>
-                <client_cdn_code>touchize/latest</client_cdn_code>
+                <client_cdn_code>classic/latest</client_cdn_code>
             </touchize_commmerce_cdn>
         </touchize_commmerce_config>
     </default>

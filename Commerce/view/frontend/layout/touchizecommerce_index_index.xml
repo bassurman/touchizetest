@@ -7,11 +7,6 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="touchize" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <remove src="css/styles-s.css"/>
-        <remove src="requirejs/require.js"/>
-        <remove src="mage/requirejs/mixins.js"/>
-        <remove src="requirejs-config.js"/>
-        <remove src="mage/calendar.css"/>
     </head>
     <body>
         <referenceBlock name="head.additional">

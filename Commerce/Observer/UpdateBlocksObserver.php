@@ -23,32 +23,17 @@ namespace Touchize\Commerce\Observer;
 
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Framework\Event\ObserverInterface;
-use Magento\Framework\View\Element\Template\Context;
-use Magento\Framework\View\Result\Page;
 
-class UpdateLayoutObserver  implements ObserverInterface
+class UpdateBlocksObserver  implements ObserverInterface
 {
-    /**
-     * @var \Magento\Framework\View\LayoutInterface
-     */
-    protected $layout;
-
     /**
      * @var \Touchize\Commerce\Helper\Data
      */
     protected $helper;
 
     public function __construct(
-        Context $context,
-        Page $page,
-        \Magento\Framework\View\Asset\GroupedCollection $assets,
-        \Touchize\Commerce\Helper\Data $helper,
-        \Magento\Framework\App\ViewInterface $vies
+        \Touchize\Commerce\Helper\Data $helper
     ) {
-        $this->layout = $context->getLayout();
-        $this->_view = $vies;
-        $this->page = $page;
-        $this->pageAssets = $assets;
         $this->helper = $helper;
     }
 
@@ -58,20 +43,16 @@ class UpdateLayoutObserver  implements ObserverInterface
     public function execute(EventObserver $observer)
     {
         if ($this->helper->isAllowedToView()) {
-            $this->getLayout()->getUpdate()->removeHandle($this->page->getDefaultLayoutHandle());
-            $pageConfig = $this->page->getConfig();
-            $pageConfig->setPageLayout('touchize');
-            $this->getLayout()->removeOutputElement('root');
+            $pageSturcture = $observer->getEvent()->getLayout()->getReaderContext()->getPageConfigStructure();
+            $pageSturcture->removeAssets('mage/requirejs/mixins.js');
+            $pageSturcture->removeAssets('requirejs/require.js');
+            $pageSturcture->removeAssets('mage/calendar.css');
+            $pageSturcture->removeAssets('css/styles-s.css');
+            $pageSturcture->removeAssets('css/styles-m.css');
+            $pageSturcture->removeAssets('css/styles-l.css');
+            $pageSturcture->removeAssets('css/print.css');
+            $pageSturcture->removeAssets('Magento_Swatches::css/swatches.css');
 
-            $this->_view->getPage()->addHandle('touchizecommerce_index_index');
         }
-    }
-
-    /**
-     * @return \Magento\Framework\View\LayoutInterface
-     */
-    protected function getLayout()
-    {
-        return $this->layout;
     }
 }

@@ -23,6 +23,9 @@ namespace Touchize\Commerce\Model\PageConfig;
 
 class TouchizecommerceApiTouchmap extends NoConfig
 {
+    /**
+     * @return array
+     */
     public function getConfig()
     {
         return [];

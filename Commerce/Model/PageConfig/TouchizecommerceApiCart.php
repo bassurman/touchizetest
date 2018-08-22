@@ -57,6 +57,20 @@ class TouchizecommerceApiCart extends NoConfig
      */
     protected $productHelper;
 
+    /**
+     * TouchizecommerceApiCart constructor.
+     *
+     * @param Context                                    $context
+     * @param \Magento\Framework\Registry                $registry
+     * @param \Touchize\Commerce\Helper\Config           $configHelper
+     * @param Cart                                       $cart
+     * @param ProductRepositoryInterface                 $productRepository
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\DataObject\Factory      $objectFactory
+     * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
+     * @param \Magento\Framework\Pricing\Helper\Data     $priceHelper
+     * @param \Touchize\Commerce\Helper\Product          $productHelper
+     */
     public function __construct(
         Context $context,
         \Magento\Framework\Registry $registry,

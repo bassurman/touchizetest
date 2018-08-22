@@ -129,17 +129,30 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         return $currentCategory->getProductCollection()->addAttributeToSelect('*');
     }
 
+    /**
+     * @return
+     */
     public function getCurrentCategory()
     {
         return $this->_registry->registry('current_category');
     }
 
+    /**
+     * @param $product
+     *
+     * @return array
+     */
     public function getProductImages($product)
     {
         $productImages = $this->productHelper->getProductImages($product);
         return $productImages;
     }
 
+    /**
+     * @param $product
+     *
+     * @return null|int
+     */
     protected function getSimpleProductId($product)
     {
         $singleTypes = $this->dataHelper->getSingeTypes();
