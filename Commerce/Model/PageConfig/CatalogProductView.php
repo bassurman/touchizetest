@@ -148,5 +148,16 @@ class CatalogProductView extends CatalogCategoryView
         $featuresInfo['AttributeValues'] = $attributeValues;
         return $featuresInfo;
     }
+
+    /**
+     * @param $product
+     *
+     * @return array
+     */
+    public function getProductImages($product)
+    {
+        $productImages = $this->productHelper->getProductImages($product,'product_page_main_image');
+        return $productImages;
+    }
 }
 
