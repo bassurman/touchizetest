@@ -83,38 +83,10 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
      */
     public function getConfig()
     {
-        $config = [];
         $productCollection = $this->getProductCollection();
-        foreach ($productCollection as $_product) {
-            $config[] = $this->getListProductData($_product);
-        }
+        $config = $this->productHelper->getAdaptedProductList($productCollection);
 
         return $config;
-    }
-
-    /**
-     * @param $product
-     *
-     * @return array
-     */
-    protected function getListProductData($product)
-    {
-        $specialPrice = $product->getSpecialPrice();
-        $price = $product->getFinalPrice();
-        $listConfig = [
-            'Id' => $product->getId(),
-            'SKU' => $product->getSku(),
-            'Title' => $product->getName(),
-            'SingleVariantId' => $this->getSimpleProductId($product),
-            'Url' => $product->getProductUrl(),
-            'Price' => $price,
-            'DiscountedPrice' => $specialPrice,
-            'FPrice' => $this->_priceHelper->currency($price,true,false),
-            'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
-            'Images' => $this->getProductImages($product),
-            'CTA' => __('Drag to Cart')
-        ];
-        return $listConfig;
     }
 
     /**
@@ -146,20 +118,6 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
     {
         $productImages = $this->productHelper->getProductImages($product);
         return $productImages;
-    }
-
-    /**
-     * @param $product
-     *
-     * @return null|int
-     */
-    protected function getSimpleProductId($product)
-    {
-        $singleTypes = $this->dataHelper->getSingeTypes();
-        if (in_array($product->getTypeId(),$singleTypes)) {
-           return $product->getId();
-        }
-        return null;
     }
 }
 

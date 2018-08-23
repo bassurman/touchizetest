@@ -159,6 +159,10 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
                 array(
                     'Endpoint' => 'touchizecommerce/api/searchAutocomplete',
                 ),
+            'Search'     =>
+                array(
+                    'Endpoint' => 'touchizecommerce/api/search',
+                ),
             'Cart'           =>
                 array(
                     'Endpoint' => 'touchizecommerce/api/cart',
@@ -195,11 +199,11 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $this->_config['Router'] = [
             'SiteUrl' => $this->_urlBuilder->getBaseUrl(),
-            'qs'      => '',
+            'qs'      => $this->getQueryUrl(),
             'tid'     => 8,
             'pid'     => $this->getCurrentProductId(),
             'page'    => $this->getIdentifierCmsPage(),
-            'search'  => null,
+            'search'  => $this->getQueryString(),
         ];
 
         return $this;
@@ -214,6 +218,24 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         if ($cmsBlock && $this->_request->getParam('page_id'))
         {
             return $cmsBlock->getPage()->getId();
+        }
+
+        return false;
+    }
+
+    /**
+     * @return string | bool
+     */
+    public function getQueryString()
+    {
+        return $this->_request->getParam('q');
+    }
+
+    public function getQueryUrl()
+    {
+        $queryString = $this->getQueryString();
+        if ($queryString) {
+            return $this->_urlBuilder->setQueryParam('q',$queryString)->getUrl('catalogsearch/result');
         }
 
         return false;
@@ -311,8 +333,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     public function registerCurrentCategory()
     {
         $categoryId = $this->dataHelper->getDefaultCategory();
-        if ($categoryId)
-        {
+        if ($categoryId) {
             $category = $this->categoryRepository->get($categoryId, $this->_storeManager->getStore()->getId());
             $this->_coreRegistry->register('current_category', $category);
         }
@@ -323,8 +344,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getConfigModel()
     {
-        if (is_null($this->_configModel))
-        {
+        if (is_null($this->_configModel)) {
             $actionName         = $this->getActionName();
             $this->_configModel = $this->pageConfigFactory->getConfigModel($actionName);
         }
@@ -332,4 +352,3 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         return $this->_configModel;
     }
 }
-    

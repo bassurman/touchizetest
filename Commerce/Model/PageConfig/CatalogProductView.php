@@ -56,7 +56,7 @@ class CatalogProductView extends CatalogCategoryView
     public function getProductDetails()
     {
         $_product = $this->getCurrentProduct();
-        $productDetails = $this->getListProductData($_product);
+        $productDetails = $this->productHelper->getListProductData($_product);
         $productDetailsAdditional = [
             'Description' => $this->outputHelper->productAttribute($_product,$_product->getDescription(),'description'),
             'ShortDescription' => $this->outputHelper->productAttribute($_product,$_product->getShortDescription(),'short_description'),

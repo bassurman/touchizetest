@@ -34,6 +34,17 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
      * @var \Magento\Catalog\Helper\Image
      */
     protected $imageHelper;
+
+    /**
+     * @var \Magento\Framework\Pricing\Helper\Data
+     */
+    protected $_priceHelper;
+
+    /**
+     * @var \Touchize\Commerce\Helper\Data
+     */
+    protected $dataHelper;
+
     /**
      * Data constructor.
      *
@@ -43,11 +54,15 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         Context $context,
         \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Catalog\Model\Product\Gallery\ReadHandler $_helperGallery
+        \Magento\Catalog\Model\Product\Gallery\ReadHandler $_helperGallery,
+        \Magento\Framework\Pricing\Helper\Data $priceHelper,
+        \Touchize\Commerce\Helper\Data $dataHelper
     ) {
         parent::__construct($context);
         $this->_helperGallery = $_helperGallery;
         $this->imageHelper = $imageHelper;
+        $this->_priceHelper = $priceHelper;
+        $this->dataHelper = $dataHelper;
     }
 
     public function getProductImages($product, $type = 'category_page_list')
@@ -72,5 +87,59 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
         return  $this->imageHelper->init($product, $imageId)
             ->setImageFile($image->getFile())
             ->getUrl();
+    }
+
+    /**
+     * @param $collection
+     *
+     * @return array
+     */
+    public function getAdaptedProductList($collection)
+    {
+        $config = [];
+        foreach ($collection as $_product) {
+            $config[] = $this->getListProductData($_product);
+        }
+
+        return $config;
+    }
+
+    /**
+     * @param $product
+     *
+     * @return array
+     */
+    public function getListProductData($product)
+    {
+        $specialPrice = $product->getSpecialPrice();
+        $price = $product->getFinalPrice();
+        $listConfig = [
+            'Id' => $product->getId(),
+            'SKU' => $product->getSku(),
+            'Title' => $product->getName(),
+            'SingleVariantId' => $this->getSimpleProductId($product),
+            'Url' => $product->getProductUrl(),
+            'Price' => $price,
+            'DiscountedPrice' => $specialPrice,
+            'FPrice' => $this->_priceHelper->currency($price,true,false),
+            'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
+            'Images' => $this->getProductImages($product),
+            'CTA' => __('Drag to Cart')
+        ];
+        return $listConfig;
+    }
+
+    /**
+     * @param $product
+     *
+     * @return null|int
+     */
+    protected function getSimpleProductId($product)
+    {
+        $singleTypes = $this->dataHelper->getSingeTypes();
+        if (in_array($product->getTypeId(),$singleTypes)) {
+            return $product->getId();
+        }
+        return null;
     }
 }

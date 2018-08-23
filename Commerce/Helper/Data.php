@@ -33,6 +33,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     const REQUEST_TEST_PARAM = 'touchize';
 
+    const SEARCH_QUERY_PARAM = 'q';
+
     /**
      * @var Detect
      */
