@@ -18,13 +18,14 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Model\PageConfig;
+namespace Touchize\Commerce\Model\ApiConfig;
 
 use Magento\Framework\Locale\Bundle\CurrencyBundle as CurrencyBundle;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Directory\Helper\Data;
+use Touchize\Commerce\Model\PageConfig\NoConfig;
 
-class TouchizecommerceApiSelectors extends NoConfig
+class Selectors extends NoConfig
 {
     const ROUTE_PATH = 'directory/currency/switch';
 

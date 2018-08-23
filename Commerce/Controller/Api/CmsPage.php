@@ -21,10 +21,14 @@
 namespace Touchize\Commerce\Controller\Api;
 
 use \Magento\Catalog\Model\CategoryFactory;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\Controller\Result\JsonFactory;
+use Touchize\Commerce\Model\PageConfigFactory;
 
 class CmsPage extends \Touchize\Commerce\Controller\Api\ApiCore
 {
     const PAGE_PARAM = 'Page';
+
     /**
      * Index action
      *

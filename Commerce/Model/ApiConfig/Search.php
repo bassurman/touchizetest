@@ -18,15 +18,15 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Model\PageConfig;
+namespace Touchize\Commerce\Model\ApiConfig;
 
-use Touchize\Commerce\Model\PageConfig\CatalogProductView;
+use Touchize\Commerce\Model\PageConfig\NoConfig;
 use Magento\Framework\View\Element\Template\Context;
 use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Layer\Resolver;
 use Touchize\Commerce\Helper\Data as TouchizeData;
 
-class TouchizecommerceApiSearch extends NoConfig
+class Search extends NoConfig
 {
     /**
      * @var \Magento\Catalog\Model\ResourceModel\Product\Collection

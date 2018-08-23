@@ -12,4 +12,67 @@
     <type name="Magento\Catalog\Block\Product\ListProduct">
         <plugin name="touchize.product.list.layer" type="Touchize\Commerce\Plugin\Product\ListProduct"/>
     </type>
+    <type name="Touchize\Commerce\Controller\Api\CmsPage">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\CmsPage
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\Commerce\Controller\Api\Productlist">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\Productlist
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\Commerce\Controller\Api\Product">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\Product
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\Commerce\Controller\Api\Cart">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\Cart
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\Commerce\Controller\Api\AddToCart">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\AddToCart
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\Commerce\Controller\Api\RemoveFromCart">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\RemoveFromCart
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\Commerce\Controller\Api\Search">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\Search
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\Commerce\Controller\Api\SearchAutocomplete">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\Search
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\Commerce\Controller\Api\Selectors">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\Selectors
+            </argument>
+        </arguments>
+    </type>
 </config>

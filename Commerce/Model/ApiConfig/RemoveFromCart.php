@@ -18,11 +18,42 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Model\PageConfig;
+namespace Touchize\Commerce\Model\ApiConfig;
 
+use Touchize\Commerce\Model\ApiConfig\Cart;
 
-class TouchizecommerceApiProductlist extends CatalogCategoryView
+class RemoveFromCart extends Cart
 {
+    /**
+     * @return $this
+     */
+    public function execute()
+    {
+        $this->removeCartProcess();
+        return $this;
+    }
 
+    /**
+     * $this
+     */
+    protected function removeCartProcess()
+    {
+        $itemId = $this->getItemId();
+        if ($itemId) {
+            $response = $this->cart->getQuote()->removeItem($itemId);
+            if ($response) {
+                $this->cart->save();
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    protected function getItemId()
+    {
+        return $this->getData('item_id');
+    }
 }
 

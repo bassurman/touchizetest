@@ -69,6 +69,7 @@ class PageConfigFactory
         $className = self::BASE_CONFIG_PATH . '\\' .
         str_replace(self::ACTION_DELIMITER,'', ucwords($actionName,self::ACTION_DELIMITER));
 
+
         if (class_exists($className)) {
            return $className;
         }

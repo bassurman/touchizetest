@@ -18,14 +18,14 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Model\PageConfig;
+namespace Touchize\Commerce\Model\ApiConfig;
 
-use Touchize\Commerce\Model\PageConfig\CatalogProductView;
+use Touchize\Commerce\Model\PageConfig\NoConfig;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Checkout\Model\Cart;
+use Magento\Checkout\Model\Cart as CoreCart;
 use \Magento\Catalog\Api\ProductRepositoryInterface;
 
-class TouchizecommerceApiCart extends NoConfig
+class Cart extends NoConfig
 {
     /**
      * @var Cart
@@ -75,7 +75,7 @@ class TouchizecommerceApiCart extends NoConfig
         Context $context,
         \Magento\Framework\Registry $registry,
         \Touchize\Commerce\Helper\Config $configHelper,
-        Cart $cart,
+        CoreCart $cart,
         ProductRepositoryInterface $productRepository,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\DataObject\Factory $objectFactory,

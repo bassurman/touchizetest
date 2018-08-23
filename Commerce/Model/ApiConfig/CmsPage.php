@@ -18,11 +18,12 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Model\PageConfig;
+namespace Touchize\Commerce\Model\ApiConfig;
 
 use Magento\Framework\View\Element\Template\Context;
+use Touchize\Commerce\Model\PageConfig\NoConfig;
 
-class TouchizecommerceApiCmsPage extends NoConfig
+class CmsPage extends NoConfig
 {
     /**
      * @var \Magento\Cms\Model\PageFactory

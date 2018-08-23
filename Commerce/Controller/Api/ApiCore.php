@@ -63,13 +63,15 @@ class ApiCore extends \Magento\Framework\App\Action\Action
         JsonFactory $resultJsonFactory,
         PageConfigFactory $pageConfigFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry,
+        \Touchize\Commerce\Model\PageConfig\NoConfig $configModel
     ) {
         parent::__construct($context);
         $this->resultJsonFactory = $resultJsonFactory;
         $this->pageConfigFactory = $pageConfigFactory;
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
+        $this->configModel = $configModel;
     }
 
     public function execute()
@@ -82,11 +84,6 @@ class ApiCore extends \Magento\Framework\App\Action\Action
      */
     public function getConfigModel()
     {
-        if (is_null($this->configModel)) {
-            $actionName = $this->getRequest()->getFullActionName();
-            $this->configModel = $this->pageConfigFactory->getConfigModel($actionName);
-        }
-
         return $this->configModel;
     }
 }

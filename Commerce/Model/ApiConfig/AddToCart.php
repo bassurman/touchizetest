@@ -18,11 +18,11 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Model\PageConfig;
+namespace Touchize\Commerce\Model\ApiConfig;
 
-use Touchize\Commerce\Model\PageConfig\TouchizecommerceApiCart;
+use Touchize\Commerce\Model\ApiConfig\Cart;
 
-class TouchizecommerceApiAddToCart extends TouchizecommerceApiCart
+class AddToCart extends Cart
 {
     /**
      * @var
@@ -81,8 +81,6 @@ class TouchizecommerceApiAddToCart extends TouchizecommerceApiCart
      */
     protected function getParams()
     {
-        $product = $this->getProduct();
-
         $requestData = [
             'qty' => $this->getData('qty')
         ];
@@ -92,6 +90,9 @@ class TouchizecommerceApiAddToCart extends TouchizecommerceApiCart
 
     }
 
+    /**
+     * @return bool|\Magento\Catalog\Api\Data\ProductInterface|mixed
+     */
     protected function getProduct()
     {
         if (is_null($this->cart_product)) {

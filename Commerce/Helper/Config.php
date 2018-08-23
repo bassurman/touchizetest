@@ -60,8 +60,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\CategoryRepository $categoryRepository,
         \Magento\Framework\Registry $coreRegistry
-    )
-    {
+    ) {
         parent::__construct($context);
         $this->pageConfigFactory  = $pageConfigFactory;
         $this->configuratorMenu   = $configuratorMenu;
@@ -78,8 +77,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getActiveConfig()
     {
-        if (empty($this->_config))
-        {
+        if (empty($this->_config)) {
             $this->generate();
         }
 
@@ -143,50 +141,39 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     protected function fillEndpoints()
     {
         $this->_config['Endpoints'] = [
-            'Products'       =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/productlist',
-                ),
-            'ProductDetails' =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/product',
-                ),
-            'Campaigns'      =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/touchmap',
-                ),
-            'AutoSearch'     =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/searchAutocomplete',
-                ),
-            'Search'     =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/search',
-                ),
-            'Cart'           =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/cart',
-                ),
-            'AddToCart'      =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/addToCart',
-                ),
-            'RemoveFromCart' =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/removeFromCart',
-                ),
-            'Selectors'      =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/selectors',
-                ),
-            'Taxonomies'     =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/taxonomy',
-                ),
-            'Content'        =>
-                array(
-                    'Endpoint' => 'touchizecommerce/api/cmsPage',
-                ),
+            'Products' => [
+                'Endpoint' => 'touchizecommerce/api/productlist'
+            ],
+            'ProductDetails' => [
+                'Endpoint' => 'touchizecommerce/api/product'
+            ],
+            'Campaigns' => [
+                'Endpoint' => 'touchizecommerce/api/touchmap'
+            ],
+            'AutoSearch' => [
+                'Endpoint' => 'touchizecommerce/api/searchAutocomplete'
+            ],
+            'Search' => [
+                'Endpoint' => 'touchizecommerce/api/search'
+            ],
+            'Cart' => [
+                'Endpoint' => 'touchizecommerce/api/cart'
+            ],
+            'AddToCart' => [
+                'Endpoint' => 'touchizecommerce/api/addToCart'
+            ],
+            'RemoveFromCart' => [
+                'Endpoint' => 'touchizecommerce/api/removeFromCart'
+            ],
+            'Selectors' => [
+                'Endpoint' => 'touchizecommerce/api/selectors',
+            ],
+            'Taxonomies' => [
+                'Endpoint' => 'touchizecommerce/api/taxonomy',
+            ],
+            'Content' => [
+                'Endpoint' => 'touchizecommerce/api/cmsPage',
+            ],
         ];
 
         return $this;
@@ -199,11 +186,11 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $this->_config['Router'] = [
             'SiteUrl' => $this->_urlBuilder->getBaseUrl(),
-            'qs'      => $this->getQueryUrl(),
-            'tid'     => 8,
-            'pid'     => $this->getCurrentProductId(),
-            'page'    => $this->getIdentifierCmsPage(),
-            'search'  => $this->getQueryString(),
+            'qs' => $this->getQueryUrl(),
+            'tid' => 8,
+            'pid' => $this->getCurrentProductId(),
+            'page' => $this->getIdentifierCmsPage(),
+            'search' => $this->getQueryString(),
         ];
 
         return $this;
@@ -215,8 +202,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     public function getIdentifierCmsPage()
     {
         $cmsBlock = $this->layout->getBlock('cms_page');
-        if ($cmsBlock && $this->_request->getParam('page_id'))
-        {
+        if ($cmsBlock && $this->_request->getParam('page_id')) {
             return $cmsBlock->getPage()->getId();
         }
 
@@ -247,8 +233,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     protected function getCurrentProductId()
     {
         $product = $this->_coreRegistry->registry('current_product');
-        if ($product && $product->getId())
-        {
+        if ($product && $product->getId()) {
             return $product->getId();
         }
 
@@ -285,8 +270,8 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function fillActiveProducts()
     {
-        $configModel                                                                  = $this->getConfigModel();
-        $params                                                                       = $configModel->getConfig();
+        $configModel = $this->getConfigModel();
+        $params = $configModel->getConfig();
         $this->_config['StartupModules']['Content']['Params']['Template']['Blocks'][] = [
             'Module' => 'ProductList',
             'Params' => ['Model' => $params]
@@ -300,10 +285,9 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function fillCurrentProduct()
     {
-        if ($this->getCurrentProductId())
-        {
-            $configModel                                                               = $this->getConfigModel();
-            $productDetails                                                            = $configModel->getProductDetails();
+        if ($this->getCurrentProductId()) {
+            $configModel = $this->getConfigModel();
+            $productDetails = $configModel->getProductDetails();
             $this->_config['StartupModules']['ProductDetailsPopup']['Params']['Model'] = $productDetails;
         }
 

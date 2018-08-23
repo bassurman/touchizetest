@@ -66,9 +66,10 @@ class Productlist extends \Touchize\Commerce\Controller\Api\ApiCore
         PageConfigFactory $pageConfigFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\CategoryRepository $categoryRepository,
-        \Magento\Framework\Registry $coreRegistry
+        \Magento\Framework\Registry $coreRegistry,
+        \Touchize\Commerce\Model\PageConfig\NoConfig $configModel
     ) {
-        parent::__construct($context, $resultJsonFactory,$pageConfigFactory, $storeManager,$coreRegistry);
+        parent::__construct($context, $resultJsonFactory,$pageConfigFactory, $storeManager,$coreRegistry,$configModel);
 
         $this->categoryRepository = $categoryRepository;
     }

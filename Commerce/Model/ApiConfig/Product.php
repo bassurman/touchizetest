@@ -18,11 +18,18 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Model\PageConfig;
+namespace Touchize\Commerce\Model\ApiConfig;
 
+use Touchize\Commerce\Model\PageConfig\CatalogProductView;
 
-class TouchizecommerceApiSearchAutocomplete extends TouchizecommerceApiSearch
+class Product extends CatalogProductView
 {
-
+    /**
+     * @return array
+     */
+    public function getConfig()
+    {
+        return $this->getProductDetails();
+    }
 }
 
