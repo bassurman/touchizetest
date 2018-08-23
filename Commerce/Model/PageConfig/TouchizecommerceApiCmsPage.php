@@ -35,6 +35,11 @@ class TouchizecommerceApiCmsPage extends NoConfig
     protected $_storeManager;
 
     /**
+     * @var \Magento\Framework\UrlInterface
+     */
+    protected $_urlBuilder;
+
+    /**
      * TouchizecommerceApiCmsPage constructor.
      *
      * @param Context                                    $context
@@ -51,8 +56,10 @@ class TouchizecommerceApiCmsPage extends NoConfig
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context, $registry, $configHelper);
+        $this->_urlBuilder = $context->getUrlBuilder();
         $this->_pageFactory = $pageFactory;
         $this->_storeManager = $storeManager;
+
     }
 
     /**
@@ -67,10 +74,10 @@ class TouchizecommerceApiCmsPage extends NoConfig
             $page->load($pageId);
             if ($page->getPageId()) {
                 $pageConfig = [
-                    'id'=>$page->getPageId(),
-                    'url'=>$page->getIdentifier(),
-                    'title'=>$page->getTitle(),
-                    'body'=>$page->getContent(),
+                    'id' => $page->getPageId(),
+                    'url' => $this->_urlBuilder->getUrl(null, ['_direct' => $page->getIdentifier()]),
+                    'title' => $page->getTitle(),
+                    'body' => $page->getContent(),
                 ];
                 return $pageConfig;
             }
