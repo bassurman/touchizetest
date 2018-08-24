@@ -18,10 +18,11 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Model\PageConfig;
+namespace Touchize\Commerce\Model\ApiConfig;
 
+use Touchize\Commerce\Model\PageConfig\NoConfig;
 
-class TouchizecommerceApiTouchmap extends NoConfig
+class Touchmap extends NoConfig
 {
     /**
      * @return array

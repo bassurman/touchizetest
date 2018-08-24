@@ -27,6 +27,9 @@ use \Magento\Catalog\Model\CategoryFactory;
 
 class ApiCore extends \Magento\Framework\App\Action\Action
 {
+    /**
+     * @var \Touchize\Commerce\Model\PageConfig\NoConfig
+     */
     protected $configModel;
 
     /**
@@ -74,6 +77,9 @@ class ApiCore extends \Magento\Framework\App\Action\Action
         $this->configModel = $configModel;
     }
 
+    /**
+     * @return \Magento\Framework\App\ResponseInterface
+     */
     public function execute()
     {
         return $this->_redirect('/');

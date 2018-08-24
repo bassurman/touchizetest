@@ -75,4 +75,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Touchize\Commerce\Controller\Api\Touchmap">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\Touchmap
+            </argument>
+        </arguments>
+    </type>
 </config>
