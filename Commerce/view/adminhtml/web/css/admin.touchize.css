@@ -1,0 +1,15 @@
+#theme-types{
+    background-color: #f3f3f3;
+    background-size: cover;
+    height: 250px;
+    width: 400px;
+}
+#theme-types.classic {
+    background-image: url(../images/classic.jpg);
+}
+#theme-types.lines {
+    background-image: url(../images/lines.jpg);
+}
+#theme-types.clean {
+    background-image: url(../images/clean.jpg);
+}

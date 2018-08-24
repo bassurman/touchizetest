@@ -35,6 +35,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     const SEARCH_QUERY_PARAM = 'q';
 
+    const CDN_LATEST_PATH = 'latest';
+
     /**
      * @var Detect
      */
@@ -106,6 +108,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getSelectionTitle()
     {
         return $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/selection_title');
+    }
+
+    /**
+     * @return string
+     */
+    public function getThemeType()
+    {
+        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_design/theme_type');
     }
 
     /**
@@ -210,7 +220,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getCDNpath()
     {
         $cdnPath   = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/client_cdn_path');
-        $cdnCode   = $this->getConfig('touchize_commmerce_config/touchize_commmerce_cdn/client_cdn_code');
+        $themeType = $this->getThemeType();
+        $cdnCode = $themeType . '/' . self::CDN_LATEST_PATH;
         return $cdnPath . '/' . $cdnCode . '/' ;
     }
 

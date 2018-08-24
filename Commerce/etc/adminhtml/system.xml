@@ -46,6 +46,14 @@
                     <comment><![CDATA[Put here your HTML code to display it in the footer]]></comment>
                 </field>
             </group>
+            <group id="touchize_commmerce_design" translate="label" type="text" sortOrder="9700" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Theme Design</label>
+                <field id="theme_type" translate="label" type="radios" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Chose your theme type to display</label>
+                    <comment><![CDATA[Chose your theme to display.<div id="theme-types"></div>]]></comment>
+                    <source_model>Touchize\Commerce\Model\Config\Source\Themes</source_model>
+                </field>
+            </group>
             <group id="touchize_commmerce_cdn" translate="label" type="text" sortOrder="10100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>CDN configuration</label>
                 <field id="use_cdn_for_client" translate="label" type="select" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -56,10 +64,6 @@
                 <field id="client_cdn_path" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Client CDN path</label>
                     <comment><![CDATA[Url or path for client CDN.]]></comment>
-                </field>
-                <field id="client_cdn_code" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Client CDN code</label>
-                    <comment><![CDATA[The code for the client, often the storecode. Default (empty string) is generic.]]></comment>
                 </field>
             </group>
         </section>
