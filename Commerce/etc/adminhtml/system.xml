@@ -9,6 +9,12 @@
             <label>Touchize Commerce Configuration</label>
             <tab>touchize_commmerce_tab</tab>
             <resource>Touchize_Commerce::config</resource>
+            <group id="touchize_commmerce_info" translate="label" type="text" sortOrder="7100" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Information</label>
+                <field id="info_block" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <frontend_model>Touchize\Commerce\Block\Adminhtml\System\Config\Form\Field\InfoBlock</frontend_model>
+                </field>
+            </group>
             <group id="touchize_commmerce_setup" translate="label" type="text" sortOrder="9100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Setup</label>
                 <field id="display_devices" translate="label" type="radios" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
