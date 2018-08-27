@@ -159,6 +159,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @return int
+     */
+    public function isLimitEnabled()
+    {
+        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_category/enable_limit');
+    }
+
+    /**
+     * @return int
+     */
+    public function getMaxItemsCount()
+    {
+        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_category/items_limit');
+    }
+
+    /**
      * @return string
      */
     public function getCustomHeadHtml()

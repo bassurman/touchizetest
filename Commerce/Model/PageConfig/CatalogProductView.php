@@ -67,8 +67,10 @@ class CatalogProductView extends CatalogCategoryView
             'Brands' => $this->outputHelper->productAttribute($_product,$_product->getManufacturer(),'manufacturer')
         ];
         $featuresInfo = $this->getFeaturesInfo();
+        $productRelations = $this->getRelations();
 
-        return $productDetails + $productDetailsAdditional + $featuresInfo;
+
+        return $productDetails + $productDetailsAdditional + $featuresInfo + $productRelations;
     }
 
     /**
@@ -158,6 +160,51 @@ class CatalogProductView extends CatalogCategoryView
     {
         $productImages = $this->productHelper->getProductImages($product,'product_page_main_image');
         return $productImages;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRelations()
+    {
+        $relationsData = [];
+        $relations = [];
+        $product = $this->getCurrentProduct();
+        $addRelated = $this->productHelper->isEnabledRelated();
+        if ($addRelated) {
+            $relatedProducts = $product->getRelatedProductCollection();
+            if ($relatedProducts->count()) {
+                $relations[] = [
+                    'Name'     => $addRelated = $this->productHelper->getRelatedLabel(),
+                    'Products' => $this->productHelper->getAdaptedProductList($relatedProducts)
+                ];
+            }
+        }
+
+        $addUpsells = $this->productHelper->isEnabledUpSells();
+        if ($addUpsells) {
+            $upsellsProducts = $product->getUpSellProductCollection();
+            if ($upsellsProducts->count()) {
+                $relations[] = [
+                    'Name' => $addRelated = $this->productHelper->getUpSellsLabel(),
+                    'Products' => $this->productHelper->getAdaptedProductList($upsellsProducts)
+                ];
+            }
+        }
+
+        $addCross = $this->productHelper->isEnabledCross();
+        if ($addCross) {
+            $crossProducts = $product->getCrossSellProductCollection();
+            if ($crossProducts->count()) {
+                $relations[] = [
+                    'Name' => $addRelated = $this->productHelper->getCrossLabel(),
+                    'Products' => $this->productHelper->getAdaptedProductList($relatedProducts)
+                ];
+            }
+        }
+
+        $relationsData['Relations'] = $relations;
+        return $relationsData;
     }
 }
 

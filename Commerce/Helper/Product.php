@@ -96,6 +96,7 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAdaptedProductList($collection)
     {
+        $collection->addAttributeToSelect('price');
         $config = [];
         foreach ($collection as $_product) {
             $config[] = $this->getListProductData($_product);
@@ -142,4 +143,61 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
         }
         return null;
     }
+
+    /**
+     * @return string
+     *
+     */
+    public function isEnabledRelated()
+    {
+        return $this->dataHelper->getConfig('touchize_commmerce_config/touchize_commmerce_category/enable_related');
+    }
+
+    /**
+     * @return string
+     *
+     */
+    public function getRelatedLabel()
+    {
+        return $this->dataHelper->getConfig('touchize_commmerce_config/touchize_commmerce_category/label_related');
+    }
+
+    /**
+     * @return string
+     *
+     */
+    public function isEnabledUpSells()
+    {
+        return $this->dataHelper->getConfig('touchize_commmerce_config/touchize_commmerce_category/enable_upsells');
+    }
+
+    /**
+     * @return string
+     *
+     */
+    public function getUpSellsLabel()
+    {
+        return $this->dataHelper->getConfig('touchize_commmerce_config/touchize_commmerce_category/label_upsells');
+    }
+
+    /**
+     * @return string
+     *
+     */
+    public function isEnabledCross()
+    {
+        return $this->dataHelper->getConfig('touchize_commmerce_config/touchize_commmerce_category/enable_cross');
+    }
+
+    /**
+     * @return string
+     *
+     */
+    public function getCrossLabel()
+    {
+        return $this->dataHelper->getConfig('touchize_commmerce_config/touchize_commmerce_category/label_cross');
+    }
+
+
+
 }

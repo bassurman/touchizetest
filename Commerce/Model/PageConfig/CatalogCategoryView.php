@@ -98,7 +98,13 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         if(!$currentCategory) {
             return [];
         }
-        return $currentCategory->getProductCollection()->addAttributeToSelect('*');
+        $collection = $currentCategory->getProductCollection()->addAttributeToSelect('*');
+        $isLimit = $this->dataHelper->isLimitEnabled();
+        if ($isLimit) {
+            $maxCount = $this->dataHelper->getMaxItemsCount();
+            $collection->setPageSize($maxCount);
+        }
+        return $collection;
     }
 
     /**

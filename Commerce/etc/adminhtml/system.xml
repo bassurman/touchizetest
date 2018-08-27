@@ -1,4 +1,24 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * 2018 Touchize Sweden AB.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to magento@touchize.com so we can send you a copy immediately.
+ *
+ * @author    Touchize Sweden AB <magento@touchize.com>
+ * @copyright 2018 Touchize Sweden AB
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of Touchize Sweden AB
+ */
+-->
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
@@ -50,6 +70,57 @@
                 <field id="html_in_footer" translate="label" type="textarea" sortOrder="800" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Custom HTML in Header</label>
                     <comment><![CDATA[Put here your HTML code to display it in the footer]]></comment>
+                </field>
+            </group>
+            <group id="touchize_commmerce_category" translate="label" type="text" sortOrder="9400" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Category Setup</label>
+                <field id="enable_limit" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable limit products in category</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable limit products in category.]]></comment>
+                </field>
+                <field id="items_limit" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max category products</label>
+                    <comment><![CDATA[Enter count max products shown on category page.]]></comment>
+                    <depends>
+                        <field id="enable_limit">1</field>
+                    </depends>
+                </field>
+                <field id="enable_related" translate="label" type="select" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Related Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable Related Products.]]></comment>
+                </field>
+                <field id="label_related" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Label Related Block</label>
+                    <comment><![CDATA[Enter label for related block.]]></comment>
+                    <depends>
+                        <field id="enable_related">1</field>
+                    </depends>
+                </field>
+                <field id="enable_upsells" translate="label" type="select" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Up-Sells Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable Up-Sells Products.]]></comment>
+                </field>
+                <field id="label_upsells" translate="label" type="text" sortOrder="600" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Label Up-Sells Block</label>
+                    <comment><![CDATA[Enter label for Up-Sells block.]]></comment>
+                    <depends>
+                        <field id="enable_upsells">1</field>
+                    </depends>
+                </field>
+                <field id="enable_cross" translate="label" type="select" sortOrder="700" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Cross-Sells Products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Enable Cross-Sells Products.]]></comment>
+                </field>
+                <field id="label_cross" translate="label" type="text" sortOrder="800" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Label Cross-Sells Block</label>
+                    <comment><![CDATA[Enter label for Cross-Sells block.]]></comment>
+                    <depends>
+                        <field id="enable_cross">1</field>
+                    </depends>
                 </field>
             </group>
             <group id="touchize_commmerce_design" translate="label" type="text" sortOrder="9700" showInDefault="1" showInWebsite="1" showInStore="1">

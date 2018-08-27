@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * 2018 Touchize Sweden AB.
  *
@@ -18,11 +17,26 @@
  * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
--->
 
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../Magento/Backend/etc/menu.xsd">
-    <menu>
-        <add id="Touchize_Commerce::touchize" title="Touchize" module="Touchize_Commerce" sortOrder="100" resource="Touchize_Commerce::touchize" />
-        <add id="Touchize_Commerce::settings" title="Settings" module="Touchize_Commerce" sortOrder="900" resource="Touchize_Commerce::settings" parent="Touchize_Commerce::touchize"  action="adminhtml/system_config/edit/section/touchize_commmerce_config" />
-    </menu>
-</config>
+namespace Touchize\Commerce\Helper;
+
+use function GuzzleHttp\default_ca_bundle;
+use Magento\Framework\App\Helper\Context;
+use Touchize\Commerce\Model\Mobile\Detect;
+use Touchize\Commerce\Model\Config\Source\Devices;
+
+class Category extends \Magento\Framework\App\Helper\AbstractHelper
+{
+    /**
+     * @param $config_path
+     *
+     * @return mixed
+     */
+    public function getConfig($config_path)
+    {
+        return $this->scopeConfig->getValue(
+            $config_path,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+}

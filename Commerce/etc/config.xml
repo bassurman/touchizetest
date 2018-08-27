@@ -1,10 +1,22 @@
 <?xml version="1.0"?>
 <!--
 /**
- * Copyright © 2017 Ihor Vansach (ihor@magefan.com). All rights reserved.
- * See LICENSE.txt for license details (http://opensource.org/licenses/osl-3.0.php).
+ * 2018 Touchize Sweden AB.
  *
- * Glory to Ukraine! Glory to the heroes!
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to magento@touchize.com so we can send you a copy immediately.
+ *
+ * @author    Touchize Sweden AB <magento@touchize.com>
+ * @copyright 2018 Touchize Sweden AB
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of Touchize Sweden AB
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
@@ -24,6 +36,16 @@
                 <use_cdn_for_client>1</use_cdn_for_client>
                 <client_cdn_path>https://d2kt9xhiosnf0k.cloudfront.net</client_cdn_path>
             </touchize_commmerce_cdn>
+            <touchize_commmerce_category>
+                <enable_limit>1</enable_limit>
+                <items_limit>100</items_limit>
+                <enable_related>1</enable_related>
+                <label_related>Related Products</label_related>
+                <enable_upsells>1</enable_upsells>
+                <label_upsells>Up-Sells Products</label_upsells>
+                <enable_cross>1</enable_cross>
+                <label_cross>Cross Sales Products</label_cross>
+            </touchize_commmerce_category>
         </touchize_commmerce_config>
     </default>
 </config>
