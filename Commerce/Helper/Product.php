@@ -96,7 +96,6 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getAdaptedProductList($collection)
     {
-        $collection->addAttributeToSelect('price');
         $config = [];
         foreach ($collection as $_product) {
             $config[] = $this->getListProductData($_product);

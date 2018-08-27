@@ -173,6 +173,7 @@ class CatalogProductView extends CatalogCategoryView
         $addRelated = $this->productHelper->isEnabledRelated();
         if ($addRelated) {
             $relatedProducts = $product->getRelatedProductCollection();
+            $relatedProducts->addAttributeToSelect('price');
             if ($relatedProducts->count()) {
                 $relations[] = [
                     'Name'     => $addRelated = $this->productHelper->getRelatedLabel(),
@@ -184,6 +185,7 @@ class CatalogProductView extends CatalogCategoryView
         $addUpsells = $this->productHelper->isEnabledUpSells();
         if ($addUpsells) {
             $upsellsProducts = $product->getUpSellProductCollection();
+            $upsellsProducts->addAttributeToSelect('price');
             if ($upsellsProducts->count()) {
                 $relations[] = [
                     'Name' => $addRelated = $this->productHelper->getUpSellsLabel(),
@@ -195,6 +197,7 @@ class CatalogProductView extends CatalogCategoryView
         $addCross = $this->productHelper->isEnabledCross();
         if ($addCross) {
             $crossProducts = $product->getCrossSellProductCollection();
+            $crossProducts->addAttributeToSelect('price');
             if ($crossProducts->count()) {
                 $relations[] = [
                     'Name' => $addRelated = $this->productHelper->getCrossLabel(),
