@@ -143,7 +143,7 @@ class CatalogProductView extends CatalogCategoryView
             }
         }
         $featuresInfo['AttributeSet'] = array (
-            'Id' => 1,
+            'Id' => $product->getAttributeSetId(),
             'Name' => $this->dataHelper->getFeaturesLabel(),
             'Attributes' => $attributesData
         );
