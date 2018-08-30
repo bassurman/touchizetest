@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * 2018 Touchize Sweden AB.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to magento@touchize.com so we can send you a copy immediately.
+ *
+ *  @author    Touchize Sweden AB <magento@touchize.com>
+ *  @copyright 2018 Touchize Sweden AB
+ *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of Touchize Sweden AB
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Touchize\CommerceBanners\Api\BannerRepositoryInterface" type="Touchize\CommerceBanners\Model\BannerRepository" />
+    <preference for="Touchize\CommerceBanners\Api\Data\BannerInterface" type="Touchize\CommerceBanners\Model\Banner" />
+    <virtualType name="CommerceBannersDataProvider" type="Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider">
+        <arguments>
+            <argument name="collection" xsi:type="object" shared="false">Touchize\CommerceBanners\Model\Resource\Image\Collection</argument>
+            <argument name="filterPool" xsi:type="object" shared="false">CommerceBannersDataGridFilterPool</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Touchize\CommerceBanners\Model\ResourceModel\Banner\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">touchize_commercebanners_banner</argument>
+            <argument name="resourceModel" xsi:type="string">Touchize\CommerceBanners\Model\ResourceModel\Banner</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="CommerceBannersBannerUploader" type="Touchize\CommerceBanners\Model\Uploader">
+        <arguments>
+            <argument name="baseTmpPath" xsi:type="const">Touchize\CommerceBanners\Model\Uploader::IMAGE_TMP_PATH</argument>
+            <argument name="basePath" xsi:type="const">Touchize\CommerceBanners\Model\Uploader::IMAGE_PATH</argument>
+            <argument name="allowedExtensions" xsi:type="array">
+                <item name="jpg" xsi:type="string">jpg</item>
+                <item name="jpeg" xsi:type="string">jpeg</item>
+                <item name="gif" xsi:type="string">gif</item>
+                <item name="png" xsi:type="string">png</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="commercebanners_banner_grid_data_source" xsi:type="string">Touchize\CommerceBanners\Model\ResourceModel\Banner\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\CommerceBanners\Model\UploaderPool">
+        <arguments>
+            <argument name="uploaders" xsi:type="array">
+                <item name="image" xsi:type="string">CommerceBannersBannerUploader</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Image\Upload">
+        <arguments>
+            <argument name="uploader" xsi:type="object">CommerceBannersBannerUploader</argument>
+        </arguments>
+    </type>
+    <type name="Touchize\CommerceBanners\Ui\Component\Listing\Column\Image">
+        <arguments>
+            <argument name="imageModel" xsi:type="object">CommerceBannersBannerUploader</argument>
+        </arguments>
+    </type>
+    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Image\MassDelete">
+        <arguments>
+            <argument name="successMessage" xsi:type="string" translate="true">A total of %1 record(s) have been deleted.</argument>
+            <argument name="errorMessage" xsi:type="string" translate="true">An error occurred while deleting record(s).</argument>
+        </arguments>
+    </type>
+</config>

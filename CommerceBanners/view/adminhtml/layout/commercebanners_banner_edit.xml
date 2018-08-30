@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * 2018 Touchize Sweden AB.
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to magento@touchize.com so we can send you a copy immediately.
+ *
+ * @author    Touchize Sweden AB <magento@touchize.com>
+ * @copyright 2018 Touchize Sweden AB
+ * @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ *  International Registered Trademark & Property of Touchize Sweden AB
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <update handle="editor"/>
+    <head>
+        <css src="Touchize_CommerceBanners::css/touchize.banners.css"/>
+        <link src="Touchize_CommerceBanners::js/slq-admin.js"/>
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <uiComponent name="commercebanners_banner_form" />
+            <block class="Touchize\CommerceBanners\Block\Adminhtml\Banner\Init"
+                   after="-" name="touchize.banner.init"
+                   as="touchize_banner_init"
+                   template="Touchize_CommerceBanners::banner/init.phtml"/>
+        </referenceContainer>
+    </body>
+</page>
