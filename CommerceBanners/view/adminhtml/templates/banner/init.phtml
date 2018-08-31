@@ -19,10 +19,18 @@
  */
  -->
 
-<script type="text/javascript">
-    initTouchmaps = function () {
-        window.onload = TouchMap.Edit(<?php echo $block->getConfig() ?>);
-    }
-    setTimeout(initTouchmaps,3000)
 
+<script type="text/javascript">
+    require(
+        ['jquery'], function($) {
+
+            initTouchmaps = function () {
+                <?php if ($this->isNewBanner()): ?>
+                    $('#save_and_continue').click();
+                <?php else: ?>
+                    window.onload = TouchMap.Edit(<?php echo $block->getConfig() ?>);
+                <?php endif; ?>
+            }
+            $('body').on("imageUpdated", initTouchmaps);
+        });
 </script>

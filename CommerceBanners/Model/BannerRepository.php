@@ -101,7 +101,7 @@ class BannerRepository implements BannerRepositoryInterface
             $image = $this->bannerInterfaceFactory->create();
             $this->resource->load($image, $imageId);
             if (!$image->getId()) {
-                throw new NoSuchEntityException(__('Requested image doesn\'t exist'));
+                throw new NoSuchEntityException(__('Requested banner doesn\'t exist'));
             }
             $this->instances[$imageId] = $image;
         }

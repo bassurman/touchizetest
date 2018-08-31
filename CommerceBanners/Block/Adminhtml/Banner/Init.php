@@ -62,22 +62,24 @@ class Init extends Template
         $ajaxData = ['form_key'=> $this->getFormKey()];
         $configData = array (
             'Debug' => true,
-            'id' => $bannerModel->getId(),
+            'id' => $bannerModel ? $bannerModel->getId() : null,
             'list' => $this->_urlBuilder->getUrl('commercebanners/touchapi/listAreas', $ajaxData),
             'add' => $this->_backendUrl->getUrl('commercebanners/touchapi/addArea', $ajaxData),
             'edit' => $this->_backendUrl->getUrl('commercebanners/touchapi/editArea', $ajaxData),
             'delete' => $this->_backendUrl->getUrl('commercebanners/touchapi/deleteArea', $ajaxData),
             'categories' => $this->_backendUrl->getUrl('commercebanners/touchapi/categories', $ajaxData),
             'products' => $this->_backendUrl->getUrl('commercebanners/touchapi/products', $ajaxData),
-            'Model' =>
-                array (
-                    'Id' => $bannerModel->getId(),
-                    'Name' => $bannerModel->getImage(),
-                    'ImagePath' => $bannerModel->getImagePath(),
-                    'ImageUrl' => $bannerModel->getImageUrl(),
-                    'Visibility' => $bannerModel->getIsEnabled(),
-                ),
         );
+
+        if ($bannerModel) {
+            $configData['Model'] = array (
+                'Id' => $bannerModel->getId(),
+                'Name' => $bannerModel->getImage(),
+                'ImagePath' => $bannerModel->getImagePath(),
+                'ImageUrl' => $bannerModel->getImageUrl(),
+                'Visibility' => $bannerModel->getIsEnabled(),
+            );
+        }
 
         return json_encode($configData);
     }
@@ -90,15 +92,31 @@ class Init extends Template
         return $this->_backendUrl->getUrl('cms/wysiwyg_images/index');
     }
 
-    public function getBannerModel()
+    /**
+     * @return null|\Touchize\CommerceBanners\Api\Data\BannerInterface
+     */
+    protected function getBannerModel()
     {
-        return $this->bannerRepository->getById(
-            $this->getRequest()->getParam('banner_id')
-        );
+        $bannerId = $this->getRequest()->getParam('banner_id');
+        if ($bannerId) {
+            return $this->bannerRepository->getById($bannerId);
+        }
+        return null;
     }
 
+    /**
+     * @return string
+     */
     public function getFormKey()
     {
         return $this->formKey->getFormKey();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNewBanner()
+    {
+        return !(bool)$this->getBannerModel();
     }
 }
