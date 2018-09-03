@@ -29,10 +29,35 @@ class ListAreas extends Touchapi
      */
     public function execute()
     {
-        $jsn = '[{"Id":"2","CampaignId":"2","Tx":"10.147441457069%","Ty":"17.269736842105%","Width":"32.263660017346%","Height":"33.388157894737%","SearchTerm":"","ProductId":null,"TaxonId":null},{"Id":"4","CampaignId":"2","Tx":"22.376409366869%","Ty":"41.282894736842%","Width":"45.620121422376%","Height":"34.703947368421%","SearchTerm":"","ProductId":null,"TaxonId":null},{"Id":"5","CampaignId":"2","Tx":"59.410234171726%","Ty":"62.828947368421%","Width":"11.53512575889%","Height":"17.434210526316%","SearchTerm":"","ProductId":null,"TaxonId":null},{"Id":"6","CampaignId":"2","Tx":"72.419774501301%","Ty":"39.309210526316%","Width":"8.1526452732003%","Height":"5.9210526315789%","SearchTerm":"","ProductId":null,"TaxonId":null}]';
-        $configData = \GuzzleHttp\json_decode($jsn, true);
-
+        $configData = $this->getListAreas();
         $result = $this->resultJsonFactory->create();
         return $result->setData($configData);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getListAreas()
+    {
+        $data = $this->getRequest()->getParams();
+
+        $configData = [];
+        $touchAreaModel = $this->touchareaFactory->create();
+        $collection = $touchAreaModel->getCollection();
+        $collection->addFieldToFilter('banner_id', $data['id_touchize_touchmap']);
+        foreach ($collection as $_touchArea) {
+            $configData [] = [
+                'Id' =>  $_touchArea['id'],
+                'CampaignId' =>  $_touchArea['banner_id'],
+                'Tx' =>  $_touchArea['tx'] * 100 . '%',
+                'Ty' =>  $_touchArea['ty'] * 100 . '%',
+                'Width' =>  $_touchArea['width'] * 100 . '%',
+                'Height' => $_touchArea['height'] * 100 . '%',
+                'SearchTerm' => $_touchArea['search_term'],
+                'ProductId' => $_touchArea['id_product'],
+                'TaxonId' => $_touchArea['id_category'],
+            ];
+        }
+        return $configData;
     }
 }

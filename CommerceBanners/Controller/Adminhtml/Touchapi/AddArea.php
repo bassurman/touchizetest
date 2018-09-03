@@ -22,53 +22,36 @@ namespace Touchize\CommerceBanners\Controller\Adminhtml\Touchapi;
 
 use Touchize\CommerceBanners\Controller\Adminhtml\Touchapi;
 
-class AddArea extends Touchapi
+class AddArea extends ListAreas
 {
     /**
      * @return \Magento\Framework\View\Result\Page
      */
     public function execute()
     {
-        $configData = array (
-            0 =>
-                array (
-                    'Id' => '2',
-                    'CampaignId' => '2',
-                    'Tx' => '10.147441457069%',
-                    'Ty' => '17.269736842105%',
-                    'Width' => '32.263660017346%',
-                    'Height' => '33.388157894737%',
-                    'SearchTerm' => '',
-                    'ProductId' => NULL,
-                    'TaxonId' => NULL,
-                ),
-            1 =>
-                array (
-                    'Id' => '4',
-                    'CampaignId' => '2',
-                    'Tx' => '22.376409366869%',
-                    'Ty' => '41.282894736842%',
-                    'Width' => '45.620121422376%',
-                    'Height' => '34.703947368421%',
-                    'SearchTerm' => '',
-                    'ProductId' => NULL,
-                    'TaxonId' => NULL,
-                ),
-            2 =>
-                array (
-                    'Id' => '6',
-                    'CampaignId' => '2',
-                    'Tx' => '72.419774501301%',
-                    'Ty' => '39.309210526316%',
-                    'Width' => '8.1526452732003%',
-                    'Height' => '5.9210526315789%',
-                    'SearchTerm' => '',
-                    'ProductId' => NULL,
-                    'TaxonId' => NULL,
-                ),
-        );
-
+        $this->addNewArea();
+        $configData = $this->getListAreas();
         $result = $this->resultJsonFactory->create();
+
         return $result->setData($configData);
+    }
+
+    protected function addNewArea()
+    {
+        $data = $this->getRequest()->getParams();
+        $toucharea = $this->touchareaFactory->create();
+        $preparedData = [
+            'banner_id' => $data['id_touchize_touchmap'],
+            'tx' => $data['tx'],
+            'ty' => $data['ty'],
+            'width' => $data['width'],
+            'height' => $data['height'],
+            /*'search_term' => '',
+            'id_product' => '',
+            'id_category' => '',*/
+
+        ];
+        $toucharea->setData($preparedData);
+        $toucharea->save();
     }
 }
