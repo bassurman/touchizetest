@@ -24,6 +24,7 @@
         <sequence>
             <module name="Magento_Catalog"/>
             <module name="Magento_Cms"/>
+            <module name="Touchize_CommerceBanners"/>
         </sequence>
     </module>
 </config>
