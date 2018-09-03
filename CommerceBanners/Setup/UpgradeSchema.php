@@ -39,6 +39,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if (version_compare($context->getVersion(), '1.1.0') < 0) {
             $this->createTouchAreaTable($installer);
         }
+
+        if (version_compare($context->getVersion(), '1.2.0') < 0) {
+            $this->addStoreBannerTable($installer);
+        }
+
+        if (version_compare($context->getVersion(), '1.3.0') < 0) {
+            $this->removeStoreIdRow($installer);
+        }
     }
 
     protected function createTouchAreaTable($installer)
@@ -132,5 +140,50 @@ class UpgradeSchema implements UpgradeSchemaInterface
 
         $installer->getConnection()->createTable($table);
         $installer->endSetup();
+    }
+
+    public function addStoreBannerTable($installer)
+    {
+        /**
+         * Create table 'touchize_commercebanners_banner_store'
+         */
+        $table = $installer->getConnection()->newTable(
+            $installer->getTable('touchize_commercebanners_banner_store')
+        )->addColumn(
+            'banner_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            null,
+            ['nullable' => false, 'primary' => true],
+            'Banner ID'
+        )->addColumn(
+            'store_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+            null,
+            ['unsigned' => true, 'nullable' => false, 'primary' => true],
+            'Store ID'
+        )->addIndex(
+            $installer->getIdxName('touchize_commercebanners_banner_store', ['store_id']),
+            ['store_id']
+        )->addForeignKey(
+            $installer->getFkName('touchize_commercebanners_banner_store', 'banner_id', 'touchize_commercebanners_banner', 'banner_id'),
+            'banner_id',
+            $installer->getTable('touchize_commercebanners_banner'),
+            'banner_id',
+            \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+        )->addForeignKey(
+            $installer->getFkName('touchize_commercebanners_banner_store', 'store_id', 'store', 'store_id'),
+            'store_id',
+            $installer->getTable('store'),
+            'store_id',
+            \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+        )->setComment(
+            'Touchize Banner To Store Linkage Table'
+        );
+        $installer->getConnection()->createTable($table);
+    }
+
+    protected function removeStoreIdRow($installer)
+    {
+        $installer->getConnection()->dropColumn($installer->getTable('touchize_commercebanners_banner'), 'store_id');
     }
 }

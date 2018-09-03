@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * 2018 Touchize Sweden AB.
  *
@@ -18,7 +17,22 @@
  *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
--->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Touchize_CommerceBanners" setup_version="1.3.0" />
-</config>
+
+namespace Touchize\CommerceBanners\Model;
+
+use Magento\Framework\Data\Collection\AbstractDb;
+use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\Model\Context;
+use Magento\Framework\Model\ResourceModel\AbstractResource;
+use Magento\Framework\Registry;
+use Magento\Framework\Exception\LocalizedException;
+use Touchize\CommerceBanners\Api\Data\BannerInterface;
+
+class BannerStore extends AbstractModel
+{
+    protected function _construct()
+    {
+        // @codingStandardsIgnoreEnd
+        $this->_init('Touchize\CommerceBanners\Model\ResourceModel\BannerStore');
+    }
+}

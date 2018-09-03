@@ -71,7 +71,7 @@
             <argument name="imageModel" xsi:type="object">CommerceBannersBannerUploader</argument>
         </arguments>
     </type>
-    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Image\MassDelete">
+    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Banner\MassDelete">
         <arguments>
             <argument name="successMessage" xsi:type="string" translate="true">A total of %1 record(s) have been deleted.</argument>
             <argument name="errorMessage" xsi:type="string" translate="true">An error occurred while deleting record(s).</argument>

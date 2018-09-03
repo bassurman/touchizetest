@@ -30,6 +30,8 @@ use Touchize\CommerceBanners\Api\Data\BannerInterface;
 
 class Banner extends AbstractModel implements BannerInterface
 {
+
+    protected $_eventPrefix = 'commercebanners_banner';
     /**
      * Cache tag
      */
@@ -205,11 +207,10 @@ class Banner extends AbstractModel implements BannerInterface
      */
     public function setCreatedAt($createdAt)
     {
-        $createdAt = $createdAt;
-        if (!$this->getId()) {
+        /*if (!$this->getId()) {*/
             $time = time();
             return $this->setData('created_at', $time);
-        }
+        /*}*/
     }
 
     /**
@@ -255,7 +256,7 @@ class Banner extends AbstractModel implements BannerInterface
         if ($image) {
             if (is_string($image)) {
                 $uploader = $this->uploaderPool->getUploader('image');
-                $path = $uploader->getBasePath().$image;
+                $path = $uploader->getBasePath() . $image;
             } else {
                 throw new LocalizedException(
                     __('Something went wrong while getting the image url.')

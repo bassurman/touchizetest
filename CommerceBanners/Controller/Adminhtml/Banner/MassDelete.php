@@ -81,8 +81,8 @@ class MassDelete extends Banner
         try {
             $collection = $this->filter->getCollection($this->collectionFactory->create());
             $collectionSize = $collection->getSize();
-            foreach ($collection as $image) {
-                $this->bannerRepository->delete($image);
+            foreach ($collection as $banner) {
+                $this->bannerRepository->delete($banner);
             }
             $this->messageManager->addSuccessMessage(__($this->successMessage, $collectionSize));
         } catch (LocalizedException $e) {

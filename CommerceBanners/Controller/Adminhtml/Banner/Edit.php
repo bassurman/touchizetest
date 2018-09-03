@@ -36,10 +36,10 @@ class Edit extends Banner
             ->addBreadcrumb(__('Manage Banners'), __('Manage Banners'));
 
         if ($imageId === null) {
-            $resultPage->addBreadcrumb(__('New Image'), __('New Banner'));
+            $resultPage->addBreadcrumb(__('New Banner'), __('New Banner'));
             $resultPage->getConfig()->getTitle()->prepend(__('New Banner'));
         } else {
-            $resultPage->addBreadcrumb(__('Edit Image'), __('Edit Banner'));
+            $resultPage->addBreadcrumb(__('Edit Banner'), __('Edit Banner'));
             $resultPage->getConfig()->getTitle()->prepend(__('Edit Banner'));
         }
         return $resultPage;

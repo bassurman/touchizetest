@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<!--
+<?php
 /**
  * 2018 Touchize Sweden AB.
  *
@@ -18,7 +17,27 @@
  *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
--->
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
-    <module name="Touchize_CommerceBanners" setup_version="1.3.0" />
-</config>
+
+namespace Touchize\CommerceBanners\Observer;
+
+class BannerStore implements \Magento\Framework\Event\ObserverInterface
+{
+    /**
+     * @var \Touchize\CommerceBanners\Model\BannerStore
+     */
+    protected $bannerStoreModel;
+
+    public function __construct(
+        \Touchize\CommerceBanners\Model\ResourceModel\BannerStore $bannerStoreModel
+    ) {
+        $this->bannerStoreModel = $bannerStoreModel;
+    }
+
+    public function execute(\Magento\Framework\Event\Observer $observer)
+    {
+        $bannerModel = $observer->getObject();
+        $bannerId   = $bannerModel->getId();
+        $stores    = $bannerModel->getStoreId();
+        $this->bannerStoreModel->updateBannerRelations($bannerId, $stores);
+    }
+}

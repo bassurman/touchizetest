@@ -38,7 +38,7 @@ class Save extends Banner
     /**
      * @var BannerInterfaceFactory
      */
-    protected $imageFactory;
+    protected $bannerFactory;
 
     /**
      * @var DataObjectHelper
@@ -58,7 +58,7 @@ class Save extends Banner
      * @param PageFactory $resultPageFactory
      * @param Date $dateFilter
      * @param Manager $messageManager
-     * @param BannerInterfaceFactory $imageFactory
+     * @param BannerInterfaceFactory $bannerFactory
      * @param DataObjectHelper $dataObjectHelper
      * @param UploaderPool $uploaderPool
      * @param Context $context
@@ -69,14 +69,14 @@ class Save extends Banner
         PageFactory $resultPageFactory,
         Date $dateFilter,
         Manager $messageManager,
-        BannerInterfaceFactory $imageFactory,
+        BannerInterfaceFactory $bannerFactory,
         DataObjectHelper $dataObjectHelper,
         UploaderPool $uploaderPool,
         Context $context
     ) {
         parent::__construct($registry, $bannerRepository, $resultPageFactory, $dateFilter, $context);
         $this->messageManager   = $messageManager;
-        $this->imageFactory      = $imageFactory;
+        $this->bannerFactory      = $bannerFactory;
         $this->bannerRepository   = $bannerRepository;
         $this->dataObjectHelper  = $dataObjectHelper;
         $this->uploaderPool = $uploaderPool;
@@ -98,7 +98,7 @@ class Save extends Banner
                 $model = $this->bannerRepository->getById($id);
             } else {
                 unset($data['banner_id']);
-                $model = $this->imageFactory->create();
+                $model = $this->bannerFactory->create();
             }
 
             try {
@@ -106,6 +106,7 @@ class Save extends Banner
                 $data['image'] = $image;
 
                 $this->dataObjectHelper->populateWithArray($model, $data, BannerInterface::class);
+                $model->setStoreId($this->getStoreIds());
                 $this->bannerRepository->save($model);
                 $this->messageManager->addSuccessMessage(__('Banner was successfully saved.'));
                 $this->_getSession()->setFormData(false);
@@ -138,5 +139,13 @@ class Save extends Banner
     protected function getUploader($type)
     {
         return $this->uploaderPool->getUploader($type);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getStoreIds()
+    {
+        return $this->getRequest()->getParam('store_id',[0]);
     }
 }
