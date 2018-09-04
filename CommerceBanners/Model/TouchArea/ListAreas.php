@@ -18,29 +18,35 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\CommerceBanners\Controller\Adminhtml\Touchapi;
+namespace Touchize\CommerceBanners\Model\TouchArea;
 
-use Touchize\CommerceBanners\Controller\Adminhtml\Touchapi;
+use Touchize\CommerceBanners\Model\TouchareaFactory;
 
-class AddArea extends Touchapi
+class ListAreas extends AbstractAreaApi implements \Touchize\CommerceBanners\Api\TouchAreaActionModel
 {
     /**
-     * @return \Magento\Framework\View\Result\Page
+     * @return array
      */
-    public function execute()
+    public function getResponseData()
     {
-        $configData = $this->updateArea();
-        $result = $this->resultJsonFactory->create();
-        return $result->setData($configData);
+        return $this->getListAreas();
     }
 
     /**
      * @return array
      */
-    protected function updateArea()
+    protected function getListAreas()
     {
-        $params = $this->getRequest()->getParams();
-        $this->touchAreaActionModel->setData($params);
-        return $this->touchAreaActionModel->getResponseData();
+        $configData = [];
+        $requestData = $this->getData();
+        if ($requestData) {
+            $touchAreaModel = $this->touchAreaFactory->create();
+            $collection  = $touchAreaModel->getCollectionByBannerId($requestData['banner_id']);
+            foreach ($collection as $_touchArea) {
+                $configData [] = $this->touchAreaHelper->remapStoredData($_touchArea);
+            }
+        }
+
+        return $configData;
     }
 }

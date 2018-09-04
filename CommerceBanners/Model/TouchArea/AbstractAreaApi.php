@@ -18,16 +18,28 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\CommerceBanners\Controller\Adminhtml\Touchapi;
+namespace Touchize\CommerceBanners\Model\TouchArea;
 
-use Touchize\CommerceBanners\Controller\Adminhtml\Touchapi;
+use Magento\Framework\Model\AbstractModel;
+use Touchize\CommerceBanners\Model\TouchareaFactory;
 
-class DeleteArea extends EditArea
+abstract class AbstractAreaApi extends AbstractModel
 {
-    protected function updateArea()
-    {
-        $params = $this->getRequest()->getParams();
-        $this->touchAreaActionModel->setData($params);
-        return $this->touchAreaActionModel->getResponseData();
+    /**
+     * @var TouchareaFactory
+     */
+    protected $touchAreaFactory;
+
+    /**
+     * @var \Touchize\Commerce\Helper\TouchArea
+     */
+    protected $touchAreaHelper;
+
+    public function __construct(
+        TouchareaFactory $touchAreaFactory,
+        \Touchize\CommerceBanners\Helper\TouchArea $touchAreaHelper
+    ) {
+        $this->touchAreaFactory = $touchAreaFactory;
+        $this->touchAreaHelper = $touchAreaHelper;
     }
 }

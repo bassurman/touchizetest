@@ -34,30 +34,10 @@ class ListAreas extends Touchapi
         return $result->setData($configData);
     }
 
-    /**
-     * @return array
-     */
-    protected function getListAreas()
+    public function getListAreas()
     {
-        $data = $this->getRequest()->getParams();
-
-        $configData = [];
-        $touchAreaModel = $this->touchareaFactory->create();
-        $collection = $touchAreaModel->getCollection();
-        $collection->addFieldToFilter('banner_id', $data['id_touchize_touchmap']);
-        foreach ($collection as $_touchArea) {
-            $configData [] = [
-                'Id' =>  $_touchArea['id'],
-                'CampaignId' =>  $_touchArea['banner_id'],
-                'Tx' =>  $_touchArea['tx'] * 100 . '%',
-                'Ty' =>  $_touchArea['ty'] * 100 . '%',
-                'Width' =>  $_touchArea['width'] * 100 . '%',
-                'Height' => $_touchArea['height'] * 100 . '%',
-                'SearchTerm' => $_touchArea['search_term'],
-                'ProductId' => $_touchArea['id_product'],
-                'TaxonId' => $_touchArea['id_category'],
-            ];
-        }
-        return $configData;
+        $params = $this->getRequest()->getParams();
+        $this->touchAreaActionModel->setData($params);
+        return $this->touchAreaActionModel->getResponseData();
     }
 }

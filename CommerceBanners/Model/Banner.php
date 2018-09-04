@@ -265,4 +265,9 @@ class Banner extends AbstractModel implements BannerInterface
         }
         return $path;
     }
+
+    public function getStores()
+    {
+        return [3,4];
+    }
 }

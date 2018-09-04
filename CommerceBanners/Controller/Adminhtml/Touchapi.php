@@ -28,7 +28,8 @@ use Magento\Framework\Stdlib\DateTime\Filter\Date;
 use Touchize\Commerce\Controller\Api\Touchmap;
 use Touchize\CommerceBanners\Api\BannerRepositoryInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
-use Touchize\CommerceBanners\Model\TouchareaFactory;
+use Touchize\CommerceBanners\Api\TouchAreaActionModel;
+use Touchize\CommerceBanners\Model\TouchArea\AbstractAreaApi;
 
 abstract class Touchapi extends Action
 {
@@ -66,11 +67,6 @@ abstract class Touchapi extends Action
     protected $dateFilter;
 
     /**
-     * @var TouchareaFactory
-     */
-    protected $touchareaFactory;
-
-    /**
      * Sliders constructor.
      *
      * @param Registry $registry
@@ -86,7 +82,7 @@ abstract class Touchapi extends Action
         PageFactory $resultPageFactory,
         Date $dateFilter,
         Context $context,
-        TouchareaFactory $touchareaFactory
+        AbstractAreaApi $touchAreaActionModel
     ) {
         parent::__construct($context);
         $this->resultJsonFactory = $resultJsonFactory;
@@ -94,6 +90,6 @@ abstract class Touchapi extends Action
         $this->bannerRepository      = $bannerRepository;
         $this->resultPageFactory    = $resultPageFactory;
         $this->dateFilter = $dateFilter;
-        $this->touchareaFactory = $touchareaFactory;
+        $this->touchAreaActionModel = $touchAreaActionModel;
     }
 }

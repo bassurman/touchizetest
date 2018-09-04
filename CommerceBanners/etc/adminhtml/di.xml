@@ -36,4 +36,24 @@
             <argument name="pool" xsi:type="object">TouchizeCommerceBannersUiDataProviderImageFormModifierPool</argument>
         </arguments>
     </type>
+    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Touchapi\ListAreas">
+        <arguments>
+            <argument name="touchAreaActionModel" xsi:type="object">Touchize\CommerceBanners\Model\TouchArea\ListAreas</argument>
+        </arguments>
+    </type>
+    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Touchapi\AddArea">
+        <arguments>
+            <argument name="touchAreaActionModel" xsi:type="object">Touchize\CommerceBanners\Model\TouchArea\AddArea</argument>
+        </arguments>
+    </type>
+    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Touchapi\EditArea">
+        <arguments>
+            <argument name="touchAreaActionModel" xsi:type="object">Touchize\CommerceBanners\Model\TouchArea\AddArea</argument>
+        </arguments>
+    </type>
+    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Touchapi\DeleteArea">
+        <arguments>
+            <argument name="touchAreaActionModel" xsi:type="object">Touchize\CommerceBanners\Model\TouchArea\DeleteArea</argument>
+        </arguments>
+    </type>
 </config>

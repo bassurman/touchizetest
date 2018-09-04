@@ -646,7 +646,7 @@
         var drawingObject = {}, canvasContext = element.getContext("2d"), canvas = element, self = this, cachedAreas = {};
         function addActionArea() {
             var form = new FormData();
-            form.append("id_touchize_touchmap", options.id);
+            form.append("banner_id", options.id);
             form.append("tx", drawingObject.x / canvas.width);
             form.append("ty", drawingObject.y / canvas.height);
             form.append("width", drawingObject.w / canvas.width);
@@ -865,7 +865,7 @@
         function editActionArea(id, pid, tid, term) {
             var form = new FormData();
             form.append("id", id);
-            form.append("id_touchize_touchmap", options.id);
+            form.append("banner_id", options.id);
             if (pid) {
                 form.append("product_id", pid);
             }
@@ -884,7 +884,7 @@
         }
         function listActionAreas() {
             var form = new FormData();
-            form.append("id_touchize_touchmap", options.id);
+            form.append("banner_id", options.id);
             core.utils.genericRequest(options.list, {
                 method: "POST",
                 form: form
@@ -896,7 +896,7 @@
         function deleteActionArea(e) {
             e.target.setAttribute("disabled", "disabled");
             var form = new FormData();
-            form.append("id", e.currentTarget.parentNode.getAttribute("data-id")), form.append("id_touchize_touchmap", options.id);
+            form.append("id", e.currentTarget.parentNode.getAttribute("data-id")), form.append("banner_id", options.id);
             core.utils.genericRequest(options.delete, {
                 method: "POST",
                 form: form

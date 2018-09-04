@@ -55,4 +55,16 @@ class Toucharea extends AbstractModel implements \Magento\Framework\DataObject\I
 
         return $values;
     }
+
+    /**
+     * @param $bannerId
+     *
+     * @return \Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection
+     */
+    public function getCollectionByBannerId($bannerId)
+    {
+        $collection = $this->getCollection();
+        $collection->addFieldToFilter('banner_id', $bannerId);
+        return $collection;
+    }
 }

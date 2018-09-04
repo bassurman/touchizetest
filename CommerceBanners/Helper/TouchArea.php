@@ -18,11 +18,13 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\Commerce\Helper;
+namespace Touchize\CommerceBanners\Helper;
 
 class TouchArea extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    protected $mapData = [
+    const PERCENT_SIGN = '%';
+
+    protected $_mapData = [
         'banner_id' => 'CampaignId',
         'tx' => 'Tx',
         'ty' => 'Ty',
@@ -33,8 +35,50 @@ class TouchArea extends \Magento\Framework\App\Helper\AbstractHelper
         'id_category' => 'TaxonId',
     ];
 
-    public function remapStoredData($data)
+    /**
+     * @param $areaData
+     *
+     * @return array
+     */
+    public function remapStoredData($areaData)
     {
+        return [
+            'Id' =>  $areaData['id'],
+            'CampaignId' =>  $areaData['banner_id'],
+            'Tx' =>  $this->addPercentValues($areaData['tx']),
+            'Ty' =>  $this->addPercentValues($areaData['ty']),
+            'Width' =>  $this->addPercentValues($areaData['width']),
+            'Height' => $this->addPercentValues($areaData['height']),
+            'SearchTerm' => $areaData['search_term'],
+            'ProductId' => $areaData['id_product'],
+            'TaxonId' => $areaData['id_category'],
+        ];
+    }
 
+    /**
+     * @param $requestData
+     *
+     * @return array
+     */
+    public function prepareToSave($requestData)
+    {
+        $preparedData = [];
+        foreach ($this->_mapData as $dataKey => $pluginKey ) {
+            if(isset($requestData[$dataKey])) {
+                $preparedData[$dataKey] = $requestData[$dataKey];
+            }
+        }
+        return $preparedData;
+    }
+
+    /**
+     * @param $value
+     *
+     * @return string
+     */
+    protected function addPercentValues($value)
+    {
+        $percentage = ($value * 100) . self::PERCENT_SIGN;
+        return $percentage;
     }
 }

@@ -17,17 +17,12 @@
  *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
+namespace Touchize\CommerceBanners\Api;
 
-namespace Touchize\CommerceBanners\Controller\Adminhtml\Touchapi;
-
-use Touchize\CommerceBanners\Controller\Adminhtml\Touchapi;
-
-class DeleteArea extends EditArea
+/**
+ * @api
+ */
+interface  TouchAreaActionModel
 {
-    protected function updateArea()
-    {
-        $params = $this->getRequest()->getParams();
-        $this->touchAreaActionModel->setData($params);
-        return $this->touchAreaActionModel->getResponseData();
-    }
+   public function getResponseData();
 }
