@@ -25,6 +25,9 @@ use Touchize\CommerceBanners\Model\TouchareaFactory;
 class DeleteArea extends AddArea implements \Touchize\CommerceBanners\Api\TouchAreaActionModel
 {
 
+    /**
+     * @return array
+     */
     public function getResponseData()
     {
         $this->deleteArea();

@@ -29,11 +29,22 @@ class Categories extends Touchapi
      */
     public function execute()
     {
-        $jsn = '[{"Id":"8","Name":"Dresses"},{"Id":"9","Name":"Casual Dresses"},{"Id":"10","Name":"Evening Dresses"},{"Id":"11","Name":"Summer Dresses"}]';
-
-        $configData = \GuzzleHttp\json_decode($jsn, true);
-
+        $query = $this->getRequest()->getParam('q');
+        $configData = $this->getSearchResults($query);
         $result = $this->resultJsonFactory->create();
         return $result->setData($configData);
+
+
+    }
+
+    /**
+     * @param $query
+     *
+     * @return mixed
+     */
+    protected function getSearchResults($query)
+    {
+        $this->touchAreaActionModel->setSearchQuery($query);
+        return $this->touchAreaActionModel->getResponseData();
     }
 }

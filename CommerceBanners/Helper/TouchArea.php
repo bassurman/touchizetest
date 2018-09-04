@@ -20,8 +20,31 @@
 
 namespace Touchize\CommerceBanners\Helper;
 
+use Magento\Framework\App\Helper\Context;
+
 class TouchArea extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    /**
+     * @var \Magento\Catalog\Model\CategoryFactory
+     */
+    protected $categoryFactory;
+
+    /**
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $productFactory;
+
+
+    public function __construct(
+        Context $context,
+        \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory
+    ) {
+        parent::__construct($context);
+        $this->categoryFactory = $categoryFactory;
+        $this->productFactory = $productFactory;
+    }
+
     const PERCENT_SIGN = '%';
 
     protected $_mapData = [
@@ -42,7 +65,7 @@ class TouchArea extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function remapStoredData($areaData)
     {
-        return [
+        $pluginData = [
             'Id' =>  $areaData['id'],
             'CampaignId' =>  $areaData['banner_id'],
             'Tx' =>  $this->addPercentValues($areaData['tx']),
@@ -53,6 +76,37 @@ class TouchArea extends \Magento\Framework\App\Helper\AbstractHelper
             'ProductId' => $areaData['id_product'],
             'TaxonId' => $areaData['id_category'],
         ];
+
+        if ($areaData['id_category']) {
+            $pluginData['CategoryName'] = $this->getCategoryName($areaData['id_category']);
+        }
+
+        if ($areaData['id_product']) {
+            $pluginData['ProductName'] = $this->getProductName($areaData['id_product']);
+        }
+        return $pluginData;
+    }
+
+    /**
+     * @param $categoryId
+     *
+     * @return string
+     */
+    protected function getCategoryName($categoryId)
+    {
+        $category = $this->categoryFactory->create();
+        return $category->load($categoryId)->getName();
+    }
+
+    /**
+     * @param $productId
+     *
+     * @return string
+     */
+    protected function getProductName($productId)
+    {
+        $product = $this->productFactory->create();
+        return $product->load($productId)->getName();
     }
 
     /**

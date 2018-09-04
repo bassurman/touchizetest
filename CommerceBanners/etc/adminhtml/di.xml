@@ -56,4 +56,14 @@
             <argument name="touchAreaActionModel" xsi:type="object">Touchize\CommerceBanners\Model\TouchArea\DeleteArea</argument>
         </arguments>
     </type>
+    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Touchapi\Categories">
+        <arguments>
+            <argument name="touchAreaActionModel" xsi:type="object">Touchize\CommerceBanners\Model\TouchArea\Categories</argument>
+        </arguments>
+    </type>
+    <type name="Touchize\CommerceBanners\Controller\Adminhtml\Touchapi\Products">
+        <arguments>
+            <argument name="touchAreaActionModel" xsi:type="object">Touchize\CommerceBanners\Model\TouchArea\Products</argument>
+        </arguments>
+    </type>
 </config>

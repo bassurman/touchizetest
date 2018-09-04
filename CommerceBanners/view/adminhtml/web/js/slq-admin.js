@@ -816,7 +816,7 @@
                 }
                 e.target.classList.add("working");
                 showResult(null, e, str);
-                core.utils.genericRequest(endpoint + "&q=" + str, {
+                core.utils.genericRequest(endpoint + "?q=" + str, {
                     method: "GET"
                 }, function(data) {
                     showResult(data, e);
@@ -867,10 +867,10 @@
             form.append("id", id);
             form.append("banner_id", options.id);
             if (pid) {
-                form.append("product_id", pid);
+                form.append("id_product", pid);
             }
             if (tid) {
-                form.append("taxon_id", tid);
+                form.append("id_category", tid);
             }
             if (term) {
                 form.append("search_term", term);

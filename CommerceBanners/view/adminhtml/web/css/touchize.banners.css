@@ -33,3 +33,18 @@
     height: 31px;
     padding: 6px 8px;
 }
+#slq-action-area-list .autocomplete-list {
+    cursor: pointer;
+    position: absolute;
+    background: #fff;
+    border: 1px solid #eee;
+    border-top: none;
+    z-index: 1000;
+}
+
+#slq-action-area-list .autocomplete-list span {
+    padding: 0.5rem;
+    display: block;
+    border-bottom: 1px solid #eee;
+    line-height: 1.4;
+}

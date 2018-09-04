@@ -91,7 +91,7 @@ class MassDelete extends Banner
             $this->messageManager->addExceptionMessage($e, __($this->errorMessage));
         }
         $redirectResult = $this->resultRedirectFactory->create();
-        $redirectResult->setPath('commercebanners/image');
+        $redirectResult->setPath('commercebanners/banner');
         return $redirectResult;
     }
 }
