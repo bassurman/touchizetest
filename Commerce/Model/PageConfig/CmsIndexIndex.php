@@ -38,4 +38,19 @@ class CmsIndexIndex extends CatalogCategoryView implements PageConfigInterface
     {
         $this->_configHelper->registerCurrentCategory();
     }
+
+    /**
+     * @return \Touchize\CommerceBanners\Model\ResourceModel\Banner\Collection
+     */
+    protected function getBannerCollection()
+    {
+        $banner = $this->bannerFactory->create();
+        $collection = $banner->getCollection();
+        $collection->addFieldToFilter('is_allowed_on_homepage',['eq' => 1]);
+        $collection->addFieldToFilter('is_enabled',['eq' => 1]);
+
+        $this->dataHelper->isAllowedToView();
+
+        return $collection;
+    }
 }

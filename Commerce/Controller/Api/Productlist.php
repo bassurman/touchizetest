@@ -81,14 +81,20 @@ class Productlist extends \Touchize\Commerce\Controller\Api\ApiCore
      */
     public function execute()
     {
-        $categoryId = $this->getRequest()->getParam(self::CATEGORY_ID_PARAM);
-        $category = $this->categoryRepository->get($categoryId, $this->_storeManager->getStore()->getId());
-
-        $this->_coreRegistry->register('current_category', $category);
-
+        $this->registerRequestedCategory();
         $configModel = $this->getConfigModel();
         $configData = $configModel->getConfig();
         $result = $this->resultJsonFactory->create();
         return $result->setData($configData);
+    }
+
+    /**
+     *
+     */
+    protected function registerRequestedCategory()
+    {
+        $categoryId = $this->getRequest()->getParam(self::CATEGORY_ID_PARAM);
+        $category = $this->categoryRepository->get($categoryId, $this->_storeManager->getStore()->getId());
+        $this->_coreRegistry->register('current_category', $category);
     }
 }

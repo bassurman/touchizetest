@@ -57,6 +57,21 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
      */
     protected $priceCurrency;
 
+    /**
+     * @var \Touchize\CommerceBanners\Model\BannerFactory
+     */
+    protected $bannerFactory;
+
+    /**
+     * @var \Touchize\CommerceBanners\Model\TouchareaFactory
+     */
+    protected $touchAreaFactory;
+
+    /**
+     * @var \Touchize\CommerceBanners\Helper\TouchArea
+     */
+    protected $helperTouchArea;
+
     public function __construct(
         ProductUrlPathGenerator $productUrlPathGenerator,
         PriceCurrencyInterface $priceCurrency,
@@ -66,7 +81,10 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Pricing\Helper\Data $priceHelper,
         \Touchize\Commerce\Helper\Product $productHelper,
-        Context $context
+        Context $context,
+        \Touchize\CommerceBanners\Model\BannerFactory $bannerFactory,
+        \Touchize\CommerceBanners\Model\TouchareaFactory $touchAreaFactory,
+        \Touchize\CommerceBanners\Helper\TouchArea $helperTouchArea
     ) {
 
         parent::__construct($context, $registry, $configHelper);
@@ -76,6 +94,9 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         $this->dataHelper = $dataHelper;
         $this->outputHelper = $outputHelper;
         $this->_priceHelper = $priceHelper;
+        $this->bannerFactory = $bannerFactory;
+        $this->touchAreaFactory = $touchAreaFactory;
+        $this->helperTouchArea = $helperTouchArea;
     }
 
     /**
@@ -124,6 +145,56 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
     {
         $productImages = $this->productHelper->getProductImages($product);
         return $productImages;
+    }
+
+    public function getBannersConfig()
+    {
+        $params = [];
+        $collection = $this->getBannerCollection();
+        $bannerIds = $collection->getAllIds();
+        $touchAreas = $this->fetchTouchAreas($bannerIds);
+        foreach($collection as $_banner) {
+            $bannerId = $_banner->getId();
+            $pluginData = array (
+                'Id' => $bannerId,
+                'Visible' =>  $_banner->getIsEnabled(),
+                'UseInSlider' => false,
+                'ImageUrl' => $_banner->getImageUrl(),
+                'AspectRatio' => '0%',
+            );
+            if (isset($touchAreas[$bannerId])) {
+                $pluginData['Map'] = $touchAreas[$bannerId];
+            }
+
+            $params[] = $pluginData;
+        }
+
+        return $params;
+    }
+
+    protected function getBannerCollection()
+    {
+        $banner = $this->bannerFactory->create();
+        $collection = $banner->getCollection();
+        $collection->addFieldToFilter('is_allowed_on_homepage',['eq' => 1]);
+        $collection->addFieldToFilter('is_enabled',['eq' => 1]);
+        $collection->getSelect()->limit(1);
+        return $collection;
+    }
+
+
+    protected function fetchTouchAreas($bannerIds)
+    {
+        $touchAreas = [];
+        $touchAreaModel = $this->touchAreaFactory->create();
+        $collection = $touchAreaModel->getCollection();
+        $collection->addFieldToFilter('banner_id', ['in' => $bannerIds]);
+        foreach ($collection as $_touchArea) {
+            $touchAreas[$_touchArea['banner_id']][] = $this->helperTouchArea->remapStoredData(
+                $_touchArea->getData()
+            );
+        }
+        return $touchAreas;
     }
 }
 

@@ -18,16 +18,9 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-
 namespace Touchize\Commerce\Controller\Api;
 
-
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Touchize\Commerce\Model\PageConfigFactory;
-use \Magento\Catalog\Model\CategoryFactory;
-
-class Banner extends \Touchize\Commerce\Controller\Api\ApiCore
+class Banner extends \Touchize\Commerce\Controller\Api\Productlist
 {
 
     /**
@@ -37,10 +30,6 @@ class Banner extends \Touchize\Commerce\Controller\Api\ApiCore
      */
     public function execute()
     {
-        $configModel = $this->getConfigModel();
-        $configData = $configModel->getConfig();
-
-        $result = $this->resultJsonFactory->create();
-        return $result->setData($configData);
+        return parent::execute();
     }
 }

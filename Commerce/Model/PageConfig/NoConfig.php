@@ -74,30 +74,6 @@ class NoConfig extends \Magento\Framework\Model\AbstractModel implements PageCon
 
     public function getBannersConfig()
     {
-        $params[] = array (
-            'Id' => '1',
-            'Visible' => '1',
-            'UseInSlider' => false,
-            'ImageUrl' => 'http://touchize.loc/16/img/touchmaps/1.jpg',
-            'AspectRatio' => '0%',
-            'Map' =>
-                array (
-                    0 =>
-                        array (
-                            'Id' => '1',
-                            'CampaignId' => '1',
-                            'Tx' => '15.230635335074%',
-                            'Ty' => '6.7669172932331%',
-                            'Width' => '40.644038294169%',
-                            'Height' => '38.646616541353%',
-                            'SearchTerm' => '',
-                            'ProductId' => NULL,
-                            'TaxonId' => '3',
-                            'CategoryName' => 'Women',
-                        ),
-                ),
-        );
-
-        return $params;
+        return [];
     }
 }

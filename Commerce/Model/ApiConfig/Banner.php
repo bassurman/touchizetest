@@ -20,9 +20,10 @@
 
 namespace Touchize\Commerce\Model\ApiConfig;
 
-use Touchize\Commerce\Model\PageConfig\NoConfig;
+use Magento\Framework\View\Element\Template\Context;
+use Touchize\Commerce\Model\PageConfig\CatalogCategoryView;
 
-class Banner extends NoConfig
+class Banner extends CatalogCategoryView
 {
     /**
      * @return array
