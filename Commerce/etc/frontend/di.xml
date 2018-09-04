@@ -96,4 +96,11 @@
             </argument>
         </arguments>
     </type>
+    <type name="Touchize\Commerce\Controller\Api\Banner">
+        <arguments>
+            <argument name="configModel" xsi:type="object">
+                Touchize\Commerce\Model\ApiConfig\Banner
+            </argument>
+        </arguments>
+    </type>
 </config>

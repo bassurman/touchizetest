@@ -18,25 +18,18 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
+namespace Touchize\Commerce\Model\ApiConfig;
 
-namespace Touchize\Commerce\Controller\Api;
+use Touchize\Commerce\Model\PageConfig\NoConfig;
 
-
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Touchize\Commerce\Model\PageConfigFactory;
-use \Magento\Catalog\Model\CategoryFactory;
-
-class Touchmap extends \Touchize\Commerce\Controller\Api\ApiCore
+class Banner extends NoConfig
 {
-
     /**
-     * Index action
-     *
-     * @return $this
+     * @return array
      */
-    public function execute()
+    public function getConfig()
     {
-      return parent::execute();
+        return $this->getBannersConfig();
     }
 }
+

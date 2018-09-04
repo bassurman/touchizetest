@@ -91,7 +91,8 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $this->generateBases()
             ->fillRouter()
-            ->fillEndpoints();
+            ->fillEndpoints()
+            ->fillBanners();
         $this->fillMainMenu()
             ->fillTopMenu()
             ->fillActiveProducts()
@@ -148,7 +149,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
                 'Endpoint' => 'touchizecommerce/api/product'
             ],
             'Campaigns' => [
-                'Endpoint' => 'touchizecommerce/api/touchmap'
+                'Endpoint' => 'touchizecommerce/api/banner'
             ],
             'AutoSearch' => [
                 'Endpoint' => 'touchizecommerce/api/searchAutocomplete'
@@ -274,6 +275,21 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         $params = $configModel->getConfig();
         $this->_config['StartupModules']['Content']['Params']['Template']['Blocks'][] = [
             'Module' => 'ProductList',
+            'Params' => ['Model' => $params]
+        ];
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    protected function fillBanners()
+    {
+        $configModel = $this->getConfigModel();
+        $params = $configModel->getBannersConfig();
+        $this->_config['StartupModules']['Content']['Params']['Template']['Blocks'][] = [
+            'Module' => 'Campaign',
             'Params' => ['Model' => $params]
         ];
 

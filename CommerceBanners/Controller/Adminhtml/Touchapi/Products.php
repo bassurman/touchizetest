@@ -33,8 +33,6 @@ class Products extends Touchapi
         $configData = $this->getSearchResults($query);
         $result = $this->resultJsonFactory->create();
         return $result->setData($configData);
-
-
     }
 
     /**
