@@ -13,6 +13,13 @@
             <block class="Touchize\Commerce\Block\Plugin\Head" name="touchize.plugin.head" as="touchize_plugin_head" template="Touchize_Commerce::plugin/head.phtml"/>
         </referenceBlock>
         <referenceContainer name="root">
+            <block class="Touchize\Commerce\Block\Links" name="navigation.menu.links" >
+                <action method="addNavigationLink">
+                    <argument name="label" xsi:type="string" translate="true">My Account</argument>
+                    <argument name="path" xsi:type="string">customer/account/login</argument>
+                    <argument name="type" xsi:type="string">menu-item</argument>
+                </action>
+            </block>
             <block class="Touchize\Commerce\Block\Plugin\Init" name="touchize.plugin.init" template="Touchize_Commerce::plugin/init.phtml"/>
             <block class="Touchize\Commerce\Block\Plugin\Footer" name="touchize.plugin.footer" as="touchize_plugin_footer" template="Touchize_Commerce::plugin/footer.phtml"/>
         </referenceContainer>

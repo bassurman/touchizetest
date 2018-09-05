@@ -40,6 +40,16 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_configModel;
 
     /**
+     * @var \Touchize\Commerce\Model\Configurator\TopMenu
+     */
+    protected $configuratorMenu;
+
+    /**
+     * @var \Touchize\Commerce\Model\Configurator\MainMenu
+     */
+    protected $configuratorMainMenu;
+
+    /**
      * Config constructor.
      *
      * @param Context                                       $context
@@ -55,6 +65,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         Context $context,
         \Touchize\Commerce\Model\PageConfigFactory $pageConfigFactory,
         \Touchize\Commerce\Model\Configurator\TopMenu $configuratorMenu,
+        \Touchize\Commerce\Model\Configurator\MainMenu $configuratorMainMenu,
         \Magento\Framework\View\LayoutInterface $layout,
         \Touchize\Commerce\Helper\Data $dataHelper,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
@@ -64,6 +75,7 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         parent::__construct($context);
         $this->pageConfigFactory  = $pageConfigFactory;
         $this->configuratorMenu   = $configuratorMenu;
+        $this->configuratorMainMenu   = $configuratorMainMenu;
         $this->layout             = $layout;
         $this->dataHelper         = $dataHelper;
         $this->categoryRepository = $categoryRepository;
@@ -246,7 +258,9 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function fillMainMenu()
     {
-        $this->_config['MainMenu'] = [];
+
+        $mainMenu = $this->configuratorMainMenu->getMainMenuConfig();
+        $this->_config['MainMenu'] = $mainMenu;
 
         return $this;
     }
