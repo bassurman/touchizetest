@@ -127,4 +127,6 @@ interface BannerInterface
      * @return BannerInterface
      */
     public function setUpdatedAt($updatedAt);
+
+    public function getStores();
 }

@@ -128,7 +128,6 @@
                 </validation>
                 <dataType>int</dataType>
                 <label translate="true">Store View</label>
-                <dataScope>store_id</dataScope>
             </settings>
             <formElements>
                 <multiselect>

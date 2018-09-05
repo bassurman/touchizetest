@@ -28,6 +28,10 @@
                     <item name="class" xsi:type="string">Touchize\CommerceBanners\Ui\DataProvider\Image\Form\Modifier\ImageData</item>
                     <item name="sortOrder" xsi:type="number">10</item>
                 </item>
+                <item name="stores_data" xsi:type="array">
+                    <item name="class" xsi:type="string">Touchize\CommerceBanners\Ui\DataProvider\Image\Form\Modifier\StoresData</item>
+                    <item name="sortOrder" xsi:type="number">12</item>
+                </item>
             </argument>
         </arguments>
     </virtualType>

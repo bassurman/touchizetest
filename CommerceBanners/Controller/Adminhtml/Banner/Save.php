@@ -106,7 +106,7 @@ class Save extends Banner
                 $data['image'] = $image;
 
                 $this->dataObjectHelper->populateWithArray($model, $data, BannerInterface::class);
-                $model->setStoreId($this->getStoreIds());
+                $model->setStores($this->getStoreIds());
                 $this->bannerRepository->save($model);
                 $this->messageManager->addSuccessMessage(__('Banner was successfully saved.'));
                 $this->_getSession()->setFormData(false);
@@ -146,6 +146,6 @@ class Save extends Banner
      */
     protected function getStoreIds()
     {
-        return $this->getRequest()->getParam('store_id',[0]);
+        return $this->getRequest()->getParam('stores',[0]);
     }
 }

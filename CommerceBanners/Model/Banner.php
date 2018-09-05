@@ -268,6 +268,6 @@ class Banner extends AbstractModel implements BannerInterface
 
     public function getStores()
     {
-        return [3,4];
+        return $this->getData('stores');
     }
 }

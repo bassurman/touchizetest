@@ -18,10 +18,15 @@
  *  International Registered Trademark & Property of Touchize Sweden AB
  */
 
-namespace Touchize\CommerceBanners\Observer;
+namespace Touchize\CommerceBanners\Ui\DataProvider\Image\Form\Modifier;
 
-class BannerStore implements \Magento\Framework\Event\ObserverInterface
+use Magento\Ui\DataProvider\Modifier\ModifierInterface;
+use Touchize\CommerceBanners\Model\ResourceModel\Banner\CollectionFactory;
+
+class StoresData implements ModifierInterface
 {
+    const STORE_DELIMITER = ',';
+
     /**
      * @var \Touchize\CommerceBanners\Model\BannerStore
      */
@@ -33,11 +38,33 @@ class BannerStore implements \Magento\Framework\Event\ObserverInterface
         $this->bannerStoreModel = $bannerStoreModel;
     }
 
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    /**
+     * @param array $meta
+     * @return array
+     */
+    public function modifyMeta(array $meta)
     {
-        $bannerModel = $observer->getObject();
-        $bannerId   = $bannerModel->getId();
-        $stores    = $bannerModel->getStores();
-        $this->bannerStoreModel->updateBannerRelations($bannerId, $stores);
+        return $meta;
+    }
+
+    /**
+     * @param array $data
+     * @return array|mixed
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function modifyData(array $data)
+    {
+        foreach($data as &$banner) {
+            if (isset($banner['banner_id'])) {
+                $assignedStores = $this->bannerStoreModel->getAssignedRows($banner['banner_id']);
+                if ($assignedStores) {
+                    $storeValues = implode(self::STORE_DELIMITER, $assignedStores);
+                    $banner['stores'] = $storeValues;
+                }
+            }
+        }
+
+
+        return $data;
     }
 }

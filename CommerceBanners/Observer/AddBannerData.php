@@ -42,8 +42,8 @@ class AddBannerData implements \Magento\Framework\Event\ObserverInterface
     protected function addStoreData($bannerModel)
     {
         if ($bannerModel->getId()) {
-            $bannerModel->setData('stores', [3,4]);
             $assignedStores = $this->bannerStoreModel->getAssignedRows($bannerModel->getId());
+            $bannerModel->setData('stores',$assignedStores);
         }
     }
 }

@@ -67,9 +67,10 @@ class BannerStore extends AbstractDb
 
     public function getAssignedRows($bannerId)
     {
-        $select = $this->getConnection()->select();
+        $connection = $this->getConnection();
+        $select = $connection->select();
         $select->from($this->getTable(self::TABLE_NAME), 'store_id');
         $select->where('banner_id = ?', $bannerId);
-        return $select;
+        return $connection->fetchCol($select, ['store_id']);
     }
 }
