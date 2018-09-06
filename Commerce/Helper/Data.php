@@ -62,10 +62,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isAllowedToView()
     {
-
         if ($this->_getRequest()->getParam(self::REQUEST_TEST_PARAM, false)) {
             return true;
         }
+
         $actionName = $this->_getRequest()->getFullActionName();
         if (!$this->isAllowedToGenerateConfig($actionName)) {
             return false;
@@ -257,11 +257,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getUrlSuffix()
+    public function getConfiguredMenuItems()
     {
-        return $this->getConfig('catalog/seo/product_url_suffix');
+        $menuItems = $this->getConfig('touchize_commmerce_config/touchize_commmerce_menu/items');
+        if ($menuItems) {
+           return \GuzzleHttp\json_decode($menuItems, true);
+        }
+        return [];
     }
 
     /**

@@ -30,13 +30,27 @@ class MainMenu extends \Magento\Framework\Model\AbstractModel
      */
     protected $_urlBuilder;
 
+    /**
+     * @var \Magento\Catalog\Helper\Config
+     */
+    protected $dataHelper;
+
+
+    /**
+     * MainMenu constructor.
+     *
+     * @param \Magento\Framework\UrlInterface         $urlBuilder
+     * @param \Magento\Framework\View\LayoutInterface $layout
+     * @param \Touchize\Commerce\Helper\Data          $dataHelper
+     */
     public function __construct(
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Framework\View\LayoutInterface $layout
-
+        \Magento\Framework\View\LayoutInterface $layout,
+        \Touchize\Commerce\Helper\Data $dataHelper
     ) {
         $this->_urlBuilder = $urlBuilder;
         $this->layout = $layout;
+        $this->dataHelper = $dataHelper;
     }
 
     /**
@@ -56,34 +70,16 @@ class MainMenu extends \Magento\Framework\Model\AbstractModel
      */
     protected function getConfiguredItems()
     {
-        $confItems = array (
-            0 =>
-                array (
-                    'type' => 'menu-divider',
-                ),
-            2 =>
-                array (
-                    'type' => 'menu-header',
-                    'title' => 'Menu Header TItle',
-                ),
-            3 =>
-                array (
-                    'type' => 'menu-item',
-                    'title' => 'About us',
-                    'url' => 'about-us',
-                ),
-            4 =>
-                array (
-                    'type' => 'menu-divider',
-                ),
-            5 =>
-                array (
-                    'type' => 'menu-item',
-                    'title' => 'Search Item',
-                    'url' => 'http://google.com',
-                    'external' => 'true',
-                ),
-        );
+        $confItems = [];
+        $menuItems = $this->dataHelper->getConfiguredMenuItems();
+        foreach ($menuItems as $_item) {
+            $confItems[] = [
+                'type' => 'menu-' . $_item['item_type'],
+                'title' => $_item['item_type'] == 'divider' ? '' : $_item['link_title'],
+                'url' => $this->getItemUrl($_item['link_path']),
+                'external' => (bool)$_item['is_external'],
+            ];
+        }
 
         return  $confItems;
     }
@@ -98,5 +94,23 @@ class MainMenu extends \Magento\Framework\Model\AbstractModel
             return $blockLinks->getLinks();
         }
         return [];
+    }
+
+    /**
+     * @param $urlValue
+     *
+     * @return string
+     */
+    protected function getItemUrl($urlValue)
+    {
+        return $this->getUrlBuilder()->getUrl($urlValue);
+    }
+
+    /**
+     * @return \Magento\Framework\UrlInterface
+     */
+    public function getUrlBuilder()
+    {
+        return $this->_urlBuilder;
     }
 }

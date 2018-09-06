@@ -324,21 +324,12 @@ class Config extends \Magento\Framework\App\Helper\AbstractHelper
         return $this;
     }
 
-
     /**
      * @return mixed
      */
     public function getActionName()
     {
         return $this->_getRequest()->getFullActionName();
-    }
-
-    /**
-     * @return string
-     */
-    public function getUrlSuffix()
-    {
-        return $this->dataHelper->getUrlSuffix();
     }
 
     /**

@@ -72,6 +72,15 @@
                     <comment><![CDATA[Put here your HTML code to display it in the footer]]></comment>
                 </field>
             </group>
+            <group id="touchize_commmerce_menu" translate="label" type="text" sortOrder="9300" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Setup Menu</label>
+                <field id="items" translate="label" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Menu items</label>
+                    <comment><![CDATA[Add new menu items to additional navigation.]]></comment>
+                    <frontend_model>Touchize\Commerce\Block\Adminhtml\Form\Field\MenuItems</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
             <group id="touchize_commmerce_category" translate="label" type="text" sortOrder="9400" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Category Setup</label>
                 <field id="enable_limit" translate="label" type="select" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">

@@ -29,6 +29,9 @@
                 <features_label>Features</features_label>
                 <back_button_title>Back</back_button_title>
             </touchize_commmerce_setup>
+            <touchize_commmerce_menu>
+                <items><![CDATA[{"_1536226264688_688":{"item_type":"divider","link_title":"Clear line","link_path":"","is_external":"0"},"_1536226645140_140":{"item_type":"header","link_title":"Addtitional","link_path":"","is_external":"0"},"_1536226980137_137":{"item_type":"item","link_title":"About Us","link_path":"about-us","is_external":"0"},"_1536229880359_359":{"item_type":"item","link_title":"External Link","link_path":"http:\/\/www.google.com\/search?q=touchize","is_external":"1"}}]]></items>
+            </touchize_commmerce_menu>
             <touchize_commmerce_design>
                 <theme_type>classic</theme_type>
             </touchize_commmerce_design>

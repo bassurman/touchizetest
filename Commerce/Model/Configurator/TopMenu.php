@@ -60,6 +60,11 @@ class TopMenu extends \Magento\Framework\Model\AbstractModel
     private $storeManager;
 
     /**
+     * @var \Magento\Catalog\Helper\Category
+     */
+    protected $categoryHelper;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Catalog\Helper\Category $catalogCategory

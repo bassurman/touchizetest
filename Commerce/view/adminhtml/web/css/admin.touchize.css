@@ -13,3 +13,6 @@
 #theme-types.clean {
     background-image: url(../images/clean.jpg);
 }
+.menu-item-type {
+    width: 140px !important;
+}
