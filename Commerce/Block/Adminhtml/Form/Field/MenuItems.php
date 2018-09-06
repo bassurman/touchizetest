@@ -53,7 +53,7 @@ class MenuItems extends \Magento\Config\Block\System\Config\Form\Field\FieldArra
             'label' => __('Item Type'),
             'renderer' => $this->_getItemTypeRenderer()
         ]);
-        $this->addColumn('item_title', [
+        $this->addColumn('link_title', [
             'label' => __('Title'),
             'style' => 'width:190px',
         ]);
