@@ -177,7 +177,16 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         $banner = $this->bannerFactory->create();
         $collection = $banner->getCollection();
         $collection->addFieldToFilter('is_enabled',['eq' => 1]);
+        if ($this->dataHelper->deviceIsMobile()) {
+            $collection->addFieldToFilter('is_allowed_on_mobile',['eq' => 1]);
+        }
+
+        if ($this->dataHelper->deviceisTablet()) {
+            $collection->addFieldToFilter('is_allowed_on_tablet',['eq' => 1]);
+        }
+
         $currStoreId = $this->dataHelper->getStoreId();
+
         $collection->addFieldToFilter('stores', [
             ['finset'=> \Touchize\Commerce\Helper\Data::ALL_STORES_ID],
             ['finset'=> $currStoreId]

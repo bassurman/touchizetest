@@ -83,19 +83,35 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $displayType = $this->getTypeDisplayDevices();
         switch ($displayType) {
             case Devices::MOBILE_ONLY :
-                return $this->deviceDetector->isMobile();
+                return $this->deviceIsMobile();
                 break;
             case Devices::TABLET_ONLY :
-                return $this->deviceDetector->isTablet();
+                return $this->deviceisTablet();
                 break;
             case Devices::BOTH_DEVICES :
-                return ($this->deviceDetector->isTablet() || $this->deviceDetector->isMobile());
+                return ($this->deviceisTablet() || $this->deviceIsMobile());
                 break;
             default:
                 return false;
         }
 
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function deviceIsMobile()
+    {
+        return $this->deviceDetector->isMobile();
+    }
+
+    /**
+     * @return bool
+     */
+    public function deviceisTablet()
+    {
+        return $this->deviceDetector->isTablet();
     }
 
     /**
