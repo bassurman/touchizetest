@@ -674,7 +674,7 @@
                 canvasContext.beginPath();
                 canvasContext.setLineDash([ 5, 2 ]);
                 canvasContext.fillStyle = "rgba(255,255,255,0.3)";
-                canvasContext.lineWidth = "1";
+                canvasContext.lineWidth = "2";
                 canvasContext.strokeStyle = "rgba(0,0,0,0.8)";
                 canvasContext.rect(draw.x, draw.y, draw.w, draw.h);
                 canvasContext.stroke();
@@ -708,8 +708,8 @@
             cachedAreas = data;
             canvasContext.clearRect(0, 0, canvas.width, canvas.height);
             canvasContext.font = "bold 14px Arial";
-            canvasContext.setLineDash([ 5, 2 ]);
-            canvasContext.lineWidth = "1";
+            canvasContext.setLineDash([ 5, 4 ]);
+            canvasContext.lineWidth = "2";
             canvasContext.textBaseline = "top";
             for (var i = 0; i < data.length; i++) {
                 data[i].color = colors[i];

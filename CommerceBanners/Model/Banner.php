@@ -266,8 +266,46 @@ class Banner extends AbstractModel implements BannerInterface
         return $path;
     }
 
+
+    /**
+     * @param $categories
+     *
+     * @return $this
+     */
+    public function setStores($stores)
+    {
+        if (is_array($stores)) {
+            $stores = implode(',',$stores);
+        }
+        return $this->setData('stores', $stores);
+    }
+
+    /**
+     * @return mixed
+     */
     public function getStores()
     {
         return $this->getData('stores');
+    }
+
+    /**
+     * @param $categories
+     *
+     * @return $this
+     */
+    public function setCategories($categories)
+    {
+        if (is_array($categories)) {
+            $categories = implode(',',$categories);
+        }
+        return $this->setData('categories', $categories);
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategories()
+    {
+        return $this->getData('categories');
     }
 }

@@ -47,6 +47,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if (version_compare($context->getVersion(), '1.3.0') < 0) {
             $this->removeStoreIdRow($installer);
         }
+
+        if (version_compare($context->getVersion(), '1.4.0') < 0) {
+            $this->addCategoriesColumn($installer);
+        }
+
+        if (version_compare($context->getVersion(), '1.4.1') < 0) {
+            $this->addStoresColumn($installer);
+        }
     }
 
     protected function createTouchAreaTable($installer)
@@ -185,5 +193,35 @@ class UpgradeSchema implements UpgradeSchemaInterface
     protected function removeStoreIdRow($installer)
     {
         $installer->getConnection()->dropColumn($installer->getTable('touchize_commercebanners_banner'), 'store_id');
+    }
+
+    protected function addCategoriesColumn($installer)
+    {
+
+        $installer->getConnection()->addColumn(
+            $installer->getTable('touchize_commercebanners_banner'),
+            'categories',
+            [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'comment' => 'Assigned Categories'
+            ]
+        );
+    }
+
+    protected function addStoresColumn($installer)
+    {
+
+        $installer->getConnection()->addColumn(
+            $installer->getTable('touchize_commercebanners_banner'),
+            'stores',
+            [
+                'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                'length' => 255,
+                'nullable' => true,
+                'comment' => 'Assigned Stores'
+            ]
+        );
     }
 }

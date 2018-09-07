@@ -128,5 +128,28 @@ interface BannerInterface
      */
     public function setUpdatedAt($updatedAt);
 
+    /**
+     * @return string
+     */
     public function getStores();
+
+    /**
+     * @param $stores
+     *
+     * @return BannerInterface
+     */
+    public function setStores($stores);
+
+    /**
+     * @param $categories
+     *
+     * @return mixed
+     */
+    public function setCategories($categories);
+
+
+    /**
+     * @return string
+     */
+    public function getCategories();
 }

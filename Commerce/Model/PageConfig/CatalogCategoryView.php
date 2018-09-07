@@ -176,9 +176,15 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
     {
         $banner = $this->bannerFactory->create();
         $collection = $banner->getCollection();
-        $collection->addFieldToFilter('is_allowed_on_homepage',['eq' => 1]);
         $collection->addFieldToFilter('is_enabled',['eq' => 1]);
-        $collection->getSelect()->limit(1);
+        $currStoreId = $this->dataHelper->getStoreId();
+        $collection->addFieldToFilter('stores', [
+            ['finset'=> 0],
+            ['finset'=> $currStoreId]
+        ]);
+
+        $this->addSpecificFilters($collection);
+
         return $collection;
     }
 
@@ -195,6 +201,19 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
             );
         }
         return $touchAreas;
+    }
+
+    /**
+     * @param $collection
+     *
+     * @return mixed
+     */
+    protected function addSpecificFilters($collection)
+    {
+        if ($this->getCurrentCategory()->getId()) {
+            $collection->addFieldToFilter('categories',array('finset'=> array($this->getCurrentCategory()->getId())));
+        }
+        return $collection;
     }
 }
 

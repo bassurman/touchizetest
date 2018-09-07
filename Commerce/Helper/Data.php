@@ -43,17 +43,25 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $deviceDetector;
 
     /**
+     * @var \Magento\Store\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * Data constructor.
      *
-     * @param Context $context
-     * @param Detect  $deviceDetector
+     * @param Context                                    $context
+     * @param Detect                                     $deviceDetector
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         Context $context,
-        Detect $deviceDetector
+        Detect $deviceDetector,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     )
     {
         parent::__construct($context);
+        $this->_storeManager = $storeManager;
         $this->deviceDetector = $deviceDetector;
     }
 
@@ -292,5 +300,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
             \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
         ];
+    }
+
+    /**
+     * @return int
+     */
+    public function getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
     }
 }

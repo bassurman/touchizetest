@@ -63,7 +63,7 @@ class Categories extends CategoryOptions
      */
     public function toArray()
     {
-        $categories = $this->getStoreCategories(true,false,true);
+        $categories = $this->getStoreCategories(false,false,true);
         $categoryList = $this->getOptionCategories($categories);
 
         return $categoryList;
