@@ -179,7 +179,7 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         $collection->addFieldToFilter('is_enabled',['eq' => 1]);
         $currStoreId = $this->dataHelper->getStoreId();
         $collection->addFieldToFilter('stores', [
-            ['finset'=> 0],
+            ['finset'=> \Touchize\Commerce\Helper\Data::ALL_STORES_ID],
             ['finset'=> $currStoreId]
         ]);
 

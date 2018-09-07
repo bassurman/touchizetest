@@ -55,6 +55,10 @@ class UpgradeSchema implements UpgradeSchemaInterface
         if (version_compare($context->getVersion(), '1.4.1') < 0) {
             $this->addStoresColumn($installer);
         }
+
+        if (version_compare($context->getVersion(), '1.4.2') < 0) {
+            $this->dropStoresTable($installer);
+        }
     }
 
     protected function createTouchAreaTable($installer)
@@ -223,5 +227,14 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 'comment' => 'Assigned Stores'
             ]
         );
+    }
+
+    protected function dropStoresTable($installer)
+    {
+        if ($installer->getConnection()->isTableExists($installer->getTable('touchize_commercebanners_banner_store'))) {
+            $installer->getConnection()->dropTable(
+                $installer->getTable('touchize_commercebanners_banner_store')
+            );
+        }
     }
 }

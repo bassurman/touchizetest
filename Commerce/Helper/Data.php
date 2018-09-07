@@ -37,6 +37,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     const CDN_LATEST_PATH = 'latest';
 
+    const ALL_STORES_ID = 0;
     /**
      * @var Detect
      */

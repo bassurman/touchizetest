@@ -25,19 +25,26 @@ use Touchize\CommerceBanners\Model\TouchareaFactory;
 class Products extends AbstractAreaApi implements \Touchize\CommerceBanners\Api\TouchAreaActionModel
 {
 
+    const THUMBNAIL_SIZE = 'product_thumbnail_image';
     /**
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $productFactory;
 
+    /**
+     * @var \Magento\Catalog\Helper\Image
+     */
+    protected $imageHelper;
+
     public function __construct(
         TouchareaFactory $touchAreaFactory,
         \Touchize\CommerceBanners\Helper\TouchArea $touchAreaHelper,
-        \Magento\Catalog\Model\ProductFactory $productFactory
-
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Helper\Image $imageHelper
     ) {
         parent::__construct($touchAreaFactory, $touchAreaHelper);
         $this->productFactory = $productFactory;
+        $this->imageHelper = $imageHelper;
     }
 
     /**
@@ -62,11 +69,15 @@ class Products extends AbstractAreaApi implements \Touchize\CommerceBanners\Api\
         $collection->addAttributeToFilter('name' ,['like' => "%" . $query . "%"]);
         $responseData = [];
         foreach ($collection as $product) {
+            $imageUrl = $this->imageHelper
+                ->init($product, self::THUMBNAIL_SIZE)
+                ->setImageFile($product->getImage())->getUrl();
+
             $responseData[] = [
                 "Id" => $product->getId(),
                 "Title" => $product->getName(),
-                "ShortDescription" => $product->getName(),
-                "Image" => $product->getImageUrl(),
+                "ShortDescription" => '<img src="' . $imageUrl . '" alt="" class="imgm img-thumbnail">',
+                "Image" => $imageUrl,
             ];
         }
 
