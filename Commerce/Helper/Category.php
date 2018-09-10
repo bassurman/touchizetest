@@ -39,4 +39,9 @@ class Category extends \Magento\Framework\App\Helper\AbstractHelper
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
+
+    public function showAllOnParent()
+    {
+        return (bool)$this->getConfig('touchize_commmerce_config/touchize_commmerce_category/show_all_on_parent');
+    }
 }

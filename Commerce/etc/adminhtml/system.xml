@@ -95,6 +95,11 @@
                         <field id="enable_limit">1</field>
                     </depends>
                 </field>
+                <field id="show_all_on_parent" translate="label" type="select" sortOrder="250" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Show children categories products</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Show all products on the first level parent category.]]></comment>
+                </field>
                 <field id="enable_related" translate="label" type="select" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Related Products</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

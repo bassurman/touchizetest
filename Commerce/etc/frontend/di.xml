@@ -26,6 +26,10 @@
     <type name="Magento\Catalog\Block\Product\ListProduct">
         <plugin name="touchize.product.list.layer" type="Touchize\Commerce\Plugin\Product\ListProduct"/>
     </type>
+
+    <type name="Magento\Catalog\Model\Category">
+        <plugin name="touchize.product.list.addfilter" type="Touchize\Commerce\Plugin\Category\Product\Collection"/>
+    </type>
     <type name="Touchize\Commerce\Controller\Api\CmsPage">
         <arguments>
             <argument name="configModel" xsi:type="object">

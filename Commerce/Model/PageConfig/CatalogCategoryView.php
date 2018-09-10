@@ -23,6 +23,7 @@ namespace Touchize\Commerce\Model\PageConfig;
 use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use \Magento\Framework\View\Element\Template\Context;
+use Touchize\CommerceBanners\Model\ResourceModel\Banner\Collection;
 
 class CatalogCategoryView extends NoConfig implements PageConfigInterface
 {
@@ -111,7 +112,7 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
     }
 
     /**
-     * @return
+     * @return \Magento\Catalog\Model\ResourceModel\Product\Collection | array
      */
     public function getProductCollection()
     {
@@ -119,17 +120,14 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         if(!$currentCategory) {
             return [];
         }
+
         $collection = $currentCategory->getProductCollection()->addAttributeToSelect('*');
-        $isLimit = $this->dataHelper->isLimitEnabled();
-        if ($isLimit) {
-            $maxCount = $this->dataHelper->getMaxItemsCount();
-            $collection->setPageSize($maxCount);
-        }
+
         return $collection;
     }
 
     /**
-     * @return
+     * @return \Magento\Catalog\Model\Category
      */
     public function getCurrentCategory()
     {
@@ -147,6 +145,9 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         return $productImages;
     }
 
+    /**
+     * @return array
+     */
     public function getBannersConfig()
     {
         $params = [];
@@ -172,6 +173,9 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         return $params;
     }
 
+    /**
+     * @return Collection
+     */
     protected function getBannerCollection()
     {
         $banner = $this->bannerFactory->create();
@@ -197,7 +201,11 @@ class CatalogCategoryView extends NoConfig implements PageConfigInterface
         return $collection;
     }
 
-
+    /**
+     * @param $bannerIds
+     *
+     * @return array
+     */
     protected function fetchTouchAreas($bannerIds)
     {
         $touchAreas = [];

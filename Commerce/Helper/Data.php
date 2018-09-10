@@ -198,7 +198,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isLimitEnabled()
     {
-        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_category/enable_limit');
+        return (bool)$this->getConfig('touchize_commmerce_config/touchize_commmerce_category/enable_limit');
     }
 
     /**
@@ -206,7 +206,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getMaxItemsCount()
     {
-        return $this->getConfig('touchize_commmerce_config/touchize_commmerce_category/items_limit');
+        return (int)$this->getConfig('touchize_commmerce_config/touchize_commmerce_category/items_limit');
     }
 
     /**

@@ -42,6 +42,7 @@
             <touchize_commmerce_category>
                 <enable_limit>1</enable_limit>
                 <items_limit>100</items_limit>
+                <show_all_on_parent>1</show_all_on_parent>
                 <enable_related>1</enable_related>
                 <label_related>Related Products</label_related>
                 <enable_upsells>1</enable_upsells>
