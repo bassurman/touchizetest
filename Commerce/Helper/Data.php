@@ -52,6 +52,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
+     * @var boolean
+     */
+    protected $_isAllowedToView;
+
+    /**
      * Data constructor.
      *
      * @param Context                                    $context
@@ -74,31 +79,33 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isAllowedToView()
     {
-        if ($this->_getRequest()->getParam(self::REQUEST_TEST_PARAM, false)) {
-            return true;
-        }
 
-        $actionName = $this->_getRequest()->getFullActionName();
-        if (!$this->isAllowedToGenerateConfig($actionName)) {
-            return false;
-        }
+        if (is_null($this->_isAllowedToView)) {
+            if ($this->_getRequest()->getParam(self::REQUEST_TEST_PARAM, false)) {
+                $this->_isAllowedToView = true;
+            }
 
-        $displayType = $this->getTypeDisplayDevices();
-        switch ($displayType) {
-            case Devices::MOBILE_ONLY :
-                return $this->deviceIsMobile();
-                break;
-            case Devices::TABLET_ONLY :
-                return $this->deviceisTablet();
-                break;
-            case Devices::BOTH_DEVICES :
-                return ($this->deviceisTablet() || $this->deviceIsMobile());
-                break;
-            default:
-                return false;
-        }
+            $actionName = $this->_getRequest()->getFullActionName();
+            if (!$this->isAllowedToGenerateConfig($actionName)) {
+                $this->_isAllowedToView = false;
+            }
 
-        return false;
+            $displayType = $this->getTypeDisplayDevices();
+            switch ($displayType) {
+                case Devices::MOBILE_ONLY :
+                    $this->_isAllowedToView = $this->deviceIsMobile();
+                    break;
+                case Devices::TABLET_ONLY :
+                    $this->_isAllowedToView = $this->deviceisTablet();
+                    break;
+                case Devices::BOTH_DEVICES :
+                    $this->_isAllowedToView = ($this->deviceisTablet() || $this->deviceIsMobile());
+                    break;
+                default:
+                    $this->_isAllowedToView = false;
+            }
+        }
+        return $this->_isAllowedToView;
     }
 
     /**

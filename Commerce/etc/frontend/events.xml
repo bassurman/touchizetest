@@ -23,7 +23,4 @@
     <event name="layout_render_before">
         <observer name="touchize.layout.update" instance="Touchize\Commerce\Observer\UpdateLayoutObserver" />
     </event>
-    <event name="layout_generate_blocks_before">
-        <observer name="touchize.layout.before.generate.blocks" instance="Touchize\Commerce\Observer\UpdateBlocksObserver" />
-    </event>
 </config>

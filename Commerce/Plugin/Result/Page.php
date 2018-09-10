@@ -22,6 +22,7 @@ namespace Touchize\Commerce\Plugin\Result;
 
 use Magento\Framework;
 use Magento\Framework\View;
+use Magento\Framework\App\Response\HttpInterface as HttpResponseInterface;
 
 class Page extends \Magento\Framework\View\Result\Page
 {
@@ -42,9 +43,52 @@ class Page extends \Magento\Framework\View\Result\Page
         \Touchize\Commerce\Helper\Data $touchizeHelper
     ) {
        parent::__construct($context, $layoutFactory, $layoutReaderPool, $translateInline, $layoutBuilderFactory, $generatorPool, $pageConfigRendererFactory, $pageLayoutReader, $template, $isIsolated, $entitySpecificHandlesList);
-       if ($touchizeHelper->isAllowedToView()) {
+       $this->touchizeHelper = $touchizeHelper;
+       if ($this->touchizeHelper->isAllowedToView()) {
            $this->template = self::TOUCHIZE_ROOT_TEMPLATE;
        }
    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function render(HttpResponseInterface $response)
+    {
+        $this->pageConfig->publicBuild();
+        if ($this->touchizeHelper->isAllowedToView() && $this->getPageLayout()) {
+            $config = $this->getConfig();
+            $this->addDefaultBodyClasses();
+            $addBlock = $this->getLayout()->getBlock('head.additional');
+            $headContent = $this->getHeadContent();
+            $requireJs = $this->getLayout()->getBlock('require.js');
+            $this->assign([
+                'requireJs' => $requireJs ? $requireJs->toHtml() : null,
+                'touchizeHeadContent'    => $headContent,
+                'headAdditional' => $addBlock ? $addBlock->toHtml() : null,
+                'htmlAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HTML),
+                'headAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HEAD),
+                'bodyAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_BODY),
+                'loaderIcon'     => $this->getViewFileUrl('images/loader-2.gif'),
+            ]);
+
+            $output = $this->getLayout()->getOutput();
+            $this->assign('layoutContent', $output);
+            $output = $this->renderPage();
+            $this->translateInline->processResponseBody($output);
+            $response->appendBody($output);
+            return $this;
+        }
+
+        return parent::render($response);
+    }
+
+    protected function getHeadContent()
+    {
+        $headContent = '';
+        $headContent .= $this->pageConfigRenderer->renderMetadata();
+        $headContent .= $this->pageConfigRenderer->renderTitle();
+        $this->pageConfigRenderer->prepareFavicon();
+        return $headContent;
+    }
 
 }
