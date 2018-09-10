@@ -24,6 +24,7 @@ use function GuzzleHttp\default_ca_bundle;
 use Magento\Framework\App\Helper\Context;
 use Touchize\Commerce\Model\Mobile\Detect;
 use Touchize\Commerce\Model\Config\Source\Devices;
+use Magento\Framework\UrlInterface;
 
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -38,6 +39,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     const CDN_LATEST_PATH = 'latest';
 
     const ALL_STORES_ID = 0;
+
+    const LOGOTYPE_PATH = 'touchize/theme/logo/';
     /**
      * @var Detect
      */
@@ -205,6 +208,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getCustomHeadHtml()
     {
         $headHtml = $this->getConfig('touchize_commmerce_config/touchize_commmerce_setup/html_in_header');
+        $headHtml .= $this->getLogoUpdateHtml();
         if ($headHtml) {
             return $headHtml;
         }
@@ -325,5 +329,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getStoreId()
     {
         return $this->_storeManager->getStore()->getId();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getLogoUpdateHtml()
+    {
+        $logoUrlConf = $this->getConfig('touchize_commmerce_config/touchize_commmerce_design/theme_logo');
+        if ($logoUrlConf) {
+            $logoUrl = $this->_urlBuilder->getBaseUrl(['_type' => UrlInterface::URL_TYPE_MEDIA]) . self::LOGOTYPE_PATH . $logoUrlConf;
+            return '<style>.tz-brand__logo{background-image: url("' . $logoUrl . '");}</style>';
+        }
+        return '';
     }
 }

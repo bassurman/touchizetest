@@ -134,6 +134,13 @@
             </group>
             <group id="touchize_commmerce_design" translate="label" type="text" sortOrder="9700" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Theme Design</label>
+                <field id="theme_logo" translate="label" type="Touchize\Commerce\Model\Config\Form\Element\Logotype" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Theme logotype</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+                    <upload_dir config="system/filesystem/media" scope_info="1">touchize/theme/logo/</upload_dir>
+                    <base_url type="media" scope_info="1">touchize/theme/logo</base_url>
+                    <comment><![CDATA[Allowed file types: jpg, jpeg, gif, png, svg]]></comment>
+                </field>
                 <field id="theme_type" translate="label" type="radios" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Chose your theme type to display</label>
                     <comment><![CDATA[Chose your theme to display.<div id="theme-types"></div>]]></comment>
