@@ -643,7 +643,7 @@
     var colors = [ "#FF6633", "#FFFF66", "#66FF66", "#66CCCC", "#00FFFF", "#3399FF", "#9966FF", "#FF66FF" ];
     var CanvasTool = function(core, options, element) {
         "use strict";
-        var drawingObject = {}, canvasContext = element.getContext("2d"), canvas = element, self = this, cachedAreas = {};
+        var drawingObject = {}, canvasContext = element.getContext("2d"), canvas = element, self = this, drawStarted = false, cachedAreas = {};
         function addActionArea() {
             var form = new FormData();
             form.append("banner_id", options.id);
@@ -660,12 +660,16 @@
             });
         }
         function startDraw(e) {
+            if (drawStarted) {
+                return;
+            }
+            drawStarted = true;
             drawingObject.x = e.offsetX || e.layerX;
             drawingObject.y = e.offsetY || e.layerY;
             drawingObject.w = 0;
             drawingObject.h = 0;
             canvas.addEventListener("mousemove", draw);
-            canvas.addEventListener("mouseup", endDraw);
+            document.addEventListener("mouseup", endDraw);
         }
         function draw(e) {
             function dynDrawRect(draw) {
@@ -685,6 +689,11 @@
             dynDrawRect(drawingObject);
         }
         function endDraw(e) {
+            if (!drawStarted) {
+                canvas.removeEventListener("mousemove", draw);
+
+                return;
+            }
             if (Math.abs(drawingObject.w) > 10 && Math.abs(drawingObject.h) > 10) {
                 if (drawingObject.w < 0) {
                     drawingObject.w = Math.abs(drawingObject.w);
@@ -697,6 +706,7 @@
                 addActionArea();
             }
             canvas.removeEventListener("mousemove", draw);
+            drawStarted = false;
         }
         element.addEventListener("mousedown", startDraw);
         this.redraw = function(data) {
