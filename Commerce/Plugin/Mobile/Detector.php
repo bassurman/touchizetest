@@ -63,7 +63,7 @@ class Detector
     public function beforeLaunch(\Magento\Framework\App\Http $subject)
     {
         $this->cookieManager->deleteCookie(\Magento\Framework\App\Response\Http::COOKIE_VARY_STRING);
-        if ($this->helper->isAllowedToView()) {
+        if ($this->helper->isAllowedOnDevice()) {
             $this->context->setValue('touchize-mobile', '1', false);
             $this->context->setValue('touchize-desktop', '0', false);
         } else {

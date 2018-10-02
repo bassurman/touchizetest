@@ -24,6 +24,8 @@ use Touchize\Commerce\Model\ApiConfig\Cart;
 
 class RemoveFromCart extends Cart
 {
+    const MINIMAL_QTY = 1;
+
     /**
      * @return $this
      */
@@ -40,10 +42,14 @@ class RemoveFromCart extends Cart
     {
         $itemId = $this->getItemId();
         if ($itemId) {
-            $response = $this->cart->getQuote()->removeItem($itemId);
-            if ($response) {
-                $this->cart->save();
+            $quoteItem = $this->cart->getQuote()->getItemById($itemId);
+            $cartItemQty = $quoteItem->getQty();
+            if ($cartItemQty > self::MINIMAL_QTY) {
+                $quoteItem->setQty(--$cartItemQty);
+            } else {
+                $this->cart->getQuote()->removeItem($itemId);
             }
+            $this->cart->save();
         }
         return $this;
     }
