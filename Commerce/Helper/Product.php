@@ -113,6 +113,7 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $specialPrice = $product->getSpecialPrice();
         $price = $product->getFinalPrice();
+
         $listConfig = [
             'Id' => $product->getId(),
             'SKU' => $product->getSku(),
@@ -120,9 +121,9 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
             'SingleVariantId' => $this->getSimpleProductId($product),
             'Url' => $product->getProductUrl(),
             'Price' => $price,
-            'DiscountedPrice' => $specialPrice,
+            'DiscountedPrice' => ($specialPrice && $specialPrice < $price) ? $specialPrice: false,
             'FPrice' => $this->_priceHelper->currency($price,true,false),
-            'FDiscountedPrice' => $specialPrice? $this->_priceHelper->currency($specialPrice, true, false):'',
+            'FDiscountedPrice' => ($specialPrice && $specialPrice < $price) ? $this->_priceHelper->currency($specialPrice, true, false): false,
             'Images' => $this->getProductImages($product),
             'CTA' => __('Drag to Cart')
         ];
