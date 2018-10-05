@@ -64,6 +64,7 @@ class Page extends \Magento\Framework\View\Result\Page
             $this->assign([
                 'requireJs' => $requireJs ? $requireJs->toHtml() : null,
                 'touchizeHeadContent'    => $headContent,
+                'headContent' => $headContent,
                 'headAdditional' => $addBlock ? $addBlock->toHtml() : null,
                 'htmlAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HTML),
                 'headAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HEAD),
@@ -71,7 +72,10 @@ class Page extends \Magento\Framework\View\Result\Page
                 'loaderIcon'     => $this->getViewFileUrl('images/loader-2.gif'),
             ]);
 
+            $this->getLayout()->unsetElement('search_result_list');
+
             $output = $this->getLayout()->getOutput();
+
             $this->assign('layoutContent', $output);
             $output = $this->renderPage();
             $this->translateInline->processResponseBody($output);

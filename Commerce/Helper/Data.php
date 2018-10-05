@@ -22,6 +22,7 @@ namespace Touchize\Commerce\Helper;
 
 use function GuzzleHttp\default_ca_bundle;
 use Magento\Framework\App\Helper\Context;
+use Magento\Framework\View\Element\Template\Context\Proxy as TemplateContext;
 use Touchize\Commerce\Model\Mobile\Detect;
 use Touchize\Commerce\Model\Config\Source\Devices;
 use Magento\Framework\UrlInterface;
@@ -66,12 +67,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function __construct(
         Context $context,
         Detect $deviceDetector,
+        TemplateContext $templateContext,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     )
     {
         parent::__construct($context);
         $this->_storeManager = $storeManager;
         $this->deviceDetector = $deviceDetector;
+        $this->templateContext = $templateContext;
+
     }
 
     /**
@@ -359,5 +363,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             return '<style>.tz-brand__logo{background-image: url("' . $logoUrl . '");}</style>';
         }
         return '';
+    }
+
+    protected function _getRequest()
+    {
+        return $this->templateContext->getRequest();
     }
 }
