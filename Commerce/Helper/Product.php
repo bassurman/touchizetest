@@ -112,7 +112,7 @@ class Product extends \Magento\Framework\App\Helper\AbstractHelper
     public function getListProductData($product)
     {
         $specialPrice = $product->getSpecialPrice();
-        $price = $product->getFinalPrice();
+        $price = $product->getData('price');
 
         $listConfig = [
             'Id' => $product->getId(),
