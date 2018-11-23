@@ -7,5 +7,19 @@
             "email": "a.grigorenko.belvg@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "Commerce/registration.php",
+            "CommerceBanners/registration.php"
+        ],
+        "psr-4": {
+            "Touchize\\Commerce\\": "",
+            "Touchize\\CommerceBanners\\": ""
+        }
+    }
 }
