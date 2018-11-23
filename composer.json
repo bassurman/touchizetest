@@ -18,8 +18,8 @@
             "CommerceBanners/registration.php"
         ],
         "psr-4": {
-            "Touchize\\Commerce\\": "bassurman/touchize-m2/Commerce",
-            "Touchize\\CommerceBanners\\": "bassurman/touchize-m2/CommerceBanners"
+            "Touchize\\Commerce\\": "Commerce",
+            "Touchize\\CommerceBanners\\": "CommerceBanners"
         }
     }
 }
