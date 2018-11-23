@@ -1,0 +1,11 @@
+{
+    "name": "bassurman/touchize-m2",
+    "type": "magento2-module",
+    "authors": [
+        {
+            "name": "alex",
+            "email": "a.grigorenko.belvg@gmail.com"
+        }
+    ],
+    "require": {}
+}
